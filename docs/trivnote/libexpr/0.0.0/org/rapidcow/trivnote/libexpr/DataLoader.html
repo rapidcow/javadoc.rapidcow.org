@@ -78,7 +78,7 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&gt;</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Iterator.html" title="class or interface in java.util" class="external-link">Iterator</a>&lt;<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&gt;</code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">DataLoader</span>
+<div class="type-signature"><span class="modifiers">public class </span><span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/0.0.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DataLoader.java#L18">DataLoader</a></span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&gt;, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Iterator.html" title="class or interface in java.util" class="external-link">Iterator</a>&lt;<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&gt;</span></div>
 <div class="block">R7RS-ish S-expression reader.</div>
@@ -206,7 +206,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <li>
 <section class="detail" id="in">
 <h3>in</h3>
-<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/PushbackReader.html" title="class or interface in java.io" class="external-link">PushbackReader</a></span>&nbsp;<span class="element-name">in</span></div>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/PushbackReader.html" title="class or interface in java.io" class="external-link">PushbackReader</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/0.0.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DataLoader.java#L23">in</a></span></div>
 <div class="block">Input character stream.</div>
 </section>
 </li>
@@ -221,7 +221,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <li>
 <section class="detail" id="&lt;init&gt;(java.io.Reader)">
 <h3>DataLoader</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">DataLoader</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/Reader.html" title="class or interface in java.io" class="external-link">Reader</a>&nbsp;file)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/0.0.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DataLoader.java#L38">DataLoader</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/Reader.html" title="class or interface in java.io" class="external-link">Reader</a>&nbsp;file)</span></div>
 <div class="block">Creates a reader from a character stream.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -232,7 +232,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <li>
 <section class="detail" id="&lt;init&gt;(java.io.InputStream,java.nio.charset.Charset)">
 <h3>DataLoader</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">DataLoader</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/InputStream.html" title="class or interface in java.io" class="external-link">InputStream</a>&nbsp;file,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/0.0.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DataLoader.java#L49">DataLoader</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/InputStream.html" title="class or interface in java.io" class="external-link">InputStream</a>&nbsp;file,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/nio/charset/Charset.html" title="class or interface in java.nio.charset" class="external-link">Charset</a>&nbsp;charset)</span></div>
 <div class="block">Creates a reader from a byte stream.</div>
 <dl class="notes">
@@ -245,7 +245,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <li>
 <section class="detail" id="&lt;init&gt;(java.io.InputStream)">
 <h3>DataLoader</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">DataLoader</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/InputStream.html" title="class or interface in java.io" class="external-link">InputStream</a>&nbsp;file)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/0.0.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DataLoader.java#L60">DataLoader</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/InputStream.html" title="class or interface in java.io" class="external-link">InputStream</a>&nbsp;file)</span></div>
 <div class="block">Creates a reader from a byte stream with the default
  character encoding, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/nio/charset/StandardCharsets.html#UTF_8" title="class or interface in java.nio.charset" class="external-link"><code>StandardCharsets.UTF_8</code></a>.</div>
 <dl class="notes">
@@ -265,7 +265,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <li>
 <section class="detail" id="iterator()">
 <h3>iterator</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Iterator.html" title="class or interface in java.util" class="external-link">Iterator</a>&lt;<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&gt;</span>&nbsp;<span class="element-name">iterator</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Iterator.html" title="class or interface in java.util" class="external-link">Iterator</a>&lt;<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&gt;</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/0.0.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DataLoader.java#L224">iterator</a></span>()</div>
 <div class="block">Returns this.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
@@ -278,7 +278,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <li>
 <section class="detail" id="hasNext()">
 <h3>hasNext</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasNext</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/0.0.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DataLoader.java#L234">hasNext</a></span>()</div>
 <div class="block">Returns whether no I/O error occurred, and any datum remains.
  If false, caller should check <a href="#eio()"><code>eio()</code></a> to distinguish
  I/O error and EOF.</div>
@@ -293,7 +293,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <li>
 <section class="detail" id="next()">
 <h3>next</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a></span>&nbsp;<span class="element-name">next</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/0.0.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DataLoader.java#L258">next</a></span>()</div>
 <div class="block">Returns the next datum in the stream.
  Caller should check <a href="#eio()"><code>eio()</code></a> to check for
  I/O error and EOF.</div>
@@ -311,7 +311,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <li>
 <section class="detail" id="eio()">
 <h3>eio</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span>&nbsp;<span class="element-name">eio</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/0.0.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DataLoader.java#L274">eio</a></span>()</div>
 <div class="block">Returns the most recent I/O error.
  Caller is responsible to check this to
  tell EOF from I/O error.</div>
@@ -324,7 +324,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <li>
 <section class="detail" id="readDatum()">
 <h3>readDatum</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a></span>&nbsp;<span class="element-name">readDatum</span>()
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/0.0.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DataLoader.java#L285">readDatum</a></span>()
                 throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
 <div class="block">Reads and returns the next datum.</div>
 <dl class="notes">

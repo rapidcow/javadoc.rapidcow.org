@@ -75,7 +75,7 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="Atom.html" title="class in org.rapidcow.trivnote.libexpr">Atom</a></code>, <code><a href="Cons.html" title="class in org.rapidcow.trivnote.libexpr">Cons</a></code>, <code><a href="Nil.html" title="enum class in org.rapidcow.trivnote.libexpr">Nil</a></code>, <code><a href="Scalar.html" title="class in org.rapidcow.trivnote.libexpr">Scalar</a></code>, <code><a href="Symbol.html" title="class in org.rapidcow.trivnote.libexpr">Symbol</a></code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public sealed interface </span><span class="element-name type-name-label">Datum</span>
+<div class="type-signature"><span class="modifiers">public sealed interface </span><span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/0.0.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Datum.java#L13">Datum</a></span>
 <span class="permits">permits <a href="Atom.html" title="class in org.rapidcow.trivnote.libexpr">Atom</a>, <a href="Cons.html" title="class in org.rapidcow.trivnote.libexpr">Cons</a>, <a href="Nil.html" title="enum class in org.rapidcow.trivnote.libexpr">Nil</a></span></div>
 <div class="block">Basic unit of an S-expression.
  A datum is either an <a href="Atom.html" title="class in org.rapidcow.trivnote.libexpr"><code>Atom</code></a>, a <a href="Cons.html" title="class in org.rapidcow.trivnote.libexpr"><code>Cons</code></a>,
@@ -126,7 +126,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="isAtom()">
 <h3>isAtom</h3>
-<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isAtom</span>()</div>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/0.0.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Datum.java#L20">isAtom</a></span>()</div>
 <div class="block">Returns whether this is an atom.  An atom
  is any datum that is not a cons cell.</div>
 <dl class="notes">
@@ -138,7 +138,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="isList()">
 <h3>isList</h3>
-<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isList</span>()</div>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/0.0.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Datum.java#L31">isList</a></span>()</div>
 <div class="block">Returns whether this is a list.  A list
  is either a cons cell or nil.  A list is
  iterable, though you must cast it to the
