@@ -7,6 +7,11 @@
   <meta name="description" content="[% description | html %]">
   <meta name="color-scheme" content="dark">
   <link rel="stylesheet" href="[% locate('ai/assets/site.css') | xml %]">
+  <link rel="canonical" href="
+[%- FILTER xml -%]
+[% locate('//' _ location) -%]
+[%- END -%]
+">
   <script src="[% locate('ai/assets/site.js') | xml %]" defer></script>
 </head>
 <body><main class="page">
