@@ -28,11 +28,14 @@ BEGIN {
 
 use File::Basename;
 use File::Compare;
+use File::Spec;
+use Cwd qw(getcwd);
 BEGIN { File::Which->import(); }
 my $prog = basename($0);
 my $mode = sprintf '%04o', 0666 &~ umask;
 
-use lib './lib';
+use FindBin;
+use lib "$FindBin::RealBin/lib";
 use RdKw::WwW::GenGenLib;
 
 my $estat = 0;
@@ -176,6 +179,34 @@ $D{b} =~ s!/$!!g;
 length $D{a} or die "E: `a' prefix may not be empty.\n";
 length $D{b} or die "E: `b' prefix may not be empty.\n";
 
+# b is a directory we create rules under, one parent at a time (see
+# `parent'); that walk only ends at `.', so it must be relative.
+# (a, on the other hand, is free to be absolute: out-of-tree builds.)
+File::Spec->file_name_is_absolute($D{b})
+	and die "E: `b' prefix must be a relative path.\n";
+
+# Paths for an out-of-tree build.  Make runs from the build directory,
+# but the sources, `render' and MANIFEST live where this script does.
+#
+#   .CURDIR  source dir, seen from the build dir (`.' in-tree)
+#   c        build dir, seen from the source dir
+#   A        a, as make (cwd: build dir) sees it
+#   B        b, as a recipe that has cd'd to .CURDIR sees it
+#
+# (These are derived every time, so they stay out of %D and
+# therefore out of MY/config.mk.)
+my %V;
+{
+	my $src = $FindBin::RealBin;
+	my $obj = getcwd();
+	$V{'.CURDIR'} = File::Spec->abs2rel($src, $obj);
+	$V{c} = File::Spec->abs2rel($obj, $src);
+	$V{A} = File::Spec->canonpath(
+		File::Spec->file_name_is_absolute($D{a}) ? $D{a}
+		: File::Spec->catdir($V{'.CURDIR'}, $D{a}));
+	$V{B} = File::Spec->canonpath(File::Spec->catdir($V{c}, $D{b}));
+}
+
 sub find_tar {
 	my @tar;
 
@@ -257,11 +288,36 @@ if (compare('MY/tmp-config.mk', 'MY/config.mk')) {
 }
 
 # the rulebook
-open my $rb, '<:encoding(UTF-8)', 'Makefile.in'
+open my $rb, '<:encoding(UTF-8)', "$V{'.CURDIR'}/Makefile.in"
 	or die "open <Makefile.in: $!\n";
 my %rule;
 my @node;
 my %deps;
+my $subst = sub {
+	my ($line, $node) = @_;
+	$line =~ s/\$(\{[^\}]+\}|.)/
+(my $x = $1) =~ s!^\{|\}$!!g;
+if ($x eq "\$") {
+	"\$";
+} elsif ($x eq "\@" or $x eq ".TARGET") {
+	defined $node or die "E: Makefile.in line $.: "
+		. "\${$x} outside of a recipe\n";
+	$node;
+} elsif ($x eq '^X' or $x eq "\030") {
+	$^X;
+} elsif (exists $V{$x}) {
+	$V{$x};
+} else {
+	defined $D{$x} or die "E: Makefile.in line $.: "
+		. "undefined variable: \${$x}\n";
+	$D{$x};
+}
+	/ge;
+	# An empty .CURDIR or c is `.', which would leave `./x' behind
+	# on every path it was joined to; spell those without it.
+	$line =~ s!(^|\s)\./(?=[^\s/])!$1!g;
+	$line;
+};
 while (<$rb>) {
 	next if /^\s*#/ or /^\s*$/;
 	if (/^\t/) {
@@ -270,32 +326,20 @@ while (<$rb>) {
 			"unexpected tabulation\n");
 		for my $node (@node) {
 			my $line = $_;
-			my $apath = "$D{a}/$node";
+			my $apath = "$V{A}/$node";
 			my $bpath = "$D{b}/$node";
 			unless (defined $rule{$bpath}) {
 				$rule{$bpath} = "";
 				push @{$deps{$bpath}}, $apath;
 			}
-			$line =~ s/\$(\{[^\}]+\}|.)/
-(my $x = $1) =~ s!^\{|\}$!!g;
-if ($x eq "\$") {
-	"\$";
-} elsif ($x eq "\@" or $x eq ".TARGET") {
-	$node;
-} elsif ($x eq '^X' or $x eq "\030") {
-	$^X;
-} else {
-	defined $D{$x} or die "E: Makefile.in line $.: "
-		. "undefined variable: \${$x}\n";
-	$D{$x};
-}
-			/ge;
+			$line = $subst->($line, $node);
 			$rule{$bpath} .= $line;
 		}
 		next;
 	}
 	if (/:/) {
 		my ($src, $dep) = split /:/, $_, 2;
+		$dep = $subst->($dep);
 		@node = split " ", $src or die (
 			"E: Makefile.in line $.: "
 			. " null source list\n");
@@ -320,7 +364,8 @@ close $rb;
 
 # a "MANIFEST" is the top-level wants of ALL
 # the files in the default target.
-open my $MF, '<:encoding(UTF-8)', 'MANIFEST' or die "open <MANIFEST: $!\n";
+open my $MF, '<:encoding(UTF-8)', "$V{'.CURDIR'}/MANIFEST"
+	or die "open <MANIFEST: $!\n";
 my @all;
 my (@dir, %dir);
 my @rule;
@@ -333,13 +378,16 @@ while (<$MF>) {
 E: MANIFEST line $.: Your file name should not
 E: end with `?'; that's for soft-deps in the future.
 NUHUH
-	my $apath = "$D{a}/$file";
+	my $apath = "$V{A}/$file";
 	my $bpath = "$D{b}/$file";
 	my %I = read_deps($apath);
 	defined $I{HAVE} or die "E: $apath: missing HAVE declaration.\n";
 	$I{HAVE} eq $file or die "E: $apath: You have $I{HAVE}, but i have $file?\n";
 	$I{WANT} and die "E: $apath: soft-deps are not implemented.\n";
-	$I{NEED} ||= [];
+	# NEED names source files, except for MY/, which is build state.
+	$I{NEED} = [ map {
+		m!^MY/! ? $_ : File::Spec->canonpath("$V{'.CURDIR'}/$_")
+	} @{$I{NEED} || []} ];
 
 	for my $dep (@{$I{NEED}}) {
 		-e $dep or die "E: $file: You WANT $dep, which we don't seem to have.\n";
@@ -382,7 +430,7 @@ site: @ball
 clean:
 	rm -f @ball
 dist: site
-	awk -v bdir='$D{b}' '{ print bdir "/" \$\$1 }' MANIFEST | \${tar_from_stdin} -cf site.tar.gz
+	{ cd $V{'.CURDIR'} && awk -v bdir='$D{b}' '{ print bdir "/" \$\$1 }' MANIFEST; } | \${tar_from_stdin} -cf site.tar.gz
 MAKE
 for (@rule) {
 	print $Mf "$_: @{$deps{$_}}\n";

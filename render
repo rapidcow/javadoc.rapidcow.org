@@ -13,7 +13,8 @@ use POSIX ();
 use Template;
 use Template::Exception;
 
-use lib './lib';
+use FindBin;
+use lib "$FindBin::RealBin/lib";
 use RdKw::WwW::GenGenLib;
 
 my $prog = $0;
@@ -21,16 +22,19 @@ my $prog = $0;
 sub HELP_MESSAGE
 {
 	<<USE;
-usage: $prog [-dh] [-m MODE] apath bpath
+usage: $prog [-dh] [-B BUILDDIR] [-m MODE] apath bpath
 
+  -B DIR    build directory, where MY/option.mk lives (default: .)
   -d        enable debug output
   -h        print this help message
   -m MODE   file mode
 USE
 }
 
+# -B could be thought of as CMake's -S <source> / -B <build>.
+# (-S would be redundant though; cd ${.CURDIR} covers that ;)
 my %o;
-getopts('dhm:', \%o) or die +(split /^/, HELP_MESSAGE)[0];
+getopts('B:dhm:', \%o) or die +(split /^/, HELP_MESSAGE)[0];
 if ($o{h}) {
 	print HELP_MESSAGE();
 	exit;
@@ -48,12 +52,13 @@ sub LOG {
 	}
 }
 
--e "MY/option.mk" and -f _ or die <<RUSH;
+my $optfile = (defined $o{B} ? "$o{B}/" : "") . "MY/option.mk";
+-e $optfile and -f _ or die <<RUSH;
 error: You have not configured!
 error: You should ./configure first. ;)
 RUSH
 
-my %O = read_make "MY/option.mk";
+my %O = read_make $optfile;
 
 if ($o{d}) {
 #	local $Data::Dumper::Sortkeys = 1;
