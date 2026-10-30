@@ -1,20 +1,14 @@
 [%
 # HAVE: trivnote/libexpr/index.html
 # NEED: data/trivnote/libexpr/rel-info.scm
+# NEED: skel/HTML
 -%]
 [% USE df = DataFile('trivnote/libexpr/rel-info.scm') -%]
 [% gitweb = 'https://gitlab.com/rapidcow/trivnote/-' -%]
-<!DOCTYPE html>
-<html lang="en"><head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>trivnote-libexpr javadoc</title>
-  <meta name="description" content="Javadoc for trivnote-libexpr, browsable by version.">
-  <meta name="color-scheme" content="dark">
-  <link rel="stylesheet" href="[% locate('ai/assets/site.css') | xml %]">
-  <script src="[% locate('ai/assets/site.js') | xml %]" defer></script>
-</head>
-<body><main class="page">
+[% WRAPPER "HTML"
+  title = "trivnote-libexpr javadoc"
+  description = "Javadoc for trivnote-libexpr, browsable by version."
+-%]
   <header class="masthead">
     <nav class="crumbs" aria-label="Breadcrumb">
       <a href="[% locate('') | xml %]">javadoc.rapidcow.org</a><i>/</i><a href="[% locate('trivnote/') | xml %]">trivnote</a><i>/</i><span aria-current="page">libexpr</span>
@@ -65,5 +59,4 @@
     <a href="/">javadoc.rapidcow.org</a> &middot;
     <a href="https://github.com/rapidcow/javadoc.rapidcow.org/tree/gh-pages/docs">site source</a>
   </footer>
-</main></body>
-</html>
+[% END -%]

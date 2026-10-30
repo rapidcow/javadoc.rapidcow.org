@@ -81,7 +81,7 @@ my %F;
 }
 
 my $tt = Template->new({
-	INCLUDE_PATH => [ '.' ],
+	INCLUDE_PATH => [ 'skel', '.' ],
 	PLUGIN_BASE => 'Local::Plugin',
 	# TT's own DataFile.pm shadows ours :,(
 	PLUGINS => {

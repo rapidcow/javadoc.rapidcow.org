@@ -1,17 +1,11 @@
 [%
 # HAVE: index.html
+# NEED: skel/HTML
 -%]
-<!DOCTYPE html>
-<html lang="en"><head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>javadoc.rapidcow.org</title>
-  <meta name="description" content="Javadoc for rapidcow's Java projects, browsable by version.">
-  <meta name="color-scheme" content="dark">
-  <link rel="stylesheet" href="[% locate('ai/assets/site.css') | xml %]">
-  <script src="[% locate('ai/assets/site.js') | xml %]" defer></script>
-</head>
-<body><main class="page">
+[% WRAPPER "HTML"
+  title = "javadoc.rapidcow.org"
+  description = "Javadoc for rapidcow's Java projects, browsable by version."
+-%]
   <header class="masthead">
     <nav class="crumbs" aria-label="Breadcrumb"><span aria-current="page">javadoc.rapidcow.org</span></nav>
     <h1>javadoc</h1>
@@ -34,5 +28,4 @@
     <a href="https://github.com/rapidcow/javadoc.rapidcow.org/tree/gh-pages/docs">rapidcow/javadoc.rapidcow.org</a>.
     Designed by Claude Code <code>6v6</code>
   </footer>
-</main></body>
-</html>
+[% END -%]
