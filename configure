@@ -326,9 +326,13 @@ if (compare('MY/tmp-config.mk', 'MY/config.mk')) {
 # the rulebook
 sub shell_quote
 {
-	# for the shell: single quotes, and ' itself as '\''
-	$_[0] =~ s!'!'\\''!g;
-	$_[0] = "'$_[0]'";
+	my ($s) = @_;
+	# Nothing in it for the shell to mangle?  Then leave it be, so
+	# that a plain `.' stays a plain `.' (and `./x' can be tidied).
+	return $s if $s =~ m!\A[A-Za-z0-9_./:@%+=,-]+\z!;
+	# otherwise: single quotes, and ' itself as '\''
+	$s =~ s!'!'\\''!g;
+	"'$s'";
 }
 
 open my $rb, '<:encoding(UTF-8)', "$D{A}/Makefile.in"
@@ -356,7 +360,7 @@ if ($x eq "\$") {
 	$val = $D{$x};
 }
 if ($mod eq "Q") {
-	shell_quote($val);
+	$val = shell_quote($val);
 } elsif (length $mod) {
 	die "E: Makefile.in line $.: unknown modifier :$mod\n";
 }
