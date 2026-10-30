@@ -129,12 +129,41 @@ the notion of the "current directory".  That is, the
 trailing slash will be honored, and the lack of one
 will be taken to indicate an omissible filename.
 
+Two conveniences on top of that:
+
+=over
+
+=item *
+
+A leading C<.> segment on I<path> is dropped, once.  So
+C<.> and C<./> both mean the root (as does the empty string),
+and C<./x> means C<x>.  Only the first dot is special:
+C<./.> and C<a/./b> keep the dot that comes later.
+
+=item *
+
+A C<..> is already a directory, so a lone trailing slash
+after the last C<..> is redundant and is omitted: C<../..>
+rather than C<../../>.  A second slash asks for it back
+(C<../>).  Any subsequent slashes are idempotent.
+
+=back
+
 This subroutine is not exported by default.
 
 =cut
 
 sub relapath {
 	my ($path, $base) = @_;
+	#
+	# (contributed by Anthropic Claude)
+	# Done as a pre-processing step so that `.//'
+	# leaves `/' behind, i.e., one empty segment
+	# per extra slash.  (This is also so that a
+	# `./' prefix serves as a no-op prefix---but
+	# only when it is spelled as . and not %2F.)
+	#
+	$path =~ s!^[.](?:/|$)!!;
 	my @path = split('/', $path, -1);
 	my @base = split('/', $base, -1);
 
@@ -182,7 +211,14 @@ COMM:	while () {
 	# shows up in $path -- that will just be an empty
 	# component concatenated with a bunch of "/"'s.)
 	#
-	join '/', ('..') x $upupup, @path[$comm .. $#path];
+	my @rest = @path[$comm..$#path];
+	#
+	# (contributed by Anthropic Claude)
+	# Only `..'s and empty segments: the first empty segment
+	# is the trailing slash that `..' does not need.
+	#
+	pop @rest if $upupup && @rest && !grep { length } @rest;
+	join '/', ('..') x $upupup, @rest;
 }
 
 push @EXPORT_OK, 'relapath';
