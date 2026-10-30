@@ -1,0 +1,19 @@
+#!/bin/sh
+port=8080
+cd "$(dirname "$0")" || exit
+while getopts hp: o
+do
+	case ${o} in
+	h)
+		echo "usage: $0 [-p PORT]"
+		;;
+	p)
+		port=${OPTARG}
+		;;
+	?)
+		exit 1
+		;;
+	esac
+done
+shift $(( OPTIND - 1 ))
+exec ruby -run -e httpd -- docs/ -p "${port}"
