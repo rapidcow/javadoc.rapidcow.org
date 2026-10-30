@@ -1,6 +1,7 @@
 [%
 # HAVE: index.html
 # NEED: skel/HTML
+# NEED: skel/FOOT
 -%]
 [% WRAPPER "HTML"
   title = "javadoc.rapidcow.org"
@@ -23,9 +24,5 @@
     </ul>
   </section>
 
-  <footer>
-    Served by GitHub Pages from
-    <a href="https://github.com/rapidcow/javadoc.rapidcow.org/tree/gh-pages/docs">rapidcow/javadoc.rapidcow.org</a>.
-    Designed by Claude Code <code>6v6</code>
-  </footer>
+[% INCLUDE "FOOT" -%]
 [% END -%]

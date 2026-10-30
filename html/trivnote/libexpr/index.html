@@ -2,6 +2,7 @@
 # HAVE: trivnote/libexpr/index.html
 # NEED: data/trivnote/libexpr/rel-info.scm
 # NEED: skel/HTML
+# NEED: skel/FOOT
 -%]
 [% USE df = DataFile('trivnote/libexpr/rel-info.scm') -%]
 [% gitweb = 'https://gitlab.com/rapidcow/trivnote/-' -%]
@@ -55,8 +56,5 @@
     </ol>
   </section>
 
-  <footer>
-    <a href="/">javadoc.rapidcow.org</a> &middot;
-    <a href="https://github.com/rapidcow/javadoc.rapidcow.org/tree/gh-pages/docs">site source</a>
-  </footer>
+[% INCLUDE "FOOT" -%]
 [% END -%]

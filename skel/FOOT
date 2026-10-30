@@ -1,0 +1,11 @@
+  <footer>
+[% IF location == "index.html" -%]
+    Served by GitHub Pages from
+    <a href="https://github.com/rapidcow/javadoc.rapidcow.org/tree/gh-pages/docs">rapidcow/javadoc.rapidcow.org</a>
+    &middot;
+    Designed by Claude Code!
+[%- ELSE -%]
+    <a href="[% locate('/') %]">javadoc.rapidcow.org</a>
+[%- END -%] &middot;
+    <a href="https://github.com/rapidcow/javadoc.rapidcow.org/blob/gh-pages/docs/[% location %]">site source</a>
+  </footer>
