@@ -44,7 +44,7 @@ sub parse_base
 
 	# site_url cannot be derived, so it is required.
 	defined $D->{site_url} and $D->{site_url} ne ''
-		or die "parse_base: missing site_url\n";
+		or die "$Me: missing site_url\n";
 	$site_url = URI->new($D->{site_url});
 
 	{
