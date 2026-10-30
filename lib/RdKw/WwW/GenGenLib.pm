@@ -217,7 +217,17 @@ COMM:	while () {
 	# Only `..'s and empty segments: the first empty segment
 	# is the trailing slash that `..' does not need.
 	#
-	pop @rest if $upupup && @rest && !grep { length } @rest;
+	if (grep { length } @rest) {
+		# After a name, a trailing slash is only a hint that it
+		# is a directory; asking for it twice changes nothing.
+		pop @rest while @rest > 1 && !length($rest[-1])
+			&& !length($rest[-2]);
+	}
+	elsif ($upupup && @rest) {
+		# Just `..'s: the first slash is the one `..' does not
+		# need, and any more than one are the same as one.
+		@rest = @rest > 1 ? ('') : ();
+	}
 	join '/', ('..') x $upupup, @rest;
 }
 
