@@ -34,8 +34,7 @@ BEGIN { File::Which->import(); }
 my $prog = basename($0);
 my $mode = sprintf '%04o', 0666 &~ umask;
 
-use FindBin;
-use lib "$FindBin::RealBin/lib";
+use lib './lib';
 use RdKw::WwW::GenGenLib;
 
 my $estat = 0;
@@ -88,7 +87,9 @@ sub DD {
 		);
 	}
 }
-my %D = -f "MY/config.mk" && -r _ ? read_make("MY/config.mk") : ();
+# What MY/ remembers is read only after the command line, since
+# -Dc may send us to a different directory (and so a different MY/).
+my %D;
 
 # (O)ptions alter the state of the build.
 # It is therefore independent of any file
@@ -103,7 +104,8 @@ sub OO {
 		data => 'data',
 	);
 }
-my %O = -f "MY/option.mk" && -r _ ? read_make("MY/option.mk") : ();
+my %O;
+my $reset;
 
 my $usage = <<EOM;
 usage: $prog [-Dvar=val ...] [-Ovar=val ...] [-h]
@@ -112,6 +114,7 @@ The following variables may be defined:
 
   -Da         Source directory (default: html)
   -Db         Target directory (default: site)
+  -DB         Build base directory (default: .)
   -Dtar_from_stdin   Implementation of "tar -T -", as in GNU tar.
   -Obase_url  Host-relative relative base
   -Osite_url  Absolute base
@@ -119,6 +122,12 @@ The following variables may be defined:
   -h          This help message
   --reset     Clear all configuration at this point
 EOM
+
+# `use open' covers the standard handles and `use utf8' our source,
+# but not @ARGV: those arrive as raw bytes, and would be encoded a
+# second time on their way into MY/*.mk and the Makefile.  (Anything
+# that is not valid UTF-8 is left alone.)
+utf8::decode($_) for @ARGV;
 
 OPT:
 while (@ARGV) {
@@ -157,6 +166,7 @@ for ($ARGV[0]) {
 		if (/\Gr(e(s(et?)?)?)?$/) {
 			%D = ();
 			%O = ();
+			$reset = 1;
 			shift;
 			next OPT;
 		}
@@ -166,6 +176,44 @@ for ($ARGV[0]) {
 }
 	shift;
 }
+
+# We *are* the source tree: that is where `./lib', Makefile.in and
+# MANIFEST are, and where we have been started from.
+my $srcdir = getcwd();
+
+exists $D{A} and die <<EUGH;
+E: `A' (the source tree, seen from the build directory) is derived
+E: from where we are standing, and cannot be set.
+EUGH
+
+# -DB is the build directory, seen from the source tree; like
+# `cmake -B' we go there.  It must already exist (and be writable),
+# and its spelling is kept as is -- absolute or not.  It is a
+# statement about *this* run: nothing about it is ever read back
+# from MY/config.mk, which is the very file it is about to choose.
+my $B = defined $D{B} ? $D{B} : '.';
+length $B or die "E: `B' must not be empty; use -DB=. for cwd.\n";
+chdir $B or die "E: cannot chdir to $B: $!\n";
+
+# Files first, command line over them -- unless --reset said otherwise.
+unless ($reset) {
+	my %Dcli = %D;
+	my %Ocli = %O;
+	%D = -f "MY/config.mk" && -r _ ? read_make("MY/config.mk") : ();
+	%O = -f "MY/option.mk" && -r _ ? read_make("MY/option.mk") : ();
+	@D{keys %Dcli} = values %Dcli;
+	@O{keys %Ocli} = values %Ocli;
+}
+
+# Both are facts about where we are standing right now, so we
+# clobber whatever MY/config.mk said.  They are still written out
+# (%D like the rest), so that whatever makes the Makefile need only
+# read MY/*.mk.  Once configured, they are fixed.
+#
+#   A  the source tree, seen from the build dir (`.' in-tree)
+#   B  the build dir, seen from the source tree (`.' in-tree)
+$D{B} = $B;
+$D{A} = File::Spec->abs2rel($srcdir, getcwd());
 
 DD \%D;
 OO \%O;
@@ -185,26 +233,14 @@ length $D{b} or die "E: `b' prefix may not be empty.\n";
 File::Spec->file_name_is_absolute($D{b})
 	and die "E: `b' prefix must be a relative path.\n";
 
-# Paths for an out-of-tree build.  Make runs from the build directory,
-# but the sources, `render' and MANIFEST live where this script does.
-#
-#   .CURDIR  source dir, seen from the build dir (`.' in-tree)
-#   c        build dir, seen from the source dir
-#   A        a, as make (cwd: build dir) sees it
-#   B        b, as a recipe that has cd'd to .CURDIR sees it
-#
-# (These are derived every time, so they stay out of %D and
-# therefore out of MY/config.mk.)
-my %V;
-{
-	my $src = $FindBin::RealBin;
-	my $obj = getcwd();
-	$V{'.CURDIR'} = File::Spec->abs2rel($src, $obj);
-	$V{c} = File::Spec->abs2rel($obj, $src);
-	$V{A} = File::Spec->canonpath(
-		File::Spec->file_name_is_absolute($D{a}) ? $D{a}
-		: File::Spec->catdir($V{'.CURDIR'}, $D{a}));
-	$V{B} = File::Spec->canonpath(File::Spec->catdir($V{c}, $D{b}));
+# a, as seen from the build dir.  A pure function of what is in %D;
+# `a' itself is relative to the sources, unless it is absolute.
+sub apath {
+	my ($path) = @_;
+	File::Spec->canonpath(
+		File::Spec->file_name_is_absolute($D{a})
+			? "$D{a}/$path"
+			: "$D{A}/$D{a}/$path");
 }
 
 sub find_tar {
@@ -288,7 +324,14 @@ if (compare('MY/tmp-config.mk', 'MY/config.mk')) {
 }
 
 # the rulebook
-open my $rb, '<:encoding(UTF-8)', "$V{'.CURDIR'}/Makefile.in"
+sub shell_quote
+{
+	# for the shell: single quotes, and ' itself as '\''
+	$_[0] =~ s!'!'\\''!g;
+	$_[0] = "'$_[0]'";
+}
+
+open my $rb, '<:encoding(UTF-8)', "$D{A}/Makefile.in"
 	or die "open <Makefile.in: $!\n";
 my %rule;
 my @node;
@@ -297,23 +340,29 @@ my $subst = sub {
 	my ($line, $node) = @_;
 	$line =~ s/\$(\{[^\}]+\}|.)/
 (my $x = $1) =~ s!^\{|\}$!!g;
+my $mod = $x =~ s!:(\w+)$!! ? $1 : "";
+my $val;
 if ($x eq "\$") {
-	"\$";
+	$val = "\$";
 } elsif ($x eq "\@" or $x eq ".TARGET") {
 	defined $node or die "E: Makefile.in line $.: "
 		. "\${$x} outside of a recipe\n";
-	$node;
+	$val = $node;
 } elsif ($x eq '^X' or $x eq "\030") {
-	$^X;
-} elsif (exists $V{$x}) {
-	$V{$x};
+	$val = $^X;
 } else {
 	defined $D{$x} or die "E: Makefile.in line $.: "
 		. "undefined variable: \${$x}\n";
-	$D{$x};
+	$val = $D{$x};
 }
+if ($mod eq "Q") {
+	shell_quote($val);
+} elsif (length $mod) {
+	die "E: Makefile.in line $.: unknown modifier :$mod\n";
+}
+$val;
 	/ge;
-	# An empty .CURDIR or c is `.', which would leave `./x' behind
+	# An A or B of `.' would leave `./x' behind
 	# on every path it was joined to; spell those without it.
 	$line =~ s!(^|\s)\./(?=[^\s/])!$1!g;
 	$line;
@@ -326,7 +375,7 @@ while (<$rb>) {
 			"unexpected tabulation\n");
 		for my $node (@node) {
 			my $line = $_;
-			my $apath = "$V{A}/$node";
+			my $apath = apath($node);
 			my $bpath = "$D{b}/$node";
 			unless (defined $rule{$bpath}) {
 				$rule{$bpath} = "";
@@ -364,7 +413,7 @@ close $rb;
 
 # a "MANIFEST" is the top-level wants of ALL
 # the files in the default target.
-open my $MF, '<:encoding(UTF-8)', "$V{'.CURDIR'}/MANIFEST"
+open my $MF, '<:encoding(UTF-8)', "$D{A}/MANIFEST"
 	or die "open <MANIFEST: $!\n";
 my @all;
 my (@dir, %dir);
@@ -378,7 +427,7 @@ while (<$MF>) {
 E: MANIFEST line $.: Your file name should not
 E: end with `?'; that's for soft-deps in the future.
 NUHUH
-	my $apath = "$V{A}/$file";
+	my $apath = apath($file);
 	my $bpath = "$D{b}/$file";
 	my %I = read_deps($apath);
 	defined $I{HAVE} or die "E: $apath: missing HAVE declaration.\n";
@@ -386,7 +435,7 @@ NUHUH
 	$I{WANT} and die "E: $apath: soft-deps are not implemented.\n";
 	# NEED names source files, except for MY/, which is build state.
 	$I{NEED} = [ map {
-		m!^MY/! ? $_ : File::Spec->canonpath("$V{'.CURDIR'}/$_")
+		m!^MY/! ? $_ : File::Spec->canonpath("$D{A}/$_")
 	} @{$I{NEED} || []} ];
 
 	for my $dep (@{$I{NEED}}) {
@@ -430,7 +479,7 @@ site: @ball
 clean:
 	rm -f @ball
 dist: site
-	{ cd $V{'.CURDIR'} && awk -v bdir='$D{b}' '{ print bdir "/" \$\$1 }' MANIFEST; } | \${tar_from_stdin} -cf site.tar.gz
+	{ cd @{[shell_quote($D{A})]} && awk -v bdir=@{[shell_quote($D{b})]} '{ print bdir "/" \$\$1 }' MANIFEST; } | \${tar_from_stdin} -cf site.tar.gz
 MAKE
 for (@rule) {
 	print $Mf "$_: @{$deps{$_}}\n";

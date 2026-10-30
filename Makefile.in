@@ -1,7 +1,7 @@
 #
 # Transformation rules from ${a}/% to ${b}/%
 #
-index.html trivnote/index.html trivnote/libexpr/index.html: ${.CURDIR}/render
-	cd -- ${.CURDIR} && ${^X} render -B $c $a/${.TARGET} $B/${.TARGET}
+index.html trivnote/index.html trivnote/libexpr/index.html: ${A}/render
+	cd -- ${A:Q} && ${^X} render -B ${B:Q} $a/${.TARGET} ${B:Q}/${b}/${.TARGET}
 robots.txt ai/assets/site.css ai/assets/site.js:
-	cd -- ${.CURDIR} && cp $a/${.TARGET} $B/${.TARGET}
+	cd -- ${A:Q} && cp $a/${.TARGET} ${B:Q}/${b}/${.TARGET}
