@@ -1,8 +1,16 @@
 [%
 # HAVE: trivnote/index.html
+# NEED: data/trivnote/libexpr/rel-info.scm
 # NEED: skel/HTML
 # NEED: skel/FOOT
 -%]
+[% USE libexpr = DataFile('trivnote/libexpr/rel-info.scm') -%]
+[%# The first release flagged `latest', or N/A if none is. -%]
+[% libexpr_latest = 'N/A' -%]
+[% FOREACH entry IN libexpr.root.list -%]
+[% rel = entry.attr -%]
+[% IF rel.latest; libexpr_latest = 'v' _ rel.version; LAST; END -%]
+[% END -%]
 [% WRAPPER "HTML"
   title = "trivnote javadoc"
   description = "Javadoc for the Java subsystem of the trivnote project"
@@ -23,7 +31,7 @@
       <li class="card"><a class="tile" href="libexpr/">
         <span class="path">org.rapidcow.trivnote.</span>
         <span class="name">libexpr <span class="go" aria-hidden="true">&rarr;</span></span>
-        <p class="desc">Latest: <b>v0.1.0</b>.  Click to browse by version!</p>
+        <p class="desc">Latest: <b>[% libexpr_latest | html %]</b>.  Click to browse by version!</p>
       </a></li>
     </ul>
   </section>
