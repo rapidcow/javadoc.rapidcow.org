@@ -1,0 +1,25 @@
+minor mishap
+
+ORIG = 8f446baa91fc5f54431ef6fa9307bd4e1289b816 (rpi/gh-pages)
+HEAD = e2dc467fb4f7f457323107918cad7ed21a4a06ee (gh-pages)
+ 0:  8f446ba =  0:  e2dc467 point footer to the true source
+ 1:  305c314 !  1:  2e2164c Build the generated part of docs/ in CI
+--- a/305c3142e0572cb31d1776f0f471cc190b123d82	2026-10-30 19:48:59
++++ b/2e2164cc1e9c3d344572d716631cf947c0a58a9f	2026-10-30 19:48:59
+@@ -1,12 +1,13 @@
+ tree 05c7e389ab8d2156abe543ec27f1819ee62c11c4
+ parent 0237bcbea38c6573e1b72e605a2233ac0d49c992
+-author Claude Sonnet 5.5 <claude@anthropic.com> 1793389639 -0000
++author Claude Sonnet 5.5 (Cloud) <claude@anthropic.com> 1793389639 -0000
+ committer Ethan Meng <rapidcow@RCs-Mac-mini.local> 1793389739 -0500
+ 
+ Build the generated part of docs/ in CI
+ 
+-Untrack the files ./configure -Db=docs generates and add a Pages
+-workflow that builds them on push to gh-pages. docs/ keeps the javadoc,
++Untrack the files ./configure -Db=docs generates
++and add a GitHub Pages workflow that builds them
++on push to gh-pages.  docs/ keeps the javadoc,
+ CNAME and .nojekyll.
+ 
+ (thanks claude!!!!  this is vry cool!!! >:O)
