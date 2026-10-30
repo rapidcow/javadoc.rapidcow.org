@@ -32,7 +32,7 @@ USE
 }
 
 # -B could be thought of as CMake's -S <source> / -B <build>.
-# (-S would be redundant though; cd ${.CURDIR} covers that ;)
+# (-S would be redundant though, since cd ${A} covers that. ;)
 my %o;
 getopts('B:dhm:', \%o) or die +(split /^/, HELP_MESSAGE)[0];
 if ($o{h}) {
