@@ -1,0 +1,422 @@
+/*
+ * javadoc.rapidcow.org -- shared styles.
+ * Plain CSS with native nesting (Baseline 2023).  Dark only, on purpose.
+ */
+
+:root {
+  color-scheme: dark;
+
+  --bg: #0a0c11;
+  --surface: #10131a;
+  --raised: #161a23;
+  --line: #242a37;
+  --line-hi: #343c4f;
+  --text: #dde1ec;
+  --dim: #8b94a8;
+  --faint: #566074;
+
+  --amber: #ffb454;       /* coffee, obviously */
+  --amber-deep: #c9791a;
+  --teal: #5fd4c4;
+  --ink-on-amber: #1b1203;
+
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Code", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font: 1rem/1.6 var(--sans);
+  -webkit-font-smoothing: antialiased;
+
+  /* a warm glow up top, and a dot grid that fades out downwards */
+  &::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(60rem 28rem at 15% -8%, color-mix(in srgb, var(--amber) 14%, transparent), transparent 70%),
+      radial-gradient(48rem 24rem at 100% 0%, color-mix(in srgb, var(--teal) 9%, transparent), transparent 70%),
+      radial-gradient(circle at 1px 1px, var(--line) 1px, transparent 1.5px) 0 0 / 24px 24px;
+    mask-image: linear-gradient(to bottom, #000 25%, transparent 85%);
+  }
+}
+
+::selection { background: color-mix(in srgb, var(--amber) 35%, transparent); }
+
+a {
+  color: var(--amber);
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+
+  &:hover { color: #ffd08f; }
+  &:focus-visible {
+    outline: 2px solid var(--teal);
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+}
+
+code, kbd, samp { font-family: var(--mono); font-size: 0.88em; }
+
+:not(pre) > code {
+  padding: 0.12em 0.4em;
+  background: var(--raised);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+
+.page {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 0 1.25rem 4rem;
+}
+
+/* ---- masthead ---------------------------------------------------- */
+
+.masthead {
+  padding: 3.5rem 0 1rem;
+
+  /* org.rapidcow / trivnote / libexpr */
+  .crumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.15rem 0.5rem;
+    margin: 0 0 1.75rem;
+    font: 0.85rem/1.4 var(--mono);
+    color: var(--faint);
+
+    a { color: var(--dim); text-decoration: none; &:hover { color: var(--amber); } }
+    [aria-current] { color: var(--text); }
+    i { font-style: normal; color: var(--line-hi); }
+  }
+
+  h1 {
+    margin: 0;
+    font: 700 clamp(2.4rem, 9vw, 4rem)/1.02 var(--mono);
+    letter-spacing: -0.04em;
+
+    /* terminal caret */
+    &::after {
+      content: "";
+      display: inline-block;
+      width: 0.5ch;
+      height: 0.82em;
+      margin-left: 0.18em;
+      vertical-align: -0.06em;
+      background: var(--amber);
+      border-radius: 1px;
+      animation: blink 1.1s steps(1) infinite;
+    }
+
+    .pkg {
+      display: block;
+      margin-bottom: 0.6rem;
+      font: 400 0.9rem/1 var(--mono);
+      letter-spacing: 0;
+      color: var(--faint);
+    }
+  }
+
+  .lede {
+    max-width: 36rem;
+    margin: 1.25rem 0 0;
+    font-size: 1.1rem;
+    color: var(--dim);
+  }
+}
+
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ---- sections ---------------------------------------------------- */
+
+section {
+  margin-top: 3rem;
+
+  > h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    margin: 0 0 1.25rem;
+    font: 600 0.78rem/1 var(--mono);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dim);
+
+    &::before { content: "//"; color: var(--amber); }
+    &::after { content: ""; flex: 1; border-top: 1px solid var(--line); }
+  }
+}
+
+/* ---- tiles (namespaces / modules) -------------------------------- */
+
+.tiles {
+  display: grid;
+  gap: 0.9rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+}
+
+/* ---- the spotlight card: shared by tiles and releases ------------- */
+
+.card {
+  --mx: 50%;
+  --my: 0%;
+  position: relative;
+  isolation: isolate;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  transition: border-color 0.2s, transform 0.2s;
+
+  /* cursor-following highlight; --mx/--my are set by a few lines of JS */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.25s;
+    background: radial-gradient(22rem circle at var(--mx) var(--my),
+      color-mix(in srgb, var(--amber) 16%, transparent), transparent 65%);
+  }
+
+  &:hover {
+    border-color: var(--line-hi);
+    &::before { opacity: 1; }
+  }
+}
+
+.tile {
+  display: block;
+  padding: 1.2rem 1.3rem 1.3rem;
+  color: inherit;
+  text-decoration: none;
+
+  .path { font: 0.78rem/1.3 var(--mono); color: var(--faint); }
+
+  .name {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.35rem;
+    font: 600 1.35rem/1.2 var(--mono);
+    letter-spacing: -0.02em;
+    color: var(--text);
+
+    .go { color: var(--amber); transition: transform 0.2s; }
+  }
+
+  .desc { margin: 0.5rem 0 0; font-size: 0.93rem; line-height: 1.5; color: var(--dim); }
+
+  &:hover .go { transform: translateX(4px); }
+}
+
+/* ---- release timeline (a tiny `git log --graph`) ----------------- */
+
+.timeline {
+  --rail: 1.1rem;
+  position: relative;
+  margin: 0;
+  padding: 0 0 0 calc(var(--rail) + 1.4rem);
+  list-style: none;
+  display: grid;
+  gap: 1.1rem;
+
+  /* the rail */
+  &::before {
+    content: "";
+    position: absolute;
+    left: calc(var(--rail) / 2 - 1px);
+    top: 1.4rem;
+    bottom: -1.5rem;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--amber), var(--line) 55%, transparent);
+  }
+}
+
+.release {
+  position: relative;
+  padding: 1.3rem 1.4rem 1.2rem;
+
+  /* the node on the rail */
+  &::after {
+    content: "";
+    position: absolute;
+    left: calc(-1 * (var(--rail) + 1.4rem) + 0.04rem);
+    top: 1.55rem;
+    width: calc(var(--rail) - 0.08rem);
+    height: calc(var(--rail) - 0.08rem);
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--line-hi);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  &:hover::after { border-color: var(--amber); }
+
+  &.latest {
+    border-color: color-mix(in srgb, var(--amber) 35%, var(--line));
+
+    &::after {
+      background: var(--amber);
+      border-color: var(--amber);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--amber) 20%, transparent),
+                  0 0 18px var(--amber);
+    }
+  }
+
+  .head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.4rem 0.8rem;
+  }
+
+  .ver {
+    margin: 0;
+    font: 700 1.9rem/1.1 var(--mono);
+    letter-spacing: -0.04em;
+
+    small { color: var(--faint); font-weight: 400; margin-right: 0.05em; }
+  }
+
+  .when { font: 0.82rem/1 var(--mono); color: var(--faint); }
+
+  .note { margin: 0.6rem 0 0; color: var(--dim); font-size: 0.95rem; }
+}
+
+.pill {
+  padding: 0.18rem 0.6rem;
+  font: 700 0.68rem/1.4 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 99px;
+  border: 1px solid var(--line-hi);
+  color: var(--dim);
+
+  &.latest { background: var(--amber); border-color: var(--amber); color: var(--ink-on-amber); }
+  &.old { color: var(--faint); }
+}
+
+/* ---- build info: the "which commit is this, exactly?" strip ------- */
+
+.build {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.35rem 1rem;
+  margin: 1.1rem 0 0;
+  padding: 0.85rem 1rem;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  font: 0.82rem/1.5 var(--mono);
+
+  dt { color: var(--faint); }
+  dd { margin: 0; min-width: 0; color: var(--text); overflow-wrap: anywhere; }
+
+  .hash {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .full { color: var(--faint); }
+
+  button {
+    padding: 0.05rem 0.5rem;
+    font: inherit;
+    font-size: 0.75rem;
+    color: var(--dim);
+    background: transparent;
+    border: 1px solid var(--line-hi);
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover { color: var(--amber); border-color: var(--amber); }
+    &:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+    &[data-done] { color: var(--teal); border-color: var(--teal); }
+  }
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.1rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.95rem;
+  font: 600 0.88rem/1.2 var(--mono);
+  text-decoration: none;
+  color: var(--text);
+  background: var(--raised);
+  border: 1px solid var(--line-hi);
+  border-radius: 7px;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+
+  &:hover { color: var(--amber); border-color: var(--amber); }
+
+  &.primary {
+    background: var(--amber);
+    border-color: var(--amber);
+    color: var(--ink-on-amber);
+    &:hover { background: #ffc980; border-color: #ffc980; color: var(--ink-on-amber); }
+  }
+}
+
+/* ---- footer ------------------------------------------------------ */
+
+footer {
+  margin-top: 4.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+  font: 0.8rem/1.7 var(--mono);
+  color: var(--faint);
+
+  a { color: var(--dim); &:hover { color: var(--amber); } }
+}
+
+/* ---- entrance + small screens ------------------------------------ */
+
+@media (prefers-reduced-motion: no-preference) {
+  .masthead, section, .timeline > li, .tiles > li {
+    animation: rise 0.55s cubic-bezier(.2, .7, .2, 1) backwards;
+  }
+  section { animation-delay: 0.1s; }
+  .timeline > li:nth-child(1), .tiles > li:nth-child(1) { animation-delay: 0.15s; }
+  .timeline > li:nth-child(2), .tiles > li:nth-child(2) { animation-delay: 0.25s; }
+  .timeline > li:nth-child(3), .tiles > li:nth-child(3) { animation-delay: 0.35s; }
+}
+
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+
+@media (max-width: 34rem) {
+  .timeline { --rail: 0.9rem; padding-left: calc(var(--rail) + 0.9rem); }
+  .release {
+    padding: 1.1rem 1rem;
+    &::after { left: calc(-1 * (var(--rail) + 0.9rem) + 0.04rem); }
+  }
+  .build { grid-template-columns: 1fr; gap: 0; dt { margin-top: 0.5rem; } }
+}
