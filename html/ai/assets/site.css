@@ -425,26 +425,3 @@ footer {
   }
   .build { grid-template-columns: 1fr; gap: 0; dt { margin-top: 0.5rem; } }
 }
-
-/* ---- phones: bigger type, bigger tap targets ---------------------- */
-
-@media (max-width: 40rem) {
-  /* everything is in rem, so this scales the whole page */
-  html { font-size: 118.75%; }
-
-  .page { padding-inline: 1rem; }
-  .masthead { padding-top: 2.25rem; }
-
-  .tiles { grid-template-columns: 1fr; }
-  .tile { padding: 1.3rem 1.2rem 1.4rem; }
-
-  .btn { padding: 0.75rem 1.1rem; }
-  .actions .btn { flex: 1 1 auto; justify-content: center; }
-  .build button { padding: 0.35rem 0.7rem; }
-}
-
-/* no hover on touch: don't leave the spotlight stuck after a tap */
-@media (hover: none) {
-  .card:hover::before { opacity: 0; }
-  .tile:hover .go { transform: none; }
-}
