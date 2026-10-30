@@ -6,12 +6,20 @@ use warnings;
 use parent qw(Exporter);
 
 use IO::Handle;
+use Scalar::Util qw(refaddr);
 use Socket qw(LF);
 use constant SX_NIL  => 1;
 use constant SX_CONS => 2;
 use constant SX_DOT  => 3;
 use constant SX_SCALAR => 4;
 use constant SX_SYMBOL => 5;
+
+# nil is false (so `#f' works); everything else is true.
+# '0+' keeps == comparing identity instead of truth values.
+use overload
+	'bool' => sub { $_[0]{tag} != SX_NIL },
+	'0+'   => sub { refaddr $_[0] },
+	fallback => 1;
 
 our @EXPORT_OK = qw(nil cons str sym read_datum);
 
@@ -72,12 +80,10 @@ sub str ($)
 
 sub read_datum
 {
-	local $!;
 	local $/;
 	my ($fh, $bg) = @_;
 	my ($v, $w);
 	my $sb;
-	$! = 0;
 V:	while (defined( $v = $fh->getc() )) {
 		if ($v =~ /[[:space:]]/) {
 			next V;
@@ -91,15 +97,14 @@ V:	while (defined( $v = $fh->getc() )) {
 		}
 		if ($v eq '.') {
 			if (!defined( $w = $fh->getc() )) {
-				$! ? last V : return dot();
+				$fh->error ? last V : return dot();
 			}
 			else {
-				if ($w =~ /[\(\)"\|;]/) {
+				if ($w =~ /[[:space:]\(\)"\|;]/) {
 					$fh->ungetc(ord $w);
 					return dot();
 				}
 				if (defined( $w = read_plain($fh, $sb = "$v$w") )) {
-					last V if $!;
 					$fh->ungetc(ord $w);
 				}
 				return str($sb);
@@ -108,7 +113,7 @@ V:	while (defined( $v = $fh->getc() )) {
 		if ($v eq '(') {
 			my ($o, @q, $e);
 			my $sg = 0;
-			while ($o = read_datum($fh, 1)) {
+			while (defined( $o = read_datum($fh, 1) )) {
 				if ($sg == 0) {
 					if ($o == dot()) {
 						@q or die "read_datum: `.' too early\n";
@@ -119,8 +124,9 @@ V:	while (defined( $v = $fh->getc() )) {
 				}
 				elsif ($sg == 1) {
 					if ($o == dot()) {
-						@q or die "read_datum: double `.'\n";
-					}
+							die "read_datum: double `.'
+";
+						}
 					push @q, $o;
 					$sg++;
 				}
@@ -157,17 +163,18 @@ P:			while (defined( $v = $fh->getc() )) {
 				$v ne "\\" or die "read_datum: no escape plz :(\n";
 				$sb .= $v;
 			}
-			last V if $!;
+			last V if $fh->error;
 			return str($sb);
 		}
-		$sb .= $v;
 		if (defined( $w = read_plain($fh, $sb = "$v") )) {
-			last V if $!;
 			$fh->ungetc(ord $w);
 		}
+		return 1 if $sb eq '#t';
+		return nil() if $sb eq '#f';
 		return $v =~ /[[:digit:]]/ ? str($sb) : sym($sb);
 	}
-	!$! or die "read_datum: $!\n";
+	!$fh->error or die "read_datum: read error\n";
+	!$bg or die "read_datum: unterminated list\n";
 	return;
 }
 
