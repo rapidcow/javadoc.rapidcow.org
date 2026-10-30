@@ -70,15 +70,13 @@ loadScripts(document, 'script');</script>
 <h1 title="Class ConsCell" class="title">Class ConsCell</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
+<div class="inheritance"><a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">org.rapidcow.trivnote.libexpr.Datum</a>
 <div class="inheritance"><a href="Cons.html" title="class in org.rapidcow.trivnote.libexpr">org.rapidcow.trivnote.libexpr.Cons</a>
 <div class="inheritance">org.rapidcow.trivnote.libexpr.ConsCell</div>
 </div>
 </div>
+</div>
 <section class="class-description" id="class-description">
-<dl class="notes">
-<dt>All Implemented Interfaces:</dt>
-<dd><code><a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a></code></dd>
-</dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public final class </span><span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/ConsCell.java#L18">ConsCell</a></span>
 <span class="extends-implements">extends <a href="Cons.html" title="class in org.rapidcow.trivnote.libexpr">Cons</a></span></div>
@@ -101,8 +99,8 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum)" class="member-name-link">ConsCell</a><wbr>(<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;car,
- <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;cdr)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum)" class="member-name-link">ConsCell</a><wbr>(<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;car,
+ <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;cdr)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Creates an immutable cons cell.</div>
 </div>
@@ -120,12 +118,12 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#car()" class="member-name-link">car</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the former half.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#cdr()" class="member-name-link">cdr</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the latter half.</div>
@@ -135,7 +133,10 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-org.rapidcow.trivnote.libexpr.Cons">Methods inherited from class&nbsp;org.rapidcow.trivnote.libexpr.<a href="Cons.html" title="class in org.rapidcow.trivnote.libexpr">Cons</a></h3>
-<code><a href="Cons.html#equals(java.lang.Object)">equals</a>, <a href="Cons.html#fromList(java.util.List)">fromList</a>, <a href="Cons.html#hashCode()">hashCode</a>, <a href="Cons.html#of(org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum%5B%5D,org.rapidcow.trivnote.libexpr.Datum)">of</a>, <a href="Cons.html#of(org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum...)">of</a>, <a href="Cons.html#ofList(org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum...)">ofList</a></code></div>
+<code><a href="Cons.html#equals(java.lang.Object)">equals</a>, <a href="Cons.html#fromList(java.util.List)">fromList</a>, <a href="Cons.html#hashCode()">hashCode</a>, <a href="Cons.html#of(java.util.Deque,org.rapidcow.trivnote.libexpr.Cons)">of</a>, <a href="Cons.html#of(org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum)">of</a>, <a href="Cons.html#of(org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum%5B%5D,org.rapidcow.trivnote.libexpr.Datum)">of</a>, <a href="Cons.html#of(org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum...)">of</a>, <a href="Cons.html#ofList(org.rapidcow.trivnote.libexpr.Datum)">ofList</a>, <a href="Cons.html#ofList(org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum)">ofList</a>, <a href="Cons.html#ofList(org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum...)">ofList</a></code></div>
+<div class="inherited-list">
+<h3 id="methods-inherited-from-class-org.rapidcow.trivnote.libexpr.Datum">Methods inherited from class&nbsp;org.rapidcow.trivnote.libexpr.<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a></h3>
+<code><a href="Datum.html#asAlist(org.rapidcow.trivnote.libexpr.Datum)">asAlist</a>, <a href="Datum.html#asList(org.rapidcow.trivnote.libexpr.Datum)">asList</a>, <a href="Datum.html#asProperList(org.rapidcow.trivnote.libexpr.Datum)">asProperList</a>, <a href="Datum.html#car(org.rapidcow.trivnote.libexpr.Datum)">car</a>, <a href="Datum.html#cdr(org.rapidcow.trivnote.libexpr.Datum)">cdr</a>, <a href="Datum.html#fromMap(java.util.Map)">fromMap</a>, <a href="Datum.html#isAtom(org.rapidcow.trivnote.libexpr.Datum)">isAtom</a>, <a href="Datum.html#isList(org.rapidcow.trivnote.libexpr.Datum)">isList</a>, <a href="Datum.html#isProperList(org.rapidcow.trivnote.libexpr.Datum)">isProperList</a>, <a href="Datum.html#ofDeque(java.util.Deque)">ofDeque</a>, <a href="Datum.html#value(org.rapidcow.trivnote.libexpr.Datum)">value</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
@@ -153,8 +154,8 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="&lt;init&gt;(org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum)">
 <h3>ConsCell</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/ConsCell.java#L34">ConsCell</a></span><wbr><span class="parameters">(<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;car,
- <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;cdr)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/ConsCell.java#L34">ConsCell</a></span><wbr><span class="parameters">(<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;car,
+ <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;cdr)</span></div>
 <div class="block">Creates an immutable cons cell.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -176,7 +177,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="car()">
 <h3>car</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/ConsCell.java#L44">car</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/ConsCell.java#L44">car</a></span>()</div>
 <div class="block">Returns the former half.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
@@ -189,7 +190,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="cdr()">
 <h3>cdr</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/ConsCell.java#L53">cdr</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/ConsCell.java#L53">cdr</a></span>()</div>
 <div class="block">Returns the latter half.</div>
 <dl class="notes">
 <dt>Specified by:</dt>

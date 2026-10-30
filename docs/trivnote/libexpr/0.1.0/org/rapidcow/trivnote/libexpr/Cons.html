@@ -70,29 +70,38 @@ loadScripts(document, 'script');</script>
 <h1 title="Class Cons" class="title">Class Cons</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
+<div class="inheritance"><a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">org.rapidcow.trivnote.libexpr.Datum</a>
 <div class="inheritance">org.rapidcow.trivnote.libexpr.Cons</div>
+</div>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
-<dt>All Implemented Interfaces:</dt>
-<dd><code><a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a></code></dd>
-</dl>
-<dl class="notes">
 <dt>Direct Known Subclasses:</dt>
-<dd><code><a href="ConsCell.html" title="class in org.rapidcow.trivnote.libexpr">ConsCell</a></code>, <code><a href="ConsList.html" title="class in org.rapidcow.trivnote.libexpr">ConsList</a></code></dd>
+<dd><code><a href="ConsCell.html" title="class in org.rapidcow.trivnote.libexpr">ConsCell</a></code>, <code><a href="ConsList.html" title="class in org.rapidcow.trivnote.libexpr">ConsList</a></code>, <code><a href="ConsTail.html" title="class in org.rapidcow.trivnote.libexpr">ConsTail</a></code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public abstract non-sealed class </span><span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Cons.java#L22">Cons</a></span>
-<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
-implements <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a></span></div>
-<div class="block">An immutable pair of <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr"><code>Datum</code></a>s.
+<div class="type-signature"><span class="modifiers">public abstract non-sealed class </span><span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Cons.java#L36">Cons</a></span>
+<span class="extends-implements">extends <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a></span></div>
+<div class="block">An immutable pair of <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr"><code>Datum</code></a>s.
  A chain of cons cells created by recursively
  storing cons cells in the cdr forms a list.
 
  <p>
  If the list terminates with a meaningless datum
  (i.e., nil), it is considered <em>proper</em>.
- It is otherwise considered <em>improper</em>.</div>
+ It is otherwise considered <em>improper</em>.
+
+ <p>
+ This is a non-sealed class so that it is
+ possible to specialize storage backend.
+ In return, we ask that any subclass provides
+ the same immutable, acyclic structure as the
+ naive implementation with <a href="ConsCell.html" title="class in org.rapidcow.trivnote.libexpr"><code>ConsCell</code></a>.
+ Acyclicity is generally trivially satisfied
+ when car and cdr are stored as final datum
+ fields, but it is something to be look out
+ for when car and cdr are instead dynamically
+ generated.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -120,12 +129,12 @@ implements <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexp
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#car()" class="member-name-link">car</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns the car of this cons cell.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#cdr()" class="member-name-link">cdr</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns the cdr of this cons cell.</div>
@@ -135,8 +144,8 @@ implements <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexp
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns whether this equals <code>o</code>.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="ConsList.html" title="class in org.rapidcow.trivnote.libexpr">ConsList</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#fromList(java.util.List)" class="member-name-link">fromList</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;? extends <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&gt;&nbsp;list)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Cons.html" title="class in org.rapidcow.trivnote.libexpr">Cons</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#fromList(java.util.List)" class="member-name-link">fromList</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;? extends <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&gt;&nbsp;list)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Creates a cons from a non-empty list.</div>
 </div>
@@ -146,28 +155,54 @@ implements <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexp
 <div class="block">Returns hash code for this.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Cons.html" title="class in org.rapidcow.trivnote.libexpr">Cons</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#of(org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum%5B%5D,org.rapidcow.trivnote.libexpr.Datum)" class="member-name-link">of</a><wbr>(<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;car,
- <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>[]&nbsp;etc,
- <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;tail)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#of(java.util.Deque,org.rapidcow.trivnote.libexpr.Cons)" class="member-name-link">of</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Deque.html" title="class or interface in java.util" class="external-link">Deque</a>&lt;? extends <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&gt;&nbsp;q,
+ <a href="Cons.html" title="class in org.rapidcow.trivnote.libexpr">Cons</a>&nbsp;p)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Creates a non-empty cons chain with the given tail.</div>
+<div class="block">Prefixes a cons chain with a deque.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Cons.html" title="class in org.rapidcow.trivnote.libexpr">Cons</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#of(org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum...)" class="member-name-link">of</a><wbr>(<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;car,
- <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;cdr,
- <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>...&nbsp;etc)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#of(org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum)" class="member-name-link">of</a><wbr>(<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;car,
+ <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;cdr)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Creates a non-empty chain with the last datum as its tail.</div>
+<div class="block">Creates a cons cell.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Cons.html" title="class in org.rapidcow.trivnote.libexpr">Cons</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#ofList(org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum...)" class="member-name-link">ofList</a><wbr>(<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;car,
- <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>...&nbsp;etc)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#of(org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum%5B%5D,org.rapidcow.trivnote.libexpr.Datum)" class="member-name-link">of</a><wbr>(<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;car,
+ <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>[]&nbsp;etc,
+ <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;tail)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Creates a non-empty cons chain with explicit terminator.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Cons.html" title="class in org.rapidcow.trivnote.libexpr">Cons</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#of(org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum...)" class="member-name-link">of</a><wbr>(<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;first,
+ <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;second,
+ <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>...&nbsp;etc)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Creates a non-empty cons chain with implicit terminator.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Cons.html" title="class in org.rapidcow.trivnote.libexpr">Cons</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#ofList(org.rapidcow.trivnote.libexpr.Datum)" class="member-name-link">ofList</a><wbr>(<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;first)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Creates a proper list of one element.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Cons.html" title="class in org.rapidcow.trivnote.libexpr">Cons</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#ofList(org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum)" class="member-name-link">ofList</a><wbr>(<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;first,
+ <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;second)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Creates a proper list of two elements.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Cons.html" title="class in org.rapidcow.trivnote.libexpr">Cons</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#ofList(org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum...)" class="member-name-link">ofList</a><wbr>(<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;first,
+ <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>...&nbsp;etc)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Creates a non-empty proper list.</div>
 </div>
 </div>
 </div>
 </div>
+<div class="inherited-list">
+<h3 id="methods-inherited-from-class-org.rapidcow.trivnote.libexpr.Datum">Methods inherited from class&nbsp;org.rapidcow.trivnote.libexpr.<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a></h3>
+<code><a href="Datum.html#asAlist(org.rapidcow.trivnote.libexpr.Datum)">asAlist</a>, <a href="Datum.html#asList(org.rapidcow.trivnote.libexpr.Datum)">asList</a>, <a href="Datum.html#asProperList(org.rapidcow.trivnote.libexpr.Datum)">asProperList</a>, <a href="Datum.html#car(org.rapidcow.trivnote.libexpr.Datum)">car</a>, <a href="Datum.html#cdr(org.rapidcow.trivnote.libexpr.Datum)">cdr</a>, <a href="Datum.html#fromMap(java.util.Map)">fromMap</a>, <a href="Datum.html#isAtom(org.rapidcow.trivnote.libexpr.Datum)">isAtom</a>, <a href="Datum.html#isList(org.rapidcow.trivnote.libexpr.Datum)">isList</a>, <a href="Datum.html#isProperList(org.rapidcow.trivnote.libexpr.Datum)">isProperList</a>, <a href="Datum.html#ofDeque(java.util.Deque)">ofDeque</a>, <a href="Datum.html#value(org.rapidcow.trivnote.libexpr.Datum)">value</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
@@ -185,7 +220,7 @@ implements <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexp
 <li>
 <section class="detail" id="&lt;init&gt;()">
 <h3>Cons</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Cons.java#L23">Cons</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Cons.java#L37">Cons</a></span>()</div>
 </section>
 </li>
 </ul>
@@ -199,10 +234,10 @@ implements <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexp
 <li>
 <section class="detail" id="car()">
 <h3>car</h3>
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Cons.java#L33">car</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Cons.java#L47">car</a></span>()</div>
 <div class="block">Returns the car of this cons cell.  The return
  value may not be an identical datum object, but
- it must be equal.  car may not be null.</div>
+ it must be equal.  car may not be <code>null</code>.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the car of this cons cell</dd>
@@ -212,10 +247,10 @@ implements <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexp
 <li>
 <section class="detail" id="cdr()">
 <h3>cdr</h3>
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Cons.java#L41">cdr</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Cons.java#L55">cdr</a></span>()</div>
 <div class="block">Returns the cdr of this cons cell.  The return
  value may not be an identical datum object, but
- it must be equal.  cdr may not be null.</div>
+ it must be equal.  cdr may not be <code>null</code>.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the cdr of this cons cell</dd>
@@ -225,13 +260,13 @@ implements <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexp
 <li>
 <section class="detail" id="equals(java.lang.Object)">
 <h3>equals</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Cons.java#L136">equals</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Cons.java#L150">equals</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</span></div>
 <div class="block">Returns whether this equals <code>o</code>.  Two cons
  cells are equal if their cars are equal and their
  cdrs are equal.</div>
 <dl class="notes">
-<dt>Overrides:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
+<dt>Specified by:</dt>
+<dd><code><a href="Datum.html#equals(java.lang.Object)">equals</a></code>&nbsp;in class&nbsp;<code><a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>o</code> - object to compare</dd>
 <dt>Returns:</dt>
@@ -250,12 +285,12 @@ implements <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexp
 <li>
 <section class="detail" id="hashCode()">
 <h3>hashCode</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Cons.java#L193">hashCode</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Cons.java#L207">hashCode</a></span>()</div>
 <div class="block">Returns hash code for this.  Equal cons cells
  hash to the same code.</div>
 <dl class="notes">
-<dt>Overrides:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
+<dt>Specified by:</dt>
+<dd><code><a href="Datum.html#hashCode()">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a></code></dd>
 <dt>Returns:</dt>
 <dd>hash code for this</dd>
 <dt>Since:</dt>
@@ -271,17 +306,40 @@ implements <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexp
 </section>
 </li>
 <li>
-<section class="detail" id="of(org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum...)">
+<section class="detail" id="of(org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum)">
 <h3>of</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Cons.html" title="class in org.rapidcow.trivnote.libexpr">Cons</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Cons.java#L254">of</a></span><wbr><span class="parameters">(<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;car,
- <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;cdr,
- <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>...&nbsp;etc)</span></div>
-<div class="block">Creates a non-empty chain with the last datum as its tail.</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Cons.html" title="class in org.rapidcow.trivnote.libexpr">Cons</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Cons.java#L277">of</a></span><wbr><span class="parameters">(<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;car,
+ <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;cdr)</span></div>
+<div class="block">Creates a cons cell.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>car</code> - first element</dd>
-<dd><code>cdr</code> - second element</dd>
-<dd><code>etc</code> - optionally more elements</dd>
+<dd><code>car</code> - the car</dd>
+<dd><code>cdr</code> - the cdr</dd>
+<dt>Returns:</dt>
+<dd>a cons cell</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - on null <code>car</code>
+    or <code>cdr</code></dd>
+<dt>Since:</dt>
+<dd>0.1.0</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="of(org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum...)">
+<h3>of</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Cons.html" title="class in org.rapidcow.trivnote.libexpr">Cons</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Cons.java#L301">of</a></span><wbr><span class="parameters">(<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;first,
+ <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;second,
+ <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>...&nbsp;etc)</span></div>
+<div class="block">Creates a non-empty cons chain with implicit terminator.
+ The last datum is used as the terminator.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>first</code> - first element</dd>
+<dd><code>second</code> - second element; also the terminator
+    if <code>etc</code> is empty</dd>
+<dd><code>etc</code> - remaining elements, ending with the
+    terminator if non-empty</dd>
 <dt>Returns:</dt>
 <dd>the concatenated cons chain</dd>
 <dt>Throws:</dt>
@@ -295,14 +353,14 @@ implements <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexp
 <li>
 <section class="detail" id="of(org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum[],org.rapidcow.trivnote.libexpr.Datum)">
 <h3>of</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Cons.html" title="class in org.rapidcow.trivnote.libexpr">Cons</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Cons.java#L274">of</a></span><wbr><span class="parameters">(<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;car,
- <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>[]&nbsp;etc,
- <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;tail)</span></div>
-<div class="block">Creates a non-empty cons chain with the given tail.</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Cons.html" title="class in org.rapidcow.trivnote.libexpr">Cons</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Cons.java#L324">of</a></span><wbr><span class="parameters">(<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;car,
+ <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>[]&nbsp;etc,
+ <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;tail)</span></div>
+<div class="block">Creates a non-empty cons chain with explicit terminator.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>car</code> - first element</dd>
-<dd><code>etc</code> - rest elements</dd>
+<dd><code>etc</code> - remaining elements</dd>
 <dd><code>tail</code> - list terminator</dd>
 <dt>Returns:</dt>
 <dd>the concatenated cons chain</dd>
@@ -315,19 +373,80 @@ implements <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexp
 </section>
 </li>
 <li>
-<section class="detail" id="ofList(org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum...)">
-<h3>ofList</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Cons.html" title="class in org.rapidcow.trivnote.libexpr">Cons</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Cons.java#L293">ofList</a></span><wbr><span class="parameters">(<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;car,
- <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>...&nbsp;etc)</span></div>
-<div class="block">Creates a non-empty proper list.</div>
+<section class="detail" id="of(java.util.Deque,org.rapidcow.trivnote.libexpr.Cons)">
+<h3>of</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Cons.html" title="class in org.rapidcow.trivnote.libexpr">Cons</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Cons.java#L349">of</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Deque.html" title="class or interface in java.util" class="external-link">Deque</a>&lt;? extends <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&gt;&nbsp;q,
+ <a href="Cons.html" title="class in org.rapidcow.trivnote.libexpr">Cons</a>&nbsp;p)</span></div>
+<div class="block">Prefixes a cons chain with a deque.
+ Elements are popped from the front and prepended
+ one at a time, reversing their iteration order.
+ This drains the deque and is thus destructive!</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>car</code> - first element</dd>
-<dd><code>etc</code> - rest elements</dd>
+<dd><code>q</code> - the deque</dd>
+<dd><code>p</code> - base cons chain</dd>
 <dt>Returns:</dt>
 <dd>the concatenated cons chain</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if any argument or array element is null</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if any argument or
+    deque element is <code>null</code></dd>
+<dt>Since:</dt>
+<dd>0.1.0</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="ofList(org.rapidcow.trivnote.libexpr.Datum)">
+<h3>ofList</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Cons.html" title="class in org.rapidcow.trivnote.libexpr">Cons</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Cons.java#L371">ofList</a></span><wbr><span class="parameters">(<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;first)</span></div>
+<div class="block">Creates a proper list of one element.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>first</code> - first element</dd>
+<dt>Returns:</dt>
+<dd>a nil-terminated singleton</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - on null <code>first</code></dd>
+<dt>Since:</dt>
+<dd>0.1.0</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="ofList(org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum)">
+<h3>ofList</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Cons.html" title="class in org.rapidcow.trivnote.libexpr">Cons</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Cons.java#L387">ofList</a></span><wbr><span class="parameters">(<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;first,
+ <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;second)</span></div>
+<div class="block">Creates a proper list of two elements.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>first</code> - first element</dd>
+<dd><code>second</code> - second element</dd>
+<dt>Returns:</dt>
+<dd>a nil-terminated two-element list</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - on null <code>first</code>
+    or <code>second</code></dd>
+<dt>Since:</dt>
+<dd>0.1.0</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="ofList(org.rapidcow.trivnote.libexpr.Datum,org.rapidcow.trivnote.libexpr.Datum...)">
+<h3>ofList</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Cons.html" title="class in org.rapidcow.trivnote.libexpr">Cons</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Cons.java#L403">ofList</a></span><wbr><span class="parameters">(<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;first,
+ <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>...&nbsp;etc)</span></div>
+<div class="block">Creates a non-empty proper list.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>first</code> - first element</dd>
+<dd><code>etc</code> - the rest</dd>
+<dt>Returns:</dt>
+<dd>the concatenated cons chain</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if any argument or
+    array element is <code>null</code></dd>
 <dt>Since:</dt>
 <dd>0.1.0</dd>
 </dl>
@@ -336,7 +455,7 @@ implements <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexp
 <li>
 <section class="detail" id="fromList(java.util.List)">
 <h3>fromList</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="ConsList.html" title="class in org.rapidcow.trivnote.libexpr">ConsList</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Cons.java#L312">fromList</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;? extends <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&gt;&nbsp;list)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Cons.html" title="class in org.rapidcow.trivnote.libexpr">Cons</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Cons.java#L427">fromList</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;? extends <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&gt;&nbsp;list)</span></div>
 <div class="block">Creates a cons from a non-empty list.  If list is
  possibly empty, use <a href="Datum.html#fromList(java.util.List)"><code>Datum.fromList(List)</code></a>.</div>
 <dl class="notes">
@@ -345,16 +464,12 @@ implements <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexp
 <dt>Returns:</dt>
 <dd>the transformed cons chain</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if <code>list</code> is empty</dd>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if <code>list</code> or any element is null</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - on an empty
+    <code>list</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if <code>list</code> or
+    any element is <code>null</code></dd>
 <dt>Since:</dt>
 <dd>0.1.0</dd>
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="#fromList(java.util.List)"><code>fromList(List)</code></a></li>
-</ul>
-</dd>
 </dl>
 </section>
 </li>

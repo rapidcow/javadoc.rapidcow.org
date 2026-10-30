@@ -165,25 +165,30 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="&lt;init&gt;(java.io.OutputStream,java.nio.charset.Charset)">
 <h3>DataDumper</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DataDumper.java#L43">DataDumper</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/OutputStream.html" title="class or interface in java.io" class="external-link">OutputStream</a>&nbsp;file,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DataDumper.java#L45">DataDumper</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/OutputStream.html" title="class or interface in java.io" class="external-link">OutputStream</a>&nbsp;file,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/nio/charset/Charset.html" title="class or interface in java.nio.charset" class="external-link">Charset</a>&nbsp;charset)</span></div>
 <div class="block">Creates a writer from a byte stream.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>file</code> - output byte stream</dd>
 <dd><code>charset</code> - character encoding</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - on null <code>file</code>
+    or <code>charset</code></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="&lt;init&gt;(java.io.OutputStream)">
 <h3>DataDumper</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DataDumper.java#L55">DataDumper</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/OutputStream.html" title="class or interface in java.io" class="external-link">OutputStream</a>&nbsp;file)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DataDumper.java#L58">DataDumper</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/OutputStream.html" title="class or interface in java.io" class="external-link">OutputStream</a>&nbsp;file)</span></div>
 <div class="block">Creates a writer from a byte stream with the default
  character encoding, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/nio/charset/StandardCharsets.html#UTF_8" title="class or interface in java.nio.charset" class="external-link"><code>StandardCharsets.UTF_8</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>file</code> - output byte stream</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - on null <code>file</code></dd>
 </dl>
 </section>
 </li>

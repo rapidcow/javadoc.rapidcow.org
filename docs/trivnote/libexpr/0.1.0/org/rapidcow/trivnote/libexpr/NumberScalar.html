@@ -70,20 +70,23 @@ loadScripts(document, 'script');</script>
 <h1 title="Class NumberScalar" class="title">Class NumberScalar</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
+<div class="inheritance"><a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">org.rapidcow.trivnote.libexpr.Datum</a>
+<div class="inheritance"><a href="Atom.html" title="class in org.rapidcow.trivnote.libexpr">org.rapidcow.trivnote.libexpr.Atom</a>
 <div class="inheritance"><a href="Scalar.html" title="class in org.rapidcow.trivnote.libexpr">org.rapidcow.trivnote.libexpr.Scalar</a>
 <div class="inheritance">org.rapidcow.trivnote.libexpr.NumberScalar</div>
 </div>
 </div>
+</div>
+</div>
 <section class="class-description" id="class-description">
-<dl class="notes">
-<dt>All Implemented Interfaces:</dt>
-<dd><code><a href="Atom.html" title="interface in org.rapidcow.trivnote.libexpr">Atom</a></code>, <code><a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a></code></dd>
-</dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public abstract sealed class </span><span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/NumberScalar.java#L67">NumberScalar</a></span>
+<div class="type-signature"><span class="modifiers">public abstract non-sealed class </span><span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/NumberScalar.java#L70">NumberScalar</a></span>
 <span class="extends-implements">extends <a href="Scalar.html" title="class in org.rapidcow.trivnote.libexpr">Scalar</a></span></div>
 <div class="block">Numeric scalar.  The scalar is stored and compared
- symbolically, without regards to the numeric value.
+ symbolically, without regard to the numeric value.
+ For example, <code>1</code>, <code>1.0</code>, and <code>#d1</code>
+ are distinct values.  Parsing checks syntax rather
+ than performing arithmetic or reducing fractions.
 
  <p>
  Use <a href="Scalar.html#ofNumber(java.lang.String)"><code>Scalar.ofNumber(String)</code></a> to parse and
@@ -171,7 +174,7 @@ loadScripts(document, 'script');</script>
 <section class="method-summary" id="method-summary">
 <h2>Method Summary</h2>
 <div id="method-summary-table">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab3" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab3', 3)" class="table-tab">Abstract Methods</button></div>
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab3" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab3', 3)" class="table-tab">Abstract Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
 <div id="method-summary-table.tabpanel" role="tabpanel" aria-labelledby="method-summary-table-tab0">
 <div class="summary-table three-column-summary">
 <div class="table-header col-first">Modifier and Type</div>
@@ -192,14 +195,14 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns the significand of this scalar.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#number()" class="member-name-link">number</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#number()" class="member-name-link">number</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the numeric portion of this scalar.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#prefix()" class="member-name-link">prefix</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#prefix()" class="member-name-link">prefix</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the prefixes of this scalar.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract int</code></div>
@@ -212,9 +215,14 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns the sign of this scalar.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#value()" class="member-name-link">value</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns a string representation of this scalar.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#value()" class="member-name-link">value</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of this atom.</div>
 </div>
 </div>
@@ -224,8 +232,11 @@ loadScripts(document, 'script');</script>
 <h3 id="methods-inherited-from-class-org.rapidcow.trivnote.libexpr.Scalar">Methods inherited from class&nbsp;org.rapidcow.trivnote.libexpr.<a href="Scalar.html" title="class in org.rapidcow.trivnote.libexpr">Scalar</a></h3>
 <code><a href="Scalar.html#equals(java.lang.Object)">equals</a>, <a href="Scalar.html#hashCode()">hashCode</a>, <a href="Scalar.html#isString()">isString</a>, <a href="Scalar.html#ofNumber(java.lang.String)">ofNumber</a>, <a href="Scalar.html#ofString(java.lang.String)">ofString</a></code></div>
 <div class="inherited-list">
+<h3 id="methods-inherited-from-class-org.rapidcow.trivnote.libexpr.Datum">Methods inherited from class&nbsp;org.rapidcow.trivnote.libexpr.<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a></h3>
+<code><a href="Datum.html#asAlist(org.rapidcow.trivnote.libexpr.Datum)">asAlist</a>, <a href="Datum.html#asList(org.rapidcow.trivnote.libexpr.Datum)">asList</a>, <a href="Datum.html#asProperList(org.rapidcow.trivnote.libexpr.Datum)">asProperList</a>, <a href="Datum.html#car(org.rapidcow.trivnote.libexpr.Datum)">car</a>, <a href="Datum.html#cdr(org.rapidcow.trivnote.libexpr.Datum)">cdr</a>, <a href="Datum.html#fromList(java.util.List)">fromList</a>, <a href="Datum.html#fromMap(java.util.Map)">fromMap</a>, <a href="Datum.html#isAtom(org.rapidcow.trivnote.libexpr.Datum)">isAtom</a>, <a href="Datum.html#isList(org.rapidcow.trivnote.libexpr.Datum)">isList</a>, <a href="Datum.html#isProperList(org.rapidcow.trivnote.libexpr.Datum)">isProperList</a>, <a href="Datum.html#ofDeque(java.util.Deque)">ofDeque</a>, <a href="Datum.html#value(org.rapidcow.trivnote.libexpr.Datum)">value</a></code></div>
+<div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
-<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
+<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 </section>
 </li>
 </ul>
@@ -240,7 +251,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="&lt;init&gt;()">
 <h3>NumberScalar</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/NumberScalar.java#L78">NumberScalar</a></span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/NumberScalar.java#L79">NumberScalar</a></span>()</div>
 <div class="block">Default constructor.</div>
 </section>
 </li>
@@ -253,34 +264,38 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="toString()">
+<h3>toString</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/NumberScalar.java#L87">toString</a></span>()</div>
+<div class="block">Returns a string representation of this scalar.</div>
+<dl class="notes">
+<dt>Overrides:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
+<dt>Returns:</dt>
+<dd>a string representation of this scalar</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="value()">
 <h3>value</h3>
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/NumberScalar.java#L87">value</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/NumberScalar.java#L98">value</a></span>()</div>
 <div class="block">Returns the value of this atom.  This value is
  suitable for serialization.</div>
 <dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="Atom.html#value()">value</a></code>&nbsp;in class&nbsp;<code><a href="Atom.html" title="class in org.rapidcow.trivnote.libexpr">Atom</a></code></dd>
 <dt>Returns:</dt>
 <dd>the value of this atom</dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="prefix()">
-<h3>prefix</h3>
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/NumberScalar.java#L94">prefix</a></span>()</div>
-<div class="block">Returns the prefixes of this scalar.
- This should be returned in the original casing and order.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the prefixes of this scalar</dd>
-</dl>
-</section>
-</li>
-<li>
 <section class="detail" id="exactness()">
 <h3>exactness</h3>
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="Exactness.html" title="enum class in org.rapidcow.trivnote.libexpr">Exactness</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/NumberScalar.java#L100">exactness</a></span>()</div>
-<div class="block">Returns the exactness of this scalar.</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="Exactness.html" title="enum class in org.rapidcow.trivnote.libexpr">Exactness</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/NumberScalar.java#L113">exactness</a></span>()</div>
+<div class="block">Returns the exactness of this scalar.
+ If absent, returns <a href="Exactness.html#UNSPECIFIED"><code>Exactness.UNSPECIFIED</code></a>.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the exactness of this scalar</dd>
@@ -290,7 +305,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="radix()">
 <h3>radix</h3>
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/NumberScalar.java#L108">radix</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/NumberScalar.java#L121">radix</a></span>()</div>
 <div class="block">Returns the radix of this scalar.
  The radix may be implied to be 10, when one
  is not explicitly specified by the prefix.</div>
@@ -301,9 +316,27 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="prefix()">
+<h3>prefix</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/NumberScalar.java#L134">prefix</a></span>()</div>
+<div class="block">Returns the prefixes of this scalar.
+ This should be returned in the original
+ casing and order, if they are preserved.
+ The default implementation emits lowercase
+ exactness followed by radix, omitting
+ decimal radix and unspecified exactness.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the prefixes of this scalar</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/IllegalStateException.html" title="class or interface in java.lang" class="external-link">IllegalStateException</a></code> - if radix is not 2, 8, 10, or 16</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="number()">
 <h3>number</h3>
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/NumberScalar.java#L114">number</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/NumberScalar.java#L176">number</a></span>()</div>
 <div class="block">Returns the numeric portion of this scalar.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -314,8 +347,10 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="sign()">
 <h3>sign</h3>
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/NumberScalar.java#L120">sign</a></span>()</div>
-<div class="block">Returns the sign of this scalar.</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/NumberScalar.java#L190">sign</a></span>()</div>
+<div class="block">Returns the sign of this scalar.
+ This should be <code>"+"</code>, <code>"-"</code>, or
+ the empty string if absent.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the sign of this scalar</dd>
@@ -325,7 +360,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="mantissa()">
 <h3>mantissa</h3>
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/NumberScalar.java#L126">mantissa</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/NumberScalar.java#L196">mantissa</a></span>()</div>
 <div class="block">Returns the significand of this scalar.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -336,11 +371,11 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="exponent()">
 <h3>exponent</h3>
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/NumberScalar.java#L135">exponent</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/NumberScalar.java#L205">exponent</a></span>()</div>
 <div class="block">Returns the exponent of this scalar.  The
  exponent letter, such as <code>e</code> for powers of
  10 and <code>p</code> for powers of 2, is included in
- this string.</div>
+ this string.  If absent, returns the empty string.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the exponent of this scalar</dd>

@@ -5,7 +5,7 @@
 <title>Atom (libexpr 0.1.0 API)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="description" content="declaration: package: org.rapidcow.trivnote.libexpr, interface: Atom">
+<meta name="description" content="declaration: package: org.rapidcow.trivnote.libexpr, class: Atom">
 <meta name="generator" content="javadoc/ClassWriterImpl">
 <link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../../../script-dir/jquery-ui.min.css" title="Style">
@@ -44,13 +44,13 @@ loadScripts(document, 'script');</script>
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
-<li>Constr&nbsp;|&nbsp;</li>
+<li><a href="#constructor-summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method-summary">Method</a></li>
 </ul>
 <ul class="sub-nav-list">
 <li>Detail:&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
-<li>Constr&nbsp;|&nbsp;</li>
+<li><a href="#constructor-detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method-detail">Method</a></li>
 </ul>
 </div>
@@ -67,22 +67,23 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">org.rapidcow.trivnote.libexpr</a></div>
-<h1 title="Interface Atom" class="title">Interface Atom</h1>
+<h1 title="Class Atom" class="title">Class Atom</h1>
+</div>
+<div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
+<div class="inheritance"><a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">org.rapidcow.trivnote.libexpr.Datum</a>
+<div class="inheritance">org.rapidcow.trivnote.libexpr.Atom</div>
+</div>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
-<dt>All Superinterfaces:</dt>
-<dd><code><a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a></code></dd>
-</dl>
-<dl class="notes">
-<dt>All Known Implementing Classes:</dt>
-<dd><code><a href="NumberScalar.html" title="class in org.rapidcow.trivnote.libexpr">NumberScalar</a></code>, <code><a href="Scalar.html" title="class in org.rapidcow.trivnote.libexpr">Scalar</a></code>, <code><a href="StringScalar.html" title="class in org.rapidcow.trivnote.libexpr">StringScalar</a></code>, <code><a href="Symbol.html" title="class in org.rapidcow.trivnote.libexpr">Symbol</a></code>, <code><a href="TruthScalar.html" title="class in org.rapidcow.trivnote.libexpr">TruthScalar</a></code></dd>
+<dt>Direct Known Subclasses:</dt>
+<dd><code><a href="Scalar.html" title="class in org.rapidcow.trivnote.libexpr">Scalar</a></code>, <code><a href="Symbol.html" title="class in org.rapidcow.trivnote.libexpr">Symbol</a></code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public sealed interface </span><span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Atom.java#L23">Atom</a></span><span class="extends-implements">
-extends <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a></span>
+<div class="type-signature"><span class="modifiers">public abstract sealed class </span><span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Atom.java#L23">Atom</a></span>
+<span class="extends-implements">extends <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a></span>
 <span class="permits">permits <a href="Scalar.html" title="class in org.rapidcow.trivnote.libexpr">Scalar</a>, <a href="Symbol.html" title="class in org.rapidcow.trivnote.libexpr">Symbol</a></span></div>
-<div class="block">A non-nil terminal <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr"><code>Datum</code></a>.
+<div class="block">A non-nil terminal <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr"><code>Datum</code></a>.
  Concretely, it covers two types of atoms:
 
  <ul>
@@ -98,6 +99,23 @@ extends <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">
 </section>
 <section class="summary">
 <ul class="summary-list">
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+<li>
+<section class="constructor-summary" id="constructor-summary">
+<h2>Constructor Summary</h2>
+<div class="caption"><span>Constructors</span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier</div>
+<div class="table-header col-second">Constructor</div>
+<div class="table-header col-last">Description</div>
+<div class="col-first even-row-color"><code>protected </code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">Atom</a>()</code></div>
+<div class="col-last even-row-color">
+<div class="block">Default constructor.</div>
+</div>
+</div>
+</section>
+</li>
 <!-- ========== METHOD SUMMARY =========== -->
 <li>
 <section class="method-summary" id="method-summary">
@@ -109,7 +127,7 @@ extends <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#value()" class="member-name-link">value</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns the value of this atom.</div>
@@ -117,12 +135,34 @@ extends <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">
 </div>
 </div>
 </div>
+<div class="inherited-list">
+<h3 id="methods-inherited-from-class-org.rapidcow.trivnote.libexpr.Datum">Methods inherited from class&nbsp;org.rapidcow.trivnote.libexpr.<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a></h3>
+<code><a href="Datum.html#asAlist(org.rapidcow.trivnote.libexpr.Datum)">asAlist</a>, <a href="Datum.html#asList(org.rapidcow.trivnote.libexpr.Datum)">asList</a>, <a href="Datum.html#asProperList(org.rapidcow.trivnote.libexpr.Datum)">asProperList</a>, <a href="Datum.html#car(org.rapidcow.trivnote.libexpr.Datum)">car</a>, <a href="Datum.html#cdr(org.rapidcow.trivnote.libexpr.Datum)">cdr</a>, <a href="Datum.html#equals(java.lang.Object)">equals</a>, <a href="Datum.html#fromList(java.util.List)">fromList</a>, <a href="Datum.html#fromMap(java.util.Map)">fromMap</a>, <a href="Datum.html#hashCode()">hashCode</a>, <a href="Datum.html#isAtom(org.rapidcow.trivnote.libexpr.Datum)">isAtom</a>, <a href="Datum.html#isList(org.rapidcow.trivnote.libexpr.Datum)">isList</a>, <a href="Datum.html#isProperList(org.rapidcow.trivnote.libexpr.Datum)">isProperList</a>, <a href="Datum.html#ofDeque(java.util.Deque)">ofDeque</a>, <a href="Datum.html#value(org.rapidcow.trivnote.libexpr.Datum)">value</a></code></div>
+<div class="inherited-list">
+<h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 </section>
 </li>
 </ul>
 </section>
 <section class="details">
 <ul class="details-list">
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+<li>
+<section class="constructor-details" id="constructor-detail">
+<h2>Constructor Details</h2>
+<ul class="member-list">
+<li>
+<section class="detail" id="&lt;init&gt;()">
+<h3>Atom</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Atom.java#L36">Atom</a></span>()</div>
+<div class="block">Default constructor.
+ For subclasses only.</div>
+</section>
+</li>
+</ul>
+</section>
+</li>
 <!-- ============ METHOD DETAIL ========== -->
 <li>
 <section class="method-details" id="method-detail">
@@ -131,7 +171,7 @@ extends <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">
 <li>
 <section class="detail" id="value()">
 <h3>value</h3>
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Atom.java#L40">value</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Atom.java#L48">value</a></span>()</div>
 <div class="block">Returns the value of this atom.
  The value may not be null.
 

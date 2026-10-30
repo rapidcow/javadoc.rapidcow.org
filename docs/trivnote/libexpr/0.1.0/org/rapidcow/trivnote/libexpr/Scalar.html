@@ -70,40 +70,38 @@ loadScripts(document, 'script');</script>
 <h1 title="Class Scalar" class="title">Class Scalar</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
+<div class="inheritance"><a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">org.rapidcow.trivnote.libexpr.Datum</a>
+<div class="inheritance"><a href="Atom.html" title="class in org.rapidcow.trivnote.libexpr">org.rapidcow.trivnote.libexpr.Atom</a>
 <div class="inheritance">org.rapidcow.trivnote.libexpr.Scalar</div>
+</div>
+</div>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
-<dt>All Implemented Interfaces:</dt>
-<dd><code><a href="Atom.html" title="interface in org.rapidcow.trivnote.libexpr">Atom</a></code>, <code><a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a></code></dd>
-</dl>
-<dl class="notes">
 <dt>Direct Known Subclasses:</dt>
-<dd><code><a href="NumberScalar.html" title="class in org.rapidcow.trivnote.libexpr">NumberScalar</a></code>, <code><a href="StringScalar.html" title="class in org.rapidcow.trivnote.libexpr">StringScalar</a></code>, <code><a href="TruthScalar.html" title="class in org.rapidcow.trivnote.libexpr">TruthScalar</a></code></dd>
+<dd><code><a href="BoolScalar.html" title="class in org.rapidcow.trivnote.libexpr">BoolScalar</a></code>, <code><a href="NumberScalar.html" title="class in org.rapidcow.trivnote.libexpr">NumberScalar</a></code>, <code><a href="StringScalar.html" title="class in org.rapidcow.trivnote.libexpr">StringScalar</a></code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public abstract sealed class </span><span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Scalar.java#L31">Scalar</a></span>
-<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
-implements <a href="Atom.html" title="interface in org.rapidcow.trivnote.libexpr">Atom</a></span>
-<span class="permits">permits <a href="NumberScalar.html" title="class in org.rapidcow.trivnote.libexpr">NumberScalar</a>, <a href="TruthScalar.html" title="class in org.rapidcow.trivnote.libexpr">TruthScalar</a>, <a href="StringScalar.html" title="class in org.rapidcow.trivnote.libexpr">StringScalar</a></span></div>
-<div class="block">Unquoted <a href="Atom.html" title="interface in org.rapidcow.trivnote.libexpr"><code>Atom</code></a>.  Like all atoms, a scalar is
- represented by its string representation, specified
- by <a href="Atom.html#value()"><code>Atom.value()</code></a>.  Unlike other atoms, it is the
- only atom whose string representation is identical
- to its wire serialization.
+<div class="type-signature"><span class="modifiers">public abstract sealed class </span><span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Scalar.java#L30">Scalar</a></span>
+<span class="extends-implements">extends <a href="Atom.html" title="class in org.rapidcow.trivnote.libexpr">Atom</a></span>
+<span class="permits">permits <a href="BoolScalar.html" title="class in org.rapidcow.trivnote.libexpr">BoolScalar</a>, <a href="NumberScalar.html" title="class in org.rapidcow.trivnote.libexpr">NumberScalar</a>, <a href="StringScalar.html" title="class in org.rapidcow.trivnote.libexpr">StringScalar</a></span></div>
+<div class="block">A boolean, number, or string <a href="Atom.html" title="class in org.rapidcow.trivnote.libexpr"><code>Atom</code></a>.
+ The <a href="Atom.html#value()"><code>Atom.value()</code></a> of a boolean or number is
+ its wire representation.  A string’s value is
+ its unescaped content, without surrounding quotes.
 
  <p>
  A <code>Scalar</code> is one of three values: boolean,
- <code>#t</code> (<a href="TruthScalar.html#TRUE"><code>TruthScalar.TRUE</code></a>) and <code>#f</code>
- (<a href="TruthScalar.html#FALSE"><code>TruthScalar.FALSE</code></a>); free-form strings (via
+ <code>#t</code> (<a href="BoolScalar.html#TRUE"><code>BoolScalar.TRUE</code></a>) and <code>#f</code>
+ (<a href="BoolScalar.html#FALSE"><code>BoolScalar.FALSE</code></a>); free-form strings (via
  <a href="#ofString(java.lang.String)"><code>ofString(String)</code></a>); and numbers (via
  <a href="#ofNumber(java.lang.String)"><code>ofNumber(String)</code></a>).
 
  <p>Scalars are compared by <a href="Atom.html#value()"><code>Atom.value()</code></a> for equality
  with the <em>sole exception</em> of strings, which can
  be distinguished using <a href="#isString()"><code>isString()</code></a>.  The reason
- is that while the value of a string scalar is the only
- escaped string, the value of a non-string scalar
+ is that while the value of a string scalar is an
+ unescaped string, the value of a non-string scalar
  corresponds to its wire representation.  In other
  words non-string scalars are the only datums who own
  serialization logic outside of <a href="DataDumper.html" title="class in org.rapidcow.trivnote.libexpr"><code>DataDumper</code></a>.</div>
@@ -167,11 +165,14 @@ implements <a href="Atom.html" title="interface in org.rapidcow.trivnote.libexpr
 </div>
 </div>
 <div class="inherited-list">
+<h3 id="methods-inherited-from-class-org.rapidcow.trivnote.libexpr.Atom">Methods inherited from class&nbsp;org.rapidcow.trivnote.libexpr.<a href="Atom.html" title="class in org.rapidcow.trivnote.libexpr">Atom</a></h3>
+<code><a href="Atom.html#value()">value</a></code></div>
+<div class="inherited-list">
+<h3 id="methods-inherited-from-class-org.rapidcow.trivnote.libexpr.Datum">Methods inherited from class&nbsp;org.rapidcow.trivnote.libexpr.<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a></h3>
+<code><a href="Datum.html#asAlist(org.rapidcow.trivnote.libexpr.Datum)">asAlist</a>, <a href="Datum.html#asList(org.rapidcow.trivnote.libexpr.Datum)">asList</a>, <a href="Datum.html#asProperList(org.rapidcow.trivnote.libexpr.Datum)">asProperList</a>, <a href="Datum.html#car(org.rapidcow.trivnote.libexpr.Datum)">car</a>, <a href="Datum.html#cdr(org.rapidcow.trivnote.libexpr.Datum)">cdr</a>, <a href="Datum.html#fromList(java.util.List)">fromList</a>, <a href="Datum.html#fromMap(java.util.Map)">fromMap</a>, <a href="Datum.html#isAtom(org.rapidcow.trivnote.libexpr.Datum)">isAtom</a>, <a href="Datum.html#isList(org.rapidcow.trivnote.libexpr.Datum)">isList</a>, <a href="Datum.html#isProperList(org.rapidcow.trivnote.libexpr.Datum)">isProperList</a>, <a href="Datum.html#ofDeque(java.util.Deque)">ofDeque</a>, <a href="Datum.html#value(org.rapidcow.trivnote.libexpr.Datum)">value</a></code></div>
+<div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
-<div class="inherited-list">
-<h3 id="methods-inherited-from-class-org.rapidcow.trivnote.libexpr.Atom">Methods inherited from interface&nbsp;org.rapidcow.trivnote.libexpr.<a href="Atom.html" title="interface in org.rapidcow.trivnote.libexpr">Atom</a></h3>
-<code><a href="Atom.html#value()">value</a></code></div>
 </section>
 </li>
 </ul>
@@ -186,7 +187,7 @@ implements <a href="Atom.html" title="interface in org.rapidcow.trivnote.libexpr
 <li>
 <section class="detail" id="&lt;init&gt;()">
 <h3>Scalar</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Scalar.java#L44">Scalar</a></span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Scalar.java#L43">Scalar</a></span>()</div>
 <div class="block">Default constructor.</div>
 </section>
 </li>
@@ -201,7 +202,7 @@ implements <a href="Atom.html" title="interface in org.rapidcow.trivnote.libexpr
 <li>
 <section class="detail" id="ofNumber(java.lang.String)">
 <h3>ofNumber</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="NumberScalar.html" title="class in org.rapidcow.trivnote.libexpr">NumberScalar</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Scalar.java#L65">ofNumber</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;value)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="NumberScalar.html" title="class in org.rapidcow.trivnote.libexpr">NumberScalar</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Scalar.java#L64">ofNumber</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;value)</span></div>
 <div class="block">Returns an immutable numeric scalar atom.
 
  <p>
@@ -227,7 +228,7 @@ implements <a href="Atom.html" title="interface in org.rapidcow.trivnote.libexpr
 <li>
 <section class="detail" id="ofString(java.lang.String)">
 <h3>ofString</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="StringScalar.html" title="class in org.rapidcow.trivnote.libexpr">StringScalar</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Scalar.java#L82">ofString</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;value)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="StringScalar.html" title="class in org.rapidcow.trivnote.libexpr">StringScalar</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Scalar.java#L81">ofString</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;value)</span></div>
 <div class="block">Returns an immutable string scalar atom.
 
  <p>
@@ -248,7 +249,7 @@ implements <a href="Atom.html" title="interface in org.rapidcow.trivnote.libexpr
 <li>
 <section class="detail" id="isString()">
 <h3>isString</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Scalar.java#L93">isString</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Scalar.java#L92">isString</a></span>()</div>
 <div class="block">Returns whether this should be a quoted string.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -261,14 +262,14 @@ implements <a href="Atom.html" title="interface in org.rapidcow.trivnote.libexpr
 <li>
 <section class="detail" id="equals(java.lang.Object)">
 <h3>equals</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Scalar.java#L108">equals</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Scalar.java#L107">equals</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</span></div>
 <div class="block">Compares this scalar against <code>o</code> for equality.
  Two scalars are equal if and only if they agree on
  both <a href="#isString()"><code>isString()</code></a> and <a href="Atom.html#value()"><code>Atom.value()</code></a>; the
  concrete class is otherwise irrelevant.</div>
 <dl class="notes">
-<dt>Overrides:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
+<dt>Specified by:</dt>
+<dd><code><a href="Datum.html#equals(java.lang.Object)">equals</a></code>&nbsp;in class&nbsp;<code><a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>o</code> - the object to compare against</dd>
 <dt>Returns:</dt>
@@ -279,13 +280,13 @@ implements <a href="Atom.html" title="interface in org.rapidcow.trivnote.libexpr
 <li>
 <section class="detail" id="hashCode()">
 <h3>hashCode</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Scalar.java#L127">hashCode</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/Scalar.java#L126">hashCode</a></span>()</div>
 <div class="block">Returns hash code for this scalar.
  This implementation is consistent with
  <a href="#equals(java.lang.Object)"><code>equals(Object)</code></a>.</div>
 <dl class="notes">
-<dt>Overrides:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
+<dt>Specified by:</dt>
+<dd><code><a href="Datum.html#hashCode()">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a></code></dd>
 <dt>Returns:</dt>
 <dd>hash code for this scalar</dd>
 </dl>

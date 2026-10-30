@@ -72,7 +72,7 @@ loadScripts(document, 'script');</script>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
 <div class="inheritance"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/AbstractCollection.html" title="class or interface in java.util" class="external-link">java.util.AbstractCollection</a>&lt;E&gt;
 <div class="inheritance"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/AbstractList.html" title="class or interface in java.util" class="external-link">java.util.AbstractList</a>&lt;E&gt;
-<div class="inheritance"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/AbstractSequentialList.html" title="class or interface in java.util" class="external-link">java.util.AbstractSequentialList</a>&lt;<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&gt;
+<div class="inheritance"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/AbstractSequentialList.html" title="class or interface in java.util" class="external-link">java.util.AbstractSequentialList</a>&lt;<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&gt;
 <div class="inheritance">org.rapidcow.trivnote.libexpr.DatumList</div>
 </div>
 </div>
@@ -81,13 +81,26 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&gt;</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&gt;</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&gt;</code>, <code><a href="DatumView.html" title="interface in org.rapidcow.trivnote.libexpr">DatumView</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&gt;</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&gt;</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&gt;</code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public final class </span><span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DatumList.java#L20">DatumList</a></span>
-<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/AbstractSequentialList.html" title="class or interface in java.util" class="external-link">AbstractSequentialList</a>&lt;<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&gt;
-implements <a href="DatumView.html" title="interface in org.rapidcow.trivnote.libexpr">DatumView</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&gt;</span></div>
-<div class="block">List view into a datum.</div>
+<div class="type-signature"><span class="modifiers">public final class </span><span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DatumList.java#L34">DatumList</a></span>
+<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/AbstractSequentialList.html" title="class or interface in java.util" class="external-link">AbstractSequentialList</a>&lt;<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&gt;
+implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&gt;</span></div>
+<div class="block">List view into a datum.  Elements of a list
+ are the cars along its cdr chain.  The final
+ non-cons datum (known as the <em>terminator</em>)
+ is accessible at <a href="#tail()"><code>tail()</code></a>.
+
+ <p>
+ The terminator is not considered an element
+ of the list, so Java list operations such as
+ equality and hash code are not affected by
+ its value.
+
+ <p>
+ <code>DatumList</code> is read-only because datums
+ are immutable.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>0.1.0</dd>
@@ -112,9 +125,11 @@ implements <a href="DatumView.html" title="interface in org.rapidcow.trivnote.li
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.util.List)" class="member-name-link">DatumList</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;? extends <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&gt;&nbsp;list)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(org.rapidcow.trivnote.libexpr.Datum)" class="member-name-link">DatumList</a><wbr>(<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;list)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.util.List)" class="member-name-link">DatumList</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;? extends <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&gt;&nbsp;list)</code></div>
+<div class="col-last even-row-color">
+<div class="block">Creates a proper datum list from another list.</div>
+</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(org.rapidcow.trivnote.libexpr.Datum)" class="member-name-link">DatumList</a><wbr>(<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;list)</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Construct a list view.</div>
 </div>
@@ -134,26 +149,35 @@ implements <a href="DatumView.html" title="interface in org.rapidcow.trivnote.li
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final long</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#count()" class="member-name-link">count</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the element count, excluding the terminator.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#finish(org.rapidcow.trivnote.libexpr.DatumWalk)" class="member-name-link">finish</a><wbr>(<a href="DatumWalk.html" title="class in org.rapidcow.trivnote.libexpr">DatumWalk</a>&nbsp;iter)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a></code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Consumes a datum iterator and updates this list’s
+ length and terminator from its states.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#head()" class="member-name-link">head</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the underlying source datum.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isEmpty()" class="member-name-link">isEmpty</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns whether the source has no cons cells.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isProperList()" class="member-name-link">isProperList</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns whether this list is proper.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ListIterator.html" title="class or interface in java.util" class="external-link">ListIterator</a>&lt;<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="DatumWalk.html" title="class in org.rapidcow.trivnote.libexpr">DatumWalk</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#listIterator(int)" class="member-name-link">listIterator</a><wbr>(int&nbsp;index)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Creates a read-only iterator positioned before the given element.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="DatumList.html" title="class in org.rapidcow.trivnote.libexpr">DatumList</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#requireProperTail()" class="member-name-link">requireProperTail</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -161,8 +185,10 @@ implements <a href="DatumView.html" title="interface in org.rapidcow.trivnote.li
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#size()" class="member-name-link">size</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a></code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the element count, capped at <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html#MAX_VALUE" title="class or interface in java.lang" class="external-link"><code>Integer.MAX_VALUE</code></a>.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tail()" class="member-name-link">tail</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the list terminator.</div>
@@ -210,19 +236,31 @@ implements <a href="DatumView.html" title="interface in org.rapidcow.trivnote.li
 <li>
 <section class="detail" id="&lt;init&gt;(org.rapidcow.trivnote.libexpr.Datum)">
 <h3>DatumList</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DatumList.java#L47">DatumList</a></span><wbr><span class="parameters">(<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;list)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DatumList.java#L61">DatumList</a></span><wbr><span class="parameters">(<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&nbsp;list)</span></div>
 <div class="block">Construct a list view.  All datums are
  valid, though possibly improper lists.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>list</code> - source datum</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - on null <code>list</code></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="&lt;init&gt;(java.util.List)">
 <h3>DatumList</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DatumList.java#L57">DatumList</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;? extends <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&gt;&nbsp;list)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DatumList.java#L80">DatumList</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;? extends <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&gt;&nbsp;list)</span></div>
+<div class="block">Creates a proper datum list from another list.
+ Note that improper lists will not round-trip,
+ due to the improper tail being replaced with nil.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>list</code> - source elements in iteration order</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if <code>list</code>
+    or any element is <code>null</code></dd>
+</dl>
 </section>
 </li>
 </ul>
@@ -236,11 +274,9 @@ implements <a href="DatumView.html" title="interface in org.rapidcow.trivnote.li
 <li>
 <section class="detail" id="head()">
 <h3>head</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DatumList.java#L75">head</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DatumList.java#L98">head</a></span>()</div>
 <div class="block">Returns the underlying source datum.</div>
 <dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="DatumView.html#head()">head</a></code>&nbsp;in interface&nbsp;<code><a href="DatumView.html" title="interface in org.rapidcow.trivnote.libexpr">DatumView</a></code></dd>
 <dt>Returns:</dt>
 <dd>the underlying source datum</dd>
 </dl>
@@ -249,7 +285,7 @@ implements <a href="DatumView.html" title="interface in org.rapidcow.trivnote.li
 <li>
 <section class="detail" id="tail()">
 <h3>tail</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DatumList.java#L87">tail</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DatumList.java#L109">tail</a></span>()</div>
 <div class="block">Returns the list terminator.  The list
  terminator is the final atom in the cons
  chain.</div>
@@ -262,13 +298,27 @@ implements <a href="DatumView.html" title="interface in org.rapidcow.trivnote.li
 <li>
 <section class="detail" id="finish(org.rapidcow.trivnote.libexpr.DatumWalk)">
 <h3>finish</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DatumList.java#L96">finish</a></span><wbr><span class="parameters">(<a href="DatumWalk.html" title="class in org.rapidcow.trivnote.libexpr">DatumWalk</a>&nbsp;iter)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DatumList.java#L131">finish</a></span><wbr><span class="parameters">(<a href="DatumWalk.html" title="class in org.rapidcow.trivnote.libexpr">DatumWalk</a>&nbsp;iter)</span></div>
+<div class="block">Consumes a datum iterator and updates this list’s
+ length and terminator from its states.  It is ideal
+ if the iterator has been partially or fully consumed.
+
+ <p>Of course, the iterator has to be iterating from
+ the same root datum as the one this list is viewing.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>iter</code> - iterator</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if iter is null</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if the iterator
+    is iterating from a different root datum</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="isProperList()">
 <h3>isProperList</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DatumList.java#L128">isProperList</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DatumList.java#L163">isProperList</a></span>()</div>
 <div class="block">Returns whether this list is proper.
  A list is proper if and only if its terminator
  <a href="#tail()"><code>tail()</code></a> is nil.
@@ -285,7 +335,7 @@ implements <a href="DatumView.html" title="interface in org.rapidcow.trivnote.li
 <li>
 <section class="detail" id="requireProperTail()">
 <h3>requireProperTail</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="DatumList.html" title="class in org.rapidcow.trivnote.libexpr">DatumList</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DatumList.java#L140">requireProperTail</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="DatumList.html" title="class in org.rapidcow.trivnote.libexpr">DatumList</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DatumList.java#L175">requireProperTail</a></span>()</div>
 <div class="block">Require this list be nil-terminated.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -298,7 +348,7 @@ implements <a href="DatumView.html" title="interface in org.rapidcow.trivnote.li
 <li>
 <section class="detail" id="toProperList()">
 <h3>toProperList</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="DatumList.html" title="class in org.rapidcow.trivnote.libexpr">DatumList</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DatumList.java#L159">toProperList</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="DatumList.html" title="class in org.rapidcow.trivnote.libexpr">DatumList</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DatumList.java#L194">toProperList</a></span>()</div>
 <div class="block">Returns a view of the same elements, terminated by nil.
  If this list is already proper, this is returned as is;
  otherwise the elements are copied into a new chain.</div>
@@ -317,46 +367,78 @@ implements <a href="DatumView.html" title="interface in org.rapidcow.trivnote.li
 <li>
 <section class="detail" id="listIterator(int)">
 <h3>listIterator</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ListIterator.html" title="class or interface in java.util" class="external-link">ListIterator</a>&lt;<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&gt;</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DatumList.java#L189">listIterator</a></span><wbr><span class="parameters">(int&nbsp;index)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="DatumWalk.html" title="class in org.rapidcow.trivnote.libexpr">DatumWalk</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DatumList.java#L233">listIterator</a></span><wbr><span class="parameters">(int&nbsp;index)</span></div>
+<div class="block">Creates a read-only iterator positioned before the given element.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html#listIterator(int)" title="class or interface in java.util" class="external-link">listIterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html#listIterator(int)" title="class or interface in java.util" class="external-link">listIterator</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&gt;</code></dd>
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/AbstractSequentialList.html#listIterator(int)" title="class or interface in java.util" class="external-link">listIterator</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/AbstractSequentialList.html" title="class or interface in java.util" class="external-link">AbstractSequentialList</a>&lt;<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/AbstractSequentialList.html#listIterator(int)" title="class or interface in java.util" class="external-link">listIterator</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/AbstractSequentialList.html" title="class or interface in java.util" class="external-link">AbstractSequentialList</a>&lt;<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&gt;</code></dd>
+<dt>Parameters:</dt>
+<dd><code>index</code> - starting position, from zero through the list size</dd>
+<dt>Returns:</dt>
+<dd>a new iterator</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/IndexOutOfBoundsException.html" title="class or interface in java.lang" class="external-link">IndexOutOfBoundsException</a></code> - if index is outside that range</dd>
+<dt>Implementation Note:</dt>
+<dd>Reaching the starting position takes linear time. Backward
+    iteration rescans from the head; forward iteration follows cdr links.</dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="size()">
 <h3>size</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DatumList.java#L198">size</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DatumList.java#L247">size</a></span>()</div>
+<div class="block">Returns the element count, capped at <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html#MAX_VALUE" title="class or interface in java.lang" class="external-link"><code>Integer.MAX_VALUE</code></a>.
+ The terminator is excluded.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Collection.html#size()" title="class or interface in java.util" class="external-link">size</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Collection.html#size()" title="class or interface in java.util" class="external-link">size</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&gt;</code></dd>
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html#size()" title="class or interface in java.util" class="external-link">size</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html#size()" title="class or interface in java.util" class="external-link">size</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&gt;</code></dd>
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/AbstractCollection.html#size()" title="class or interface in java.util" class="external-link">size</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/AbstractCollection.html" title="class or interface in java.util" class="external-link">AbstractCollection</a>&lt;<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/AbstractCollection.html#size()" title="class or interface in java.util" class="external-link">size</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/AbstractCollection.html" title="class or interface in java.util" class="external-link">AbstractCollection</a>&lt;<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&gt;</code></dd>
+<dt>Returns:</dt>
+<dd>the element count, capped at <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html#MAX_VALUE" title="class or interface in java.lang" class="external-link"><code>Integer.MAX_VALUE</code></a></dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="#count()"><code>count()</code></a></li>
+</ul>
+</dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="count()">
 <h3>count</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DatumList.java#L205">count</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DatumList.java#L260">count</a></span>()</div>
+<div class="block">Returns the element count, excluding the terminator.
+ The count and terminator are computed together and cached.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the element count, excluding the terminator</dd>
+<dt>Implementation Note:</dt>
+<dd>The first call walks the chain unless its length is already known.</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="isEmpty()">
 <h3>isEmpty</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DatumList.java#L214">isEmpty</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DatumList.java#L273">isEmpty</a></span>()</div>
+<div class="block">Returns whether the source has no cons cells.
+ Both nil and a non-nil atom yield an empty view.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Collection.html#isEmpty()" title="class or interface in java.util" class="external-link">isEmpty</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Collection.html#isEmpty()" title="class or interface in java.util" class="external-link">isEmpty</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&gt;</code></dd>
 <dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html#isEmpty()" title="class or interface in java.util" class="external-link">isEmpty</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html#isEmpty()" title="class or interface in java.util" class="external-link">isEmpty</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&gt;</code></dd>
 <dt>Overrides:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/AbstractCollection.html#isEmpty()" title="class or interface in java.util" class="external-link">isEmpty</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/AbstractCollection.html" title="class or interface in java.util" class="external-link">AbstractCollection</a>&lt;<a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a>&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/AbstractCollection.html#isEmpty()" title="class or interface in java.util" class="external-link">isEmpty</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/AbstractCollection.html" title="class or interface in java.util" class="external-link">AbstractCollection</a>&lt;<a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a>&gt;</code></dd>
+<dt>Returns:</dt>
+<dd>whether the source has no cons cells</dd>
 </dl>
 </section>
 </li>

@@ -157,7 +157,9 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns a diagnostic string including the one-based cursor line and column.</div>
+</div>
 </div>
 </div>
 </div>
@@ -221,17 +223,20 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="toString()">
 <h3>toString</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DataLoadingException.java#L71">toString</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DataLoadingException.java#L74">toString</a></span>()</div>
+<div class="block">Returns a diagnostic string including the one-based cursor line and column.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Throwable.html#toString()" title="class or interface in java.lang" class="external-link">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a></code></dd>
+<dt>Returns:</dt>
+<dd>a diagnostic string including the one-based cursor line and column</dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getLineOffset()">
 <h3>getLineOffset</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DataLoadingException.java#L83">getLineOffset</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DataLoadingException.java#L86">getLineOffset</a></span>()</div>
 <div class="block">Returns the line offset (0-based) of this exception.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -242,7 +247,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="getLineNumber()">
 <h3>getLineNumber</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DataLoadingException.java#L92">getLineNumber</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DataLoadingException.java#L95">getLineNumber</a></span>()</div>
 <div class="block">Returns the line number (1-based) of this exception.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -253,7 +258,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="getCharOffset()">
 <h3>getCharOffset</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DataLoadingException.java#L101">getCharOffset</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DataLoadingException.java#L104">getCharOffset</a></span>()</div>
 <div class="block">Returns the column number (0-based) of this exception.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -264,7 +269,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="getCharNumber()">
 <h3>getCharNumber</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DataLoadingException.java#L110">getCharNumber</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name"><a href="https://gitlab.com/rapidcow/trivnote/-/blob/libexpr/v0.1.0/java/libexpr/src/main/java/org/rapidcow/trivnote/libexpr/DataLoadingException.java#L113">getCharNumber</a></span>()</div>
 <div class="block">Returns the column number (1-based) of this exception.</div>
 <dl class="notes">
 <dt>Returns:</dt>

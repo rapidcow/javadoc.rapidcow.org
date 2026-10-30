@@ -102,13 +102,24 @@ loadScripts(document, 'script');</script>
      list terminator.  For this reason, <code>Nil</code> is
      also considered a list&mdash;namely the empty list.
    </li>
- </ul></div>
+ </ul>
+
+ <p>Start with <a href="DataLoader.html" title="class in org.rapidcow.trivnote.libexpr"><code>DataLoader</code></a> to read
+ datums. Use <a href="Scalar.html" title="class in org.rapidcow.trivnote.libexpr"><code>Scalar</code></a> factories,
+ <a href="Symbol.html#of(java.lang.String)"><code>of(String)</code></a>, and
+ <a href="Cons.html" title="class in org.rapidcow.trivnote.libexpr"><code>Cons</code></a> factories to build them.
+ <a href="Datum.html#asProperList(org.rapidcow.trivnote.libexpr.Datum)"><code>Datum.asProperList(Datum)</code></a> and
+ <a href="Datum.html#asAlist(org.rapidcow.trivnote.libexpr.Datum)"><code>Datum.asAlist(Datum)</code></a> expose read-only
+ Java collection views. Numeric values retain their spelling rather than
+ comparing by arithmetic value. Datum <code>toString()</code> methods are
+ diagnostic; <a href="DataDumper.html" title="class in org.rapidcow.trivnote.libexpr"><code>DataDumper</code></a> is currently
+ a placeholder and cannot serialize datums.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
 <li>
 <div id="class-summary">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="class-summary-tab0" role="tab" aria-selected="true" aria-controls="class-summary.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary', 2)" class="active-table-tab">All Classes and Interfaces</button><button id="class-summary-tab1" role="tab" aria-selected="false" aria-controls="class-summary.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary-tab1', 2)" class="table-tab">Interfaces</button><button id="class-summary-tab2" role="tab" aria-selected="false" aria-controls="class-summary.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary-tab2', 2)" class="table-tab">Classes</button><button id="class-summary-tab3" role="tab" aria-selected="false" aria-controls="class-summary.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary-tab3', 2)" class="table-tab">Enum Classes</button><button id="class-summary-tab5" role="tab" aria-selected="false" aria-controls="class-summary.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary-tab5', 2)" class="table-tab">Exceptions</button></div>
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="class-summary-tab0" role="tab" aria-selected="true" aria-controls="class-summary.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary', 2)" class="active-table-tab">All Classes and Interfaces</button><button id="class-summary-tab2" role="tab" aria-selected="false" aria-controls="class-summary.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary-tab2', 2)" class="table-tab">Classes</button><button id="class-summary-tab3" role="tab" aria-selected="false" aria-controls="class-summary.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary-tab3', 2)" class="table-tab">Enum Classes</button><button id="class-summary-tab5" role="tab" aria-selected="false" aria-controls="class-summary.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary-tab5', 2)" class="table-tab">Exceptions</button></div>
 <div id="class-summary.tabpanel" role="tabpanel" aria-labelledby="class-summary-tab0">
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Class</div>
@@ -117,21 +128,29 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color class-summary class-summary-tab2">
 <div class="block">Associative list view into a datum.</div>
 </div>
-<div class="col-first odd-row-color class-summary class-summary-tab1"><a href="Atom.html" title="interface in org.rapidcow.trivnote.libexpr">Atom</a></div>
-<div class="col-last odd-row-color class-summary class-summary-tab1">
-<div class="block">A non-nil terminal <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr"><code>Datum</code></a>.</div>
-</div>
-<div class="col-first even-row-color class-summary class-summary-tab2"><a href="Cons.html" title="class in org.rapidcow.trivnote.libexpr">Cons</a></div>
-<div class="col-last even-row-color class-summary class-summary-tab2">
-<div class="block">An immutable pair of <a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr"><code>Datum</code></a>s.</div>
-</div>
-<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="ConsCell.html" title="class in org.rapidcow.trivnote.libexpr">ConsCell</a></div>
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="Atom.html" title="class in org.rapidcow.trivnote.libexpr">Atom</a></div>
 <div class="col-last odd-row-color class-summary class-summary-tab2">
+<div class="block">A non-nil terminal <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr"><code>Datum</code></a>.</div>
+</div>
+<div class="col-first even-row-color class-summary class-summary-tab2"><a href="BoolScalar.html" title="class in org.rapidcow.trivnote.libexpr">BoolScalar</a></div>
+<div class="col-last even-row-color class-summary class-summary-tab2">
+<div class="block">Boolean scalars.</div>
+</div>
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="Cons.html" title="class in org.rapidcow.trivnote.libexpr">Cons</a></div>
+<div class="col-last odd-row-color class-summary class-summary-tab2">
+<div class="block">An immutable pair of <a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr"><code>Datum</code></a>s.</div>
+</div>
+<div class="col-first even-row-color class-summary class-summary-tab2"><a href="ConsCell.html" title="class in org.rapidcow.trivnote.libexpr">ConsCell</a></div>
+<div class="col-last even-row-color class-summary class-summary-tab2">
 <div class="block">Simple cons cells.</div>
 </div>
-<div class="col-first even-row-color class-summary class-summary-tab2"><a href="ConsList.html" title="class in org.rapidcow.trivnote.libexpr">ConsList</a></div>
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="ConsList.html" title="class in org.rapidcow.trivnote.libexpr">ConsList</a></div>
+<div class="col-last odd-row-color class-summary class-summary-tab2">
+<div class="block">Cons cell with a known length.</div>
+</div>
+<div class="col-first even-row-color class-summary class-summary-tab2"><a href="ConsTail.html" title="class in org.rapidcow.trivnote.libexpr">ConsTail</a></div>
 <div class="col-last even-row-color class-summary class-summary-tab2">
-<div class="block">Cons cells with a known length.</div>
+<div class="block">Cons cell with a nil cdr.</div>
 </div>
 <div class="col-first odd-row-color class-summary class-summary-tab2"><a href="DataDumper.html" title="class in org.rapidcow.trivnote.libexpr">DataDumper</a></div>
 <div class="col-last odd-row-color class-summary class-summary-tab2">
@@ -145,50 +164,42 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color class-summary class-summary-tab5">
 <div class="block">Parsing exception.</div>
 </div>
-<div class="col-first even-row-color class-summary class-summary-tab1"><a href="Datum.html" title="interface in org.rapidcow.trivnote.libexpr">Datum</a></div>
-<div class="col-last even-row-color class-summary class-summary-tab1">
+<div class="col-first even-row-color class-summary class-summary-tab2"><a href="Datum.html" title="class in org.rapidcow.trivnote.libexpr">Datum</a></div>
+<div class="col-last even-row-color class-summary class-summary-tab2">
 <div class="block">Basic unit of an S-expression.</div>
 </div>
 <div class="col-first odd-row-color class-summary class-summary-tab2"><a href="DatumList.html" title="class in org.rapidcow.trivnote.libexpr">DatumList</a></div>
 <div class="col-last odd-row-color class-summary class-summary-tab2">
 <div class="block">List view into a datum.</div>
 </div>
-<div class="col-first even-row-color class-summary class-summary-tab1"><a href="DatumView.html" title="interface in org.rapidcow.trivnote.libexpr">DatumView</a></div>
-<div class="col-last even-row-color class-summary class-summary-tab1">
-<div class="block">View of a datum.</div>
-</div>
-<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="DatumWalk.html" title="class in org.rapidcow.trivnote.libexpr">DatumWalk</a></div>
-<div class="col-last odd-row-color class-summary class-summary-tab2">
+<div class="col-first even-row-color class-summary class-summary-tab2"><a href="DatumWalk.html" title="class in org.rapidcow.trivnote.libexpr">DatumWalk</a></div>
+<div class="col-last even-row-color class-summary class-summary-tab2">
 <div class="block">Datum list iterator.</div>
 </div>
-<div class="col-first even-row-color class-summary class-summary-tab3"><a href="Exactness.html" title="enum class in org.rapidcow.trivnote.libexpr">Exactness</a></div>
-<div class="col-last even-row-color class-summary class-summary-tab3">
+<div class="col-first odd-row-color class-summary class-summary-tab3"><a href="Exactness.html" title="enum class in org.rapidcow.trivnote.libexpr">Exactness</a></div>
+<div class="col-last odd-row-color class-summary class-summary-tab3">
 <div class="block">Numeric scalar exactness.</div>
 </div>
-<div class="col-first odd-row-color class-summary class-summary-tab3"><a href="Nil.html" title="enum class in org.rapidcow.trivnote.libexpr">Nil</a></div>
-<div class="col-last odd-row-color class-summary class-summary-tab3">
+<div class="col-first even-row-color class-summary class-summary-tab2"><a href="Nil.html" title="class in org.rapidcow.trivnote.libexpr">Nil</a></div>
+<div class="col-last even-row-color class-summary class-summary-tab2">
 <div class="block">The atom devoid of value and the empty list.</div>
 </div>
-<div class="col-first even-row-color class-summary class-summary-tab2"><a href="NumberScalar.html" title="class in org.rapidcow.trivnote.libexpr">NumberScalar</a></div>
-<div class="col-last even-row-color class-summary class-summary-tab2">
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="NumberScalar.html" title="class in org.rapidcow.trivnote.libexpr">NumberScalar</a></div>
+<div class="col-last odd-row-color class-summary class-summary-tab2">
 <div class="block">Numeric scalar.</div>
 </div>
-<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="Scalar.html" title="class in org.rapidcow.trivnote.libexpr">Scalar</a></div>
-<div class="col-last odd-row-color class-summary class-summary-tab2">
-<div class="block">Unquoted <a href="Atom.html" title="interface in org.rapidcow.trivnote.libexpr"><code>Atom</code></a>.</div>
-</div>
-<div class="col-first even-row-color class-summary class-summary-tab2"><a href="StringScalar.html" title="class in org.rapidcow.trivnote.libexpr">StringScalar</a></div>
+<div class="col-first even-row-color class-summary class-summary-tab2"><a href="Scalar.html" title="class in org.rapidcow.trivnote.libexpr">Scalar</a></div>
 <div class="col-last even-row-color class-summary class-summary-tab2">
+<div class="block">A boolean, number, or string <a href="Atom.html" title="class in org.rapidcow.trivnote.libexpr"><code>Atom</code></a>.</div>
+</div>
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="StringScalar.html" title="class in org.rapidcow.trivnote.libexpr">StringScalar</a></div>
+<div class="col-last odd-row-color class-summary class-summary-tab2">
 <div class="block">The string scalar type.</div>
 </div>
-<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="Symbol.html" title="class in org.rapidcow.trivnote.libexpr">Symbol</a></div>
-<div class="col-last odd-row-color class-summary class-summary-tab2">
-<div class="block">Special <a href="Atom.html" title="interface in org.rapidcow.trivnote.libexpr"><code>Atom</code></a> that tends to repeat itself in many
- places.</div>
-</div>
-<div class="col-first even-row-color class-summary class-summary-tab2"><a href="TruthScalar.html" title="class in org.rapidcow.trivnote.libexpr">TruthScalar</a></div>
+<div class="col-first even-row-color class-summary class-summary-tab2"><a href="Symbol.html" title="class in org.rapidcow.trivnote.libexpr">Symbol</a></div>
 <div class="col-last even-row-color class-summary class-summary-tab2">
-<div class="block">Boolean scalars.</div>
+<div class="block">Special <a href="Atom.html" title="class in org.rapidcow.trivnote.libexpr"><code>Atom</code></a> that tends to repeat itself in many
+ places.</div>
 </div>
 </div>
 </div>
