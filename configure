@@ -97,6 +97,7 @@ sub OO {
 	setdefault %$O, (
 		base_url => '/',
 		site_url => 'https://javadoc.rapidcow.org',
+		data => 'data',
 	);
 }
 my %O = -f "MY/option.mk" && -r _ ? read_make("MY/option.mk") : ();
@@ -111,6 +112,7 @@ The following variables may be defined:
   -Dtar_from_stdin   Implementation of "tar -T -", as in GNU tar.
   -Obase_url  Host-relative relative base
   -Osite_url  Absolute base
+  -Odata      Data directory (default: data)
   -h          This help message
   --reset     Clear all configuration at this point
 EOM

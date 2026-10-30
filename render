@@ -82,6 +82,11 @@ my %F;
 
 my $tt = Template->new({
 	INCLUDE_PATH => [ '.' ],
+	PLUGIN_BASE => 'Local::Plugin',
+	# TT's own DataFile.pm shadows ours :,(
+	PLUGINS => {
+		DataFile => 'Local::Plugin::DataFile',
+	},
 }) or die "[TT] ", $Template::ERROR, "\n";
 
 my $if;
