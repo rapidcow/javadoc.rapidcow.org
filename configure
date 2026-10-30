@@ -459,7 +459,7 @@ NUHUH
 			$deps{$dirok} = \@deps;
 			$rule{$dirok} = <<MAKE;
 	[ -d $dir ] || mkdir $dir
-	\@:> $dirok
+	\@> $dirok
 MAKE
 			push @rule, $dirok;
 			push @{$I{NEED}}, $dirok;
