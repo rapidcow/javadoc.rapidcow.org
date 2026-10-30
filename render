@@ -109,7 +109,7 @@ for my $trap (qw( INT HUP TERM )) {
 unless ($tt->process($if, { %O, %F }, $of)) {
 	close $of;
 	unlink $bpath;
-	die "[TT] ", $tt->error(), "\n";
+	die "[TT] ", $tt->error();
 }
 
 close $of or die "close >$bpath: $!\n";
