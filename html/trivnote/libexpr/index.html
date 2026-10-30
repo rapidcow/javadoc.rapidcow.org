@@ -33,7 +33,7 @@
 [% ELSIF loop.last -%]
           <span class="pill old">initial</span>
 [% END -%]
-          <time class="when" datetime="[% r.date %]">[% r.date %]</time>
+          <time class="when" datetime="[% r.isotime %]">[% r.date %] [% r.time %]</time>
         </div>
         <p class="note">[% r.note | html %]</p>
         <dl class="build">
