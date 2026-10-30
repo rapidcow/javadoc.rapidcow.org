@@ -16,3 +16,5 @@
 	permission = rwsx
 [shell "com.termux@RCs-Tab-S7.local"]
 	permission = rwsx
+[shell "rapidcow@RCs-Mac-mini.local"]
+	permission = rwsx
