@@ -61,7 +61,14 @@ sub parse_base
 		unless ($base_url =~ m!^/!) {
 			die "$Me: base_url must begin with a slash\n";
 		}
-		unless ($site_url->path eq '' or $base_url eq $site_url->path) {
+		unless ($site_url->path eq ''
+			or $base_url eq $site_url->path
+		# There is basically no way to see an empty base_url
+		# (given how `./configure' usually provides a default),
+		# so we treat the case of -Obase_url=/ as a request
+		# from the user to explicitly inherit from site_url.
+			or $base_url eq '/'
+		) {
 			# This is probably one of the more grave cases;
 			# so report it thoroughly to the console.
 			my $path = $site_url->path;
