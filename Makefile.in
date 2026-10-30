@@ -1,0 +1,7 @@
+#
+# Transformation rules from ${a}/% to ${b}/%
+#
+index.html trivnote/index.html trivnote/libexpr/index.html: render
+	${^X} render $a/${.TARGET} $b/${.TARGET}
+robots.txt ai/assets/site.css ai/assets/site.js:
+	cp $a/${.TARGET} $b/${.TARGET}

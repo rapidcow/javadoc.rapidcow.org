@@ -1,0 +1,116 @@
+#!/usr/bin/env perl
+# HAVE: render
+# NEED: MY/option.mk
+
+use 5.006;
+use strict;
+
+use Data::Dumper;
+use Fcntl qw(O_CREAT O_WRONLY);
+use Getopt::Std;
+use POSIX ();
+
+use Template;
+use Template::Exception;
+
+use lib './lib';
+use RdKw::WwW::GenGenLib;
+
+my $prog = $0;
+
+sub HELP_MESSAGE
+{
+	<<USE;
+usage: $prog [-dh] [-m MODE] apath bpath
+
+  -d        enable debug output
+  -h        print this help message
+  -m MODE   file mode
+USE
+}
+
+my %o;
+getopts('dhm:', \%o) or die +(split /^/, HELP_MESSAGE)[0];
+if ($o{h}) {
+	print HELP_MESSAGE();
+	exit;
+}
+
+@ARGV == 2 or die "$0: need exactly two args, not @{[scalar @ARGV]}\n";
+my ($apath, $bpath) = @ARGV;
+
+sub LOG {
+	my $mesg = join $,, @_;
+	my (undef, $file, $line) = caller;
+	for (split /^/, $mesg) {
+		chomp;
+		print sprintf "%s:%03d: %s\n", $file, $line, $_;
+	}
+}
+
+-e "MY/option.mk" and -f _ or die <<RUSH;
+error: You have not configured!
+error: You should ./configure first. ;)
+RUSH
+
+# Note that ${of} is not going to stay the
+# same after this.  Namely it becomes the
+# *OUTPUT* file handle...
+#
+# (I'm bad with names, yes.)
+my %O = read_make "MY/option.mk";
+
+if ($o{d}) {
+#	local $Data::Dumper::Sortkeys = 1;
+	local $Data::Dumper::Varname = "O";
+	LOG "YOUR options!\n";
+	LOG Dumper \%O;
+}
+
+my %F;
+
+{
+	my %I = read_deps($apath);
+	defined $I{HAVE} or die "E: $apath: missing HAVE declaration\n";
+	$O{location} = $I{HAVE};
+	$F{locate} = sub {
+		@_ == 1 or die Template::Exception->new(
+			"usage" => "[% locate PATH %]");
+		locate(\%O, $O{location}, $_[0]);
+	}
+}
+
+my $tt = Template->new({
+	INCLUDE_PATH => [ '.' ],
+}) or die "[TT] ", $Template::ERROR, "\n";
+
+my $if;
+open($if, '<:encoding(UTF-8)', $apath)
+	or die "open <$apath: $!\n";
+
+my $of;
+$o{m} ? sysopen($of, $bpath, O_CREAT | O_WRONLY, oct($o{m})) :
+	open($of, '>', $bpath)
+	or die "open >$bpath: $!\n";
+binmode($of, ":encoding(UTF-8)");
+
+sub giveup {
+	my ($trap) = @_;
+	print STDERR "$prog: SIG${trap} caught! Bye bye....\n";
+	close $of;
+	unlink $bpath;
+	$SIG{$trap} = 'DEFAULT';
+	POSIX::raise($trap);
+}
+for my $trap (qw( INT HUP TERM )) {
+	$SIG{$trap} = \&giveup;
+}
+
+unless ($tt->process($if, { %O, %F }, $of)) {
+	close $of;
+	unlink $bpath;
+	die "[TT] ", $tt->error(), "\n";
+}
+
+close $of or die "close >$bpath: $!\n";
+close $if;

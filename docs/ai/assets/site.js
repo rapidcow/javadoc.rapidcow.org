@@ -1,3 +1,9 @@
+/*
+ * HAVE: ai/assets/site.js
+ *
+ * Designed by Claude Code ☕
+ */
+//
 // Progressive enhancement only: the pages work fine without this.
 for (const card of document.querySelectorAll('.card')) {
   card.addEventListener('pointermove', (e) => {

@@ -1,6 +1,11 @@
 /*
+ * HAVE: ai/assets/site.css
+ *
  * javadoc.rapidcow.org -- shared styles.
- * Plain CSS with native nesting (Baseline 2023).  Dark only, on purpose.
+ * Plain CSS with native nesting (Baseline 2023).
+ * Dark only, because Light burns my eyes.
+ *
+ * Designed by Claude Code ☕
  */
 
 :root {
