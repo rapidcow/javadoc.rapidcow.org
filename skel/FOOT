@@ -1,4 +1,4 @@
   <footer>
-    <a href="https://github.com/rapidcow/javadoc.rapidcow.org/blob/gh-pages/docs/[% location %]">source on GitHub</a> &middot;
+    <a href="https://github.com/rapidcow/javadoc.rapidcow.org/blob/gh-pages/html/[% location %]">source on GitHub</a> &middot;
     designed by Claude Code!
   </footer>
