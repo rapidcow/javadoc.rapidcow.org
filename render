@@ -53,11 +53,6 @@ error: You have not configured!
 error: You should ./configure first. ;)
 RUSH
 
-# Note that ${of} is not going to stay the
-# same after this.  Namely it becomes the
-# *OUTPUT* file handle...
-#
-# (I'm bad with names, yes.)
 my %O = read_make "MY/option.mk";
 
 if ($o{d}) {
