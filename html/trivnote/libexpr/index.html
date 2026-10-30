@@ -3,6 +3,7 @@
 # NEED: data/trivnote/libexpr/rel-info.scm
 -%]
 [% USE df = DataFile('trivnote/libexpr/rel-info.scm') -%]
+[% gitweb = 'https://gitlab.com/rapidcow/trivnote/-' -%]
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="UTF-8">
@@ -27,55 +28,36 @@
   <section>
     <h2>Releases</h2>
     <ol class="timeline">
-
-      <li class="card release latest">
+[% FOREACH entry IN df.root.list -%]
+[% r = entry.attr %]
+      <li class="card release[% ' latest' IF r.latest %]">
         <div class="head">
-          <h3 class="ver"><small>v</small>0.1.0</h3>
+          <h3 class="ver"><small>v</small>[% r.version %]</h3>
+[% IF r.latest -%]
           <span class="pill latest">latest</span>
-          <time class="when" datetime="2026-10-29">2026-10-29</time>
-        </div>
-        <p class="note">Completed javadocs for 0.1.0.</p>
-        <dl class="build">
-          <dt>source commit</dt>
-          <dd class="hash">
-            <a href="https://gitlab.com/rapidcow/trivnote/-/commit/2bd6b5d4cd6eb088cbc6dfd5671cebdbf45f2eda"><code>2bd6b5d</code></a>
-            <button type="button" hidden data-copy="2bd6b5d4cd6eb088cbc6dfd5671cebdbf45f2eda">copy</button>
-          </dd>
-          <dt>source tag</dt>
-          <dd><a href="https://gitlab.com/rapidcow/trivnote/-/tree/libexpr/v0.1.0">libexpr/0.1.0</a></dd>
-          <dt>docs built</dt>
-          <dd>2026-10-29 &middot; javadoc 17</dd>
-        </dl>
-        <div class="actions">
-          <a class="btn primary" href="0.1.0/">Browse API <span aria-hidden="true">&rarr;</span></a>
-          <a class="btn" href="0.1.0/allclasses-index.html">All classes</a>
-        </div>
-      </li>
-
-      <li class="card release">
-        <div class="head">
-          <h3 class="ver"><small>v</small>0.0.0</h3>
+[% ELSIF loop.last -%]
           <span class="pill old">initial</span>
-          <time class="when" datetime="2026-10-20">2026-10-20</time>
+[% END -%]
+          <time class="when" datetime="[% r.date %]">[% r.date %]</time>
         </div>
-        <p class="note">The first dump of the docs.</p>
+        <p class="note">[% r.note | html %]</p>
         <dl class="build">
           <dt>source commit</dt>
           <dd class="hash">
-            <a href="https://gitlab.com/rapidcow/trivnote/-/commit/fd09c0733b2786619c26144a74322d4539178cd8"><code>fd09c07</code></a>
-            <button type="button" hidden data-copy="fd09c0733b2786619c26144a74322d4539178cd8">copy</button>
+            <a href="[% gitweb %]/commit/[% r.commit %]"><code>[% r.commit.substr(0, 7) %]</code></a>
+            <button type="button" hidden data-copy="[% r.commit %]">copy</button>
           </dd>
           <dt>source tag</dt>
-          <dd><a href="https://gitlab.com/rapidcow/trivnote/-/tree/libexpr/v0.0.0">libexpr/0.0.0</a></dd>
+          <dd><a href="[% gitweb %]/tree/[% r.tag %]">[% r.tag.replace('/v', '/') %]</a></dd>
           <dt>docs built</dt>
-          <dd>2026-10-20 &middot; javadoc 17</dd>
+          <dd>[% r.date %] &middot; javadoc 17</dd>
         </dl>
         <div class="actions">
-          <a class="btn primary" href="0.0.0/">Browse API <span aria-hidden="true">&rarr;</span></a>
-          <a class="btn" href="0.0.0/allclasses-index.html">All classes</a>
+          <a class="btn primary" href="[% r.version %]/">Browse API <span aria-hidden="true">&rarr;</span></a>
+          <a class="btn" href="[% r.version %]/allclasses-index.html">All classes</a>
         </div>
       </li>
-
+[% END %]
     </ol>
   </section>
 
