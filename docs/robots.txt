@@ -1,5 +1,0 @@
-#
-# HAVE: robots.txt
-#
-User-agent: *
-Allow: /

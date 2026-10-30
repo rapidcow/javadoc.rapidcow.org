@@ -39,12 +39,20 @@ any static file server.
 
 ## Deploying to GitHub Pages
 
-The `docs/` directory is committed so that GitHub Pages can serve it
-directly. To build into it:
+`docs/` is the published tree. It holds the javadoc itself (committed),
+`CNAME`, and `.nojekyll`; the rest (everything listed in `MANIFEST`) is
+generated into it and not tracked.
+
+Pushing to `gh-pages` runs `.github/workflows/pages.yml`, which does:
 
 ```sh
 ./configure -Db=docs
 make
+find docs -name .ok -delete
 ```
 
-Then commit the result.
+and publishes `docs/`. The repository's Pages source must be set to
+"GitHub Actions" (Settings, Pages).
+
+To preview locally, run the same commands and serve `docs/` with any
+static file server (`./view` does this).

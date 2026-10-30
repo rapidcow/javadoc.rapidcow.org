@@ -4,3 +4,11 @@ tmp-*
 Makefile
 .ok
 .*.sw[a-p]
+
+# generated into docs/ by `./configure -Db=docs`; CI builds these on deploy
+/docs/index.html
+/docs/robots.txt
+/docs/ai/assets/site.css
+/docs/ai/assets/site.js
+/docs/trivnote/index.html
+/docs/trivnote/libexpr/index.html
