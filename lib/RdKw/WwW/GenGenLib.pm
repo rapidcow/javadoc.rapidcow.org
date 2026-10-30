@@ -178,7 +178,7 @@ sub relapath {
 	# Done as a pre-processing step so that `.//'
 	# leaves `/' behind, i.e., one empty segment
 	# per extra slash.  (This is also so that a
-	# `./' prefix serves as a no-op prefix---but
+	# `./' prefix serves as a no-op prefix -- but
 	# only when it is spelled as . and not %2F.)
 	#
 	$path =~ s!^[.](?:/|$)!!;
