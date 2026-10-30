@@ -3,3 +3,4 @@ site/
 tmp-*
 Makefile
 .ok
+.*.sw[a-p]
