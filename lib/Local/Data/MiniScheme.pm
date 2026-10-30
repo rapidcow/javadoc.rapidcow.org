@@ -6,7 +6,7 @@ use warnings;
 use parent qw(Exporter);
 
 use IO::Handle;
-use Scalar::Util qw(refaddr);
+use Scalar::Util qw(blessed refaddr);
 use Socket qw(LF);
 use constant SX_NIL  => 1;
 use constant SX_CONS => 2;
@@ -19,6 +19,11 @@ use constant SX_SYMBOL => 5;
 use overload
 	'bool' => sub { $_[0]{tag} != SX_NIL },
 	'0+'   => sub { refaddr $_[0] },
+	'""'   => sub {
+		my $tag = $_[0]{tag};
+		$tag == SX_SCALAR || $tag == SX_SYMBOL ? $_[0]{value} :
+		$tag == SX_NIL ? "" : sprintf "%s(0x%x)", __PACKAGE__, refaddr $_[0];
+	},
 	fallback => 1;
 
 our @EXPORT_OK = qw(nil cons str sym read_datum);
@@ -191,6 +196,44 @@ P:	while (defined( $v = $fh->getc() )) {
 		$$sbp .= $v;
 	}
 	return $v;
+}
+
+# Is $_[0] a datum with the given tag?
+sub is_a
+{
+	blessed $_[0] && $_[0]->isa(__PACKAGE__) && $_[0]{tag} == $_[1];
+}
+
+# Proper list -> \@array of its elements.
+sub list
+{
+	my ($p) = @_;
+	my @a;
+	while (is_a($p, SX_CONS)) {
+		push @a, $p->{car};
+		$p = $p->{cdr};
+	}
+	is_a($p, SX_NIL) or die "list: not a proper list\n";
+	\@a;
+}
+
+# Alist (proper list of pairs) -> \%hash of cdr's keyed by car's value.
+# First entry wins; keys that are not a symbol or scalar are skipped.
+# Symbol/scalar cdr's are unwrapped into plain strings (so that they
+# play nicely with TT's string vmethods); anything else is left as is.
+sub attr
+{
+	my %h;
+	for my $e (@{ $_[0]->list }) {
+		is_a($e, SX_CONS) or die "attr: not an alist\n";
+		my $k = $e->{car};
+		is_a($k, SX_SYMBOL) || is_a($k, SX_SCALAR) or next;
+		my $v = $e->{cdr};
+		$v = $v->{value} if is_a($v, SX_SYMBOL) || is_a($v, SX_SCALAR);
+		$h{ $k->{value} } = $v
+			unless exists $h{ $k->{value} };
+	}
+	\%h;
 }
 
 1;

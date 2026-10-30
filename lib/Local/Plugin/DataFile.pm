@@ -22,9 +22,7 @@ Local::Plugin::DataFile - load structured data
 
 =item B<new($context, $file)>
 
-read file!
-
-=back
+read file!  assumes scheme files; other files are not supported.
 
 =cut
 
@@ -41,6 +39,19 @@ sub new
 
 	close $fh or die "E: close($file): $!\n";
 	bless { root => $root }, $class;
+}
+
+=item B<root()>
+
+the top-level node: this is a scheme datum for C<*.scm> files.
+
+=back
+
+=cut
+
+sub root
+{
+	$_[0]{root};
 }
 
 1;
