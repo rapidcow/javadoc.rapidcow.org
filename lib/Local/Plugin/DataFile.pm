@@ -39,10 +39,6 @@ sub new
 	open my $fh, '<', $datafile or die "E: open($file): $!\n";
 	my $root = read_datum($fh);
 
-# Just debug
-use Data::Dumper;
-print STDERR Dumper $root;
-
 	close $fh or die "E: close($file): $!\n";
 	bless { root => $root }, $class;
 }
