@@ -54,21 +54,21 @@ sub parse_base
 		}
 	}
 
-	if (defined $D->{base_url} and $D->{base_url} ne '') {
+	# There is basically no way to see an empty base_url
+	# (given how `./configure' usually provides a default),
+	# so we treat the case of -Obase_url=/ as a request
+	# from the user to explicitly inherit from site_url.
+	#
+	# We lose the check on domain-wide hosts, but I think
+	# it is worth the convenience.
+	if (defined $D->{base_url} and $D->{base_url} ne ''
+		and $D->{base_url} ne '/'
+	) {
 		$base_url = $D->{base_url};
-		# Unlike before, an empty path is straight up assumed
-		# to be explicitly unset by user.  So might as well...
 		unless ($base_url =~ m!^/!) {
 			die "$Me: base_url must begin with a slash\n";
 		}
-		unless ($site_url->path eq ''
-			or $base_url eq $site_url->path
-		# There is basically no way to see an empty base_url
-		# (given how `./configure' usually provides a default),
-		# so we treat the case of -Obase_url=/ as a request
-		# from the user to explicitly inherit from site_url.
-			or $base_url eq '/'
-		) {
+		unless ($site_url->path eq '' or $base_url eq $site_url->path) {
 			# This is probably one of the more grave cases;
 			# so report it thoroughly to the console.
 			my $path = $site_url->path;
@@ -78,12 +78,23 @@ $Me: is inconsistent with base_url ($base_url)
 EUGH
 		}
 	} else {
+		# An empty site_url path leaves nothing to inherit,
+		# which is an error -- unless base_url is literally `/',
+		# the one value that is both a request to inherit and
+		# a perfectly good answer on its own.  Anything else
+		# that lands here (unset, or empty) has no such excuse.
+		#
+		# Don't assume the caller's default for base_url is `/'
+		# (it is today, in `./configure', but that is not ours
+		# to know); only an actual `/' gets the exemption.
 		$base_url = $site_url->path;
 		if ($base_url eq '') {
-			die <<EUGH;
+			defined $D->{base_url} and $D->{base_url} eq '/'
+				or die <<EUGH;
 $Me: base_url cannot be inferred from site_url,
 $Me: as the latter has an empty path
 EUGH
+			$base_url = '/';
 		}
 	}
 
