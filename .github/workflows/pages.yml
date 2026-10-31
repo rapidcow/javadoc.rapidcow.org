@@ -15,11 +15,14 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  # The build script, www-siteconf, comes from one repository in two
-  # parts; engine needs genlib, so genlib goes first.
+  # The build script, www-siteconf, comes from one repository in three
+  # parts: engine needs gengenlib, and the web preset (configure, and
+  # the render script) needs genlib.  Each ref's first component names
+  # the directory to build.
   SITECONF_URL: https://github.com/rapidcow/siteconf.git
-  GENLIB_REF: genlib/v0.00_00
-  ENGINE_REF: engine/v0.00_00
+  GENGENLIB_REF: gengenlib/v0.00_00
+  GENLIB_REF: genlib/v0.01_00
+  ENGINE_REF: engine/v0.01_00
 
 jobs:
   deploy:
@@ -41,7 +44,7 @@ jobs:
         run: |
           prefix="$RUNNER_TEMP/siteconf"
           export PERL5LIB="$prefix/lib/perl5"
-          for ref in "$GENLIB_REF" "$ENGINE_REF"; do
+          for ref in "$GENGENLIB_REF" "$GENLIB_REF" "$ENGINE_REF"; do
             part=${ref%%/*}
             git -c advice.detachedHead=false clone --quiet --depth 1 \
               --branch "$ref" "$SITECONF_URL" "$RUNNER_TEMP/src/$part"
