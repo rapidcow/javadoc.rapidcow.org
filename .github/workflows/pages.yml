@@ -17,7 +17,7 @@ concurrency:
 env:
   # The build script, www-siteconf, comes from one repository in two
   # parts; engine needs genlib, so genlib goes first.
-  SITECONF_URL: https://git.rapidcow.org/pub/project/siteconf.git
+  SITECONF_URL: https://github.com/rapidcow/siteconf.git
   GENLIB_REF: genlib/v0.00_00
   ENGINE_REF: engine/v0.00_00
 
