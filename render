@@ -15,7 +15,8 @@ use Template::Exception;
 
 use FindBin;
 use lib "$FindBin::RealBin/lib";   # Local::
-use RdKw::WwW::GenLib qw( load_state locate location );
+use RdKw::WwW::GenGenLib qw( load_state );
+use RdKw::WwW::GenLib qw( locate location );
 
 my $prog = $0;
 
@@ -53,7 +54,7 @@ sub LOG {
 }
 
 # D and O, each in a namespace of its own: [% D.b %], [% O.base_url %]
-my ($D, $O) = load_state(defined $o{B} ? $o{B} : '.');
+my ($D, $O) = @{+{ load_state(defined $o{B} ? $o{B} : '.') }}{qw( config option )};
 if ($o{d}) {
 	local $Data::Dumper::Varname = "D";
 	LOG "YOUR defs!\n";

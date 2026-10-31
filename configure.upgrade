@@ -1,0 +1,14 @@
+#!/bin/sh
+#
+# configure upgrade!
+#
+# If any step fails, examine the situation and
+# run the remaining lines manually.  (It's sort
+# of like a merge conflict, if that helps.)
+#
+set -e -x
+siteconf -i -o configure.new -Ddata=data -Obase_url=/ -Osite_url=https://javadoc.rapidcow.org/ -P web
+cp configure.new configure
+#cp configure.new configure.orig
+patch < configure.patch
+diff -u configure.orig configure > configure.patch

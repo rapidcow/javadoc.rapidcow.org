@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 #
-# configure -- written by `siteconf -i'.
+# configure -- written by `siteconf -i' version 0.01.
 #
 # Keep local changes as a patch on top of this file (it is generated
 # deterministically, so the same arguments give the same text and the
@@ -19,24 +19,19 @@ use File::Path qw(make_path);
 use File::Spec;
 use FindBin;
 
-# --- the preset, if any (first, so it can check what we are about to load)
+# --- what we need: [ module, minimum version ], from `siteconf -i -M',
+# and the preset if any (which comes first, so it can add to the list)
+our @NEED;
+BEGIN {
+	@NEED = (
+		[ 'RdKw::WwW::GenGenLib', 0 ],
+
+	);
+}
 # The `web' preset: a static site.  It insists on a site_url, and sees
 # to it that it and base_url agree (and are in the shape `locate' wants).
 # Template and URI are not core; say so now, not halfway through make.
-BEGIN {
-	my @missing;
-	for my $module (qw( Template URI )) {
-		(my $file = "$module.pm") =~ s!::!/!g;
-		eval { require $file; 1 } or push @missing, $module;
-	}
-	if (@missing) {
-		print STDERR "E: missing $_\n" for @missing;
-		die "E: " . scalar(@missing) . " module" . (@missing == 1 ? '' : 's')
-			. " missing.  Looks like you got some work to do...\n";
-	}
-}
-
-use RdKw::WwW::GenLib qw(parse_base);
+BEGIN { push @NEED, [ 'Template', 0 ], [ 'URI', 0 ], [ 'RdKw::WwW::GenLib', 0 ]; }
 
 sub preset_finish
 {
@@ -44,7 +39,7 @@ sub preset_finish
 	$O->{base_url} = '/' unless defined $O->{base_url} && length $O->{base_url};
 	defined $O->{site_url} && length $O->{site_url}
 		or die "E: no site_url; configure with -Osite_url=https://example.org\n";
-	eval { parse_base($O); 1 } or do {
+	eval { RdKw::WwW::GenLib::parse_base($O); 1 } or do {
 		my $err = $@;
 		$err =~ s/^/E: /mg;
 		die $err;
@@ -53,7 +48,27 @@ sub preset_finish
 
 # ---
 
-use RdKw::WwW::GenLib qw(read_make write_make);
+# Look before we load: a missing module is reported by us, all of
+# them at once, and not by the first `use' to trip over it.
+BEGIN {
+	my @bad;
+	for my $need (@NEED) {
+		my ($module, $min) = @$need;
+		(my $file = "$module.pm") =~ s!::!/!g;
+		eval { require $file; 1 }
+			or do { push @bad, "missing $module"; next };
+		$min and !eval { $module->VERSION($min); 1 }
+			and push @bad, "$module: version $min required"
+				. " (this is " . (defined $module->VERSION ? $module->VERSION : '?') . ")";
+	}
+	if (@bad) {
+		print STDERR "E: $_\n" for @bad;
+		die "E: " . scalar(@bad) . " module" . (@bad == 1 ? '' : 's')
+			. " missing.  Looks like you got some work to do...\n";
+	}
+}
+
+use RdKw::WwW::GenGenLib qw(read_make write_make);
 
 my $prog = basename($0);
 
@@ -68,11 +83,12 @@ my %Dd = (
 	R => "Makefile.in",
 	a => "html",
 	b => "site",
+	data => 'data',
 	e => ".ok",
 );
 my %Od = (
-	'data' => 'data',
-	'site_url' => 'https://javadoc.rapidcow.org',
+	base_url => "/",
+	site_url => "https://javadoc.rapidcow.org/",
 );
 
 sub isnull
@@ -91,9 +107,12 @@ The following variables may be defined:
   -DR         Transformation rules (default: $Dd{R})
   -DF         Manifest (default: $Dd{F})
   -De         Directory marker (default: $Dd{e})
-  -Osite_url  Absolute base (default: $Od{site_url})
-  -Obase_url  Host-relative base (default: inherited from site_url)
-  -Odata      Data directory (default: $Od{data})
+  -Ddata      Data directory (default: $Dd{data})
+
+Options with defaults:
+
+  -Obase_url  Host-relative base URL (default: $Od{base_url})
+  -Osite_url  Absolute base URL (default: $Od{site_url})
 
 Anything else you may -D or -O goes into MY/config.mk or MY/option.mk
 respectively, for the rulebook or for the files being transformed.
@@ -203,7 +222,7 @@ $D{e} =~ m!/! and die "E: `e' may not contain a slash.\n";
 for my $f ([ option => \%O ], [ config => \%D ]) {
 	my ($name, $H) = @$f;
 	my $what = write_make("MY/$name.mk", $H, $prog);
-	$what and print STDERR ($what eq 'created' ? "Writing" : "Updating"),
+	$what and print STDERR ($what > 1 ? "Writing" : "Updating"),
 		" MY/$name.mk\n";
 }
 

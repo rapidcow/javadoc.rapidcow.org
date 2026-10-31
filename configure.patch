@@ -1,22 +1,20 @@
---- configure.orig
-+++ configure
-@@ -71,7 +71,8 @@
+--- configure.orig	2026-10-31 15:15:56.881001331 -0500
++++ configure	2026-10-31 15:16:50.676631514 -0500
+@@ -83,7 +83,7 @@
+ 	R => "Makefile.in",
+ 	a => "html",
+ 	b => "site",
+-	data => "data",
++	data => 'data',
  	e => ".ok",
  );
  my %Od = (
--
-+	'data' => 'data',
-+	'site_url' => 'https://javadoc.rapidcow.org',
- );
- 
- sub isnull
-@@ -90,6 +91,9 @@
+@@ -107,7 +107,7 @@
    -DR         Transformation rules (default: $Dd{R})
    -DF         Manifest (default: $Dd{F})
    -De         Directory marker (default: $Dd{e})
-+  -Osite_url  Absolute base (default: $Od{site_url})
-+  -Obase_url  Host-relative base (default: inherited from site_url)
-+  -Odata      Data directory (default: $Od{data})
+-  -Ddata      (default: $Dd{data})
++  -Ddata      Data directory (default: $Dd{data})
  
- Anything else you may -D or -O goes into MY/config.mk or MY/option.mk
- respectively, for the rulebook or for the files being transformed.
+ Options with defaults:
+ 

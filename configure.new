@@ -1,0 +1,231 @@
+#!/usr/bin/env perl
+#
+# configure -- written by `siteconf -i' version 0.01.
+#
+# Keep local changes as a patch on top of this file (it is generated
+# deterministically, so the same arguments give the same text and the
+# patch keeps applying), rather than editing it in place and losing
+# them the next time `siteconf -i' is run.
+#
+use utf8;
+use 5.006;
+use strict;
+use warnings;
+use open ':std', ':encoding(UTF-8)';
+
+use Cwd qw(getcwd abs_path);
+use File::Basename;
+use File::Path qw(make_path);
+use File::Spec;
+use FindBin;
+
+# --- what we need: [ module, minimum version ], from `siteconf -i -M',
+# and the preset if any (which comes first, so it can add to the list)
+our @NEED;
+BEGIN {
+	@NEED = (
+		[ 'RdKw::WwW::GenGenLib', 0 ],
+
+	);
+}
+# The `web' preset: a static site.  It insists on a site_url, and sees
+# to it that it and base_url agree (and are in the shape `locate' wants).
+# Template and URI are not core; say so now, not halfway through make.
+BEGIN { push @NEED, [ 'Template', 0 ], [ 'URI', 0 ], [ 'RdKw::WwW::GenLib', 0 ]; }
+
+sub preset_finish
+{
+	my ($D, $O) = @_;
+	$O->{base_url} = '/' unless defined $O->{base_url} && length $O->{base_url};
+	defined $O->{site_url} && length $O->{site_url}
+		or die "E: no site_url; configure with -Osite_url=https://example.org\n";
+	eval { RdKw::WwW::GenLib::parse_base($O); 1 } or do {
+		my $err = $@;
+		$err =~ s/^/E: /mg;
+		die $err;
+	};
+}
+
+# ---
+
+# Look before we load: a missing module is reported by us, all of
+# them at once, and not by the first `use' to trip over it.
+BEGIN {
+	my @bad;
+	for my $need (@NEED) {
+		my ($module, $min) = @$need;
+		(my $file = "$module.pm") =~ s!::!/!g;
+		eval { require $file; 1 }
+			or do { push @bad, "missing $module"; next };
+		$min and !eval { $module->VERSION($min); 1 }
+			and push @bad, "$module: version $min required"
+				. " (this is " . (defined $module->VERSION ? $module->VERSION : '?') . ")";
+	}
+	if (@bad) {
+		print STDERR "E: $_\n" for @bad;
+		die "E: " . scalar(@bad) . " module" . (@bad == 1 ? '' : 's')
+			. " missing.  Looks like you got some work to do...\n";
+	}
+}
+
+use RdKw::WwW::GenGenLib qw(read_make write_make);
+
+my $prog = basename($0);
+
+# Baked in by `siteconf -i'.
+#   A   the project root, as seen from this script
+#   D   definitions, which are filesystem routing and nothing else
+#   O   options, which alter the state of the build
+my $A = ".";
+my %Dd = (
+	B => ".",
+	F => "MANIFEST",
+	R => "Makefile.in",
+	a => "html",
+	b => "site",
+	data => "data",
+	e => ".ok",
+);
+my %Od = (
+	base_url => "/",
+	site_url => "https://javadoc.rapidcow.org/",
+);
+
+sub isnull
+{
+	!(defined $_[0]) || !(length $_[0]);
+}
+
+my $usage = <<EOM;
+usage: $prog [-Dvar=val ...] [-Ovar=val ...] [--reset] [-h]
+
+The following variables may be defined:
+
+  -DB         Build directory, seen from the source tree (default: $Dd{B})
+  -Da         Source directory, seen from the source tree (default: $Dd{a})
+  -Db         Target directory, seen from the build directory (default: $Dd{b})
+  -DR         Transformation rules (default: $Dd{R})
+  -DF         Manifest (default: $Dd{F})
+  -De         Directory marker (default: $Dd{e})
+  -Ddata      (default: $Dd{data})
+
+Options with defaults:
+
+  -Obase_url  Host-relative base URL (default: $Od{base_url})
+  -Osite_url  Absolute base URL (default: $Od{site_url})
+
+Anything else you may -D or -O goes into MY/config.mk or MY/option.mk
+respectively, for the rulebook or for the files being transformed.
+
+  -h          This help message
+  --reset     Clear all configuration at this point
+EOM
+
+# `use open' covers the standard handles and `use utf8' our source,
+# but not @ARGV: those arrive as raw bytes, and would be encoded a
+# second time on their way into MY/*.mk.  (Anything that is not
+# valid UTF-8 is left alone.)
+utf8::decode($_) for @ARGV;
+
+my (%D, %O, $reset);
+while (@ARGV) {
+	my $arg = shift;
+	if ($arg eq '--') {
+		last;
+	} elsif ($arg eq '-h' or $arg eq '-?' or $arg eq '--help') {
+		print $usage;
+		exit 0;
+	} elsif ($arg eq '--reset') {
+		%D = ();
+		%O = ();
+		$reset = 1;
+	} elsif ($arg =~ /^-([DO])(.*)$/s) {
+		my ($S, $s) = ($1, $2);
+		unless (length $s) {
+			@ARGV or die "$prog: -$S requires an argument.\n";
+			$s = shift;
+		}
+		my ($k, $v) = split(/=/, $s, 2);
+		length $k or die "$prog: -$S: empty name.\n";
+		($S eq 'D' ? \%D : \%O)->{$k} = defined $v ? $v : "";
+	} else {
+		print STDERR "$prog: invalid option: \`$arg'\n";
+		die +( split(/^/, $usage, 2) )[0];
+	}
+}
+@ARGV and die "$prog: too many arguments\n";
+
+# We are in the source tree, wherever we have been started from; that
+# is where $A says it is.
+my $srcdir = abs_path(File::Spec->rel2abs($A, $FindBin::RealBin));
+defined $srcdir or die "E: cannot find the project root ($A): $!\n";
+chdir $srcdir or die "E: cannot chdir to $srcdir: $!\n";
+
+exists $D{A} and die <<EUGH;
+E: `A' (the source tree, seen from the build directory) is derived
+E: from where we are standing, and cannot be set.
+EUGH
+
+# -DB is the build directory, seen from the source tree; like
+# `cmake -B' we go there, and make it if it is not there.  Its
+# spelling is kept as is -- absolute or not.  It is a statement about
+# *this* run: nothing about it is ever read back from MY/config.mk,
+# which is the very file it is about to choose.
+my $B = defined $D{B} ? $D{B} : $Dd{B};
+length $B or die "E: `B' must not be empty; use -DB=. for the source tree.\n";
+-d $B or make_path($B);
+chdir $B or die "E: cannot chdir to $B: $!\n";
+my $Babs = getcwd();
+
+# Files first, command line over them -- unless --reset said otherwise.
+unless ($reset) {
+	my %Dcli = %D;
+	my %Ocli = %O;
+	%D = -f "MY/config.mk" && -r _ ? read_make("MY/config.mk") : ();
+	%O = -f "MY/option.mk" && -r _ ? read_make("MY/option.mk") : ();
+	@D{keys %Dcli} = values %Dcli;
+	@O{keys %Ocli} = values %Ocli;
+}
+
+# Both are facts about where we are standing right now, so we clobber
+# whatever MY/config.mk said.  They are still written out, so that
+# whatever makes the Makefile need only read MY/*.mk.
+#
+#   A  the source tree, seen from the build dir (`.' in-tree)
+#   B  the build dir, seen from the source tree (`.' in-tree)
+$D{B} = $B;
+$D{A} = File::Spec->abs2rel($srcdir, $Babs);
+
+# What was not said, is the default (even if it was said to be empty).
+for my $k (keys %Dd) {
+	$D{$k} = $Dd{$k} if isnull($D{$k});
+}
+for my $k (keys %Od) {
+	$O{$k} = $Od{$k} if isnull($O{$k});
+}
+
+defined &preset_finish and preset_finish(\%D, \%O);
+
+for my $k (qw( a b R F )) {
+	$D{$k} =~ s!/+$!!;
+	length $D{$k} or die "E: `$k' may not be empty.\n";
+}
+# b is a directory we create rules under, one parent at a time; that
+# walk only ends at `.', so it must be relative.  (a, on the other
+# hand, is free to be absolute: out-of-tree builds.)
+File::Spec->file_name_is_absolute($D{b})
+	and die "E: `b' prefix must be a relative path.\n";
+$D{e} =~ m!/! and die "E: `e' may not contain a slash.\n";
+
+# MY/option.mk first, or this would be circular.
+-d 'MY' or mkdir 'MY' or die "mkdir MY: $!\n";
+for my $f ([ option => \%O ], [ config => \%D ]) {
+	my ($name, $H) = @$f;
+	my $what = write_make("MY/$name.mk", $H, $prog);
+	$what and print STDERR ($what > 1 ? "Writing" : "Updating"),
+		" MY/$name.mk\n";
+}
+
+my $where = $B eq '.' ? '' : " -B " . ($B =~ m!\A[\w./:@%+=,-]+\z! ? $B : "'$B'");
+print STDERR "Now run: siteconf -g$where\n";
+exit 0;
