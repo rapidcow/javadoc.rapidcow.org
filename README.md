@@ -7,8 +7,13 @@ Source for the static site at <https://javadoc.rapidcow.org>.
 Perl is only a *build* dependency. The generated site is plain static
 files, so serving it requires nothing beyond a web server.
 
-You need Perl with `Template` (Template Toolkit), `URI` and the
-`www-siteconf` distribution (`siteconf`, and `RdKw::WwW::GenLib`).
+You need Perl 5 with
+
+*  `Template` (Template Toolkit),
+*  `URI`
+*  `URI::Escape`
+*  My `WwW-GenGenLib`, `WwW-GenLib`, `WwW-SiteConf` from the
+   [siteconf](https://foss.rapidcow.org/project/siteconf/) project.
 
 On Debian/Ubuntu, for the first two:
 
@@ -61,11 +66,8 @@ static file server (`./view` does this).
 ## About `configure`
 
 `configure` is `siteconf -i -P web` plus local changes, kept as a patch
-in `configure.patch` so that it can be regenerated:
-
-```sh
-siteconf -i -P web && patch configure < configure.patch
-```
+in `configure.patch` so that it can be regenerated.  In an ideal case,
+you can just run `./configure.upgrade` and commit the changed files.
 
 The goals of the build are in `MANIFEST`; `make` builds `site`, the only
 one so far.
