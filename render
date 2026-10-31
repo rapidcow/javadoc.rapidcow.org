@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 # HAVE: render
-# NEED: MY/option.mk
+# NEED: ${B}/MY/option.mk
 
 use 5.006;
 use strict;
@@ -14,8 +14,8 @@ use Template;
 use Template::Exception;
 
 use FindBin;
-use lib "$FindBin::RealBin/lib";
-use RdKw::WwW::GenGenLib;
+use lib "$FindBin::RealBin/lib";   # Local::
+use RdKw::WwW::GenLib qw( load_state locate location );
 
 my $prog = $0;
 
@@ -52,38 +52,35 @@ sub LOG {
 	}
 }
 
-my $optfile = (defined $o{B} ? "$o{B}/" : "") . "MY/option.mk";
--e $optfile and -f _ or die <<RUSH;
-error: You have not configured!
-error: You should ./configure first. ;)
-RUSH
-
-my %O = read_make $optfile;
-
+# D and O, each in a namespace of its own: [% D.b %], [% O.base_url %]
+my ($D, $O) = load_state($o{B});
 if ($o{d}) {
-#	local $Data::Dumper::Sortkeys = 1;
+	local $Data::Dumper::Varname = "D";
+	LOG "YOUR defs!\n";
+	LOG Dumper $D;
 	local $Data::Dumper::Varname = "O";
 	LOG "YOUR options!\n";
-	LOG Dumper \%O;
+	LOG Dumper $O;
 }
 
-my %F;
+my %O = (%$O, location => location($D, $bpath));
 
-{
-	my %I = read_deps($apath);
-	defined $I{HAVE} or die "E: $apath: missing HAVE declaration\n";
-	$O{location} = $I{HAVE};
-	$F{locate} = sub {
-		@_ == 1 or die Template::Exception->new(
-			"usage" => "[% locate PATH %]");
+my %V = (
+	D => $D,
+	O => \%O,
+	# Specific to this site, and not to siteconf: where base_url is not
+	# http(s), a path naming a directory is spelled out as its index.html
+	# (so that the links also work from file://).
+	locate => sub {
+		@_ == 1 or die "usage: [% locate PATH %]\n";
 		my ($where) = @_;
 		if ($O{base_url} !~ m{^https?://}i) {
 			$where .= 'index.html' if !length($where)
 				|| $where =~ m{/$};
 		}
 		locate(\%O, $O{location}, $where);
-	}
-}
+	},
+);
 
 my $tt = Template->new({
 	INCLUDE_PATH => [ 'skel', '.' ],
@@ -116,7 +113,7 @@ for my $trap (qw( INT HUP TERM )) {
 	$SIG{$trap} = \&giveup;
 }
 
-unless ($tt->process($if, { %O, %F }, $of)) {
+unless ($tt->process($if, \%V, $of)) {
 	close $of;
 	unlink $bpath;
 	die "[TT] ", $tt->error();

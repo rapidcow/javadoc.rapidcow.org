@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="[% locate('ai/assets/site.css') | xml %]">
   <link rel="canonical" href="
 [%- FILTER xml -%]
-[% locate('//' _ location) -%]
+[% locate('//' _ O.location) -%]
 [%- END -%]
 ">
   <script src="[% locate('ai/assets/site.js') | xml %]" defer></script>

@@ -1,5 +1,5 @@
 /*
- * HAVE: ai/assets/site.js
+ * HAVE: ${a}/ai/assets/site.js
  *
  * Designed by Claude Code ☕
  */

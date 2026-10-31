@@ -30,8 +30,8 @@ sub new
 {
 	my ($class, $context, $file) = @_;
 
-	my $dataroot = $context->stash->get('data');
-	defined $dataroot or die "E: \`data' variable unset\n";
+	my $dataroot = $context->stash->get([ 'O', 0, 'data', 0 ]);
+	defined $dataroot or die "E: option \`data' unset\n";
 
 	my $datafile = File::Spec->catfile($dataroot, $file);
 	open my $fh, '<', $datafile or die "E: open($file): $!\n";

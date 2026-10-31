@@ -1,6 +1,11 @@
-index.html	home page of https://javadoc.rapidcow.org/
-robots.txt	Web Robots policy
-ai/assets/site.css
-ai/assets/site.js
-trivnote/index.html
-trivnote/libexpr/index.html
+#
+# The goals of the build.  Files are relative to html/ (-Da), and
+# are made in site/ (-Db).
+#
+MAKE site
+	NEED index.html                 # home page of https://javadoc.rapidcow.org/
+	NEED robots.txt                 # Web Robots policy
+	NEED ai/assets/site.css
+	NEED ai/assets/site.js
+	NEED trivnote/index.html
+	NEED trivnote/libexpr/index.html

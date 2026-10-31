@@ -7,22 +7,20 @@ Source for the static site at <https://javadoc.rapidcow.org>.
 Perl is only a *build* dependency. The generated site is plain static
 files, so serving it requires nothing beyond a web server.
 
-You need Perl with the following modules:
+You need Perl with `Template` (Template Toolkit), `URI` and the
+`www-siteconf` distribution (`siteconf`, and `RdKw::WwW::GenLib`).
 
-- `File::Which`
-- `Template` (Template Toolkit)
-- `URI`
-
-On Debian/Ubuntu:
+On Debian/Ubuntu, for the first two:
 
 ```sh
-apt-get install libfile-which-perl libtemplate-perl liburi-perl
+apt-get install libtemplate-perl liburi-perl
 ```
 
 Then:
 
 ```sh
 ./configure
+siteconf -g
 make
 ```
 
@@ -35,7 +33,9 @@ any static file server.
 | --- | --- | --- |
 | `-Da=DIR` | Source directory | `html` |
 | `-Db=DIR` | Target directory | `site` |
-| `-Dtar_from_stdin=CMD` | Implementation of `tar -T -`, as in GNU tar | autodetected |
+| `-DB=DIR` | Build directory (`MY/`, `Makefile`) | `.` |
+| `-Osite_url=URL` | Absolute base | `https://javadoc.rapidcow.org` |
+| `-Odata=DIR` | Data directory | `data` |
 
 ## Deploying to GitHub Pages
 
@@ -47,6 +47,7 @@ Pushing to `gh-pages` runs `.github/workflows/pages.yml`, which does:
 
 ```sh
 ./configure -Db=docs
+siteconf -g
 make
 find docs -name .ok -delete
 ```
@@ -56,3 +57,15 @@ and publishes `docs/`. The repository's Pages source must be set to
 
 To preview locally, run the same commands and serve `docs/` with any
 static file server (`./view` does this).
+
+## About `configure`
+
+`configure` is `siteconf -i -P web` plus local changes, kept as a patch
+in `configure.patch` so that it can be regenerated:
+
+```sh
+siteconf -i -P web && patch configure < configure.patch
+```
+
+The goals of the build are in `MANIFEST`; `make` builds `site`, the only
+one so far.

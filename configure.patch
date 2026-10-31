@@ -1,0 +1,22 @@
+--- configure.orig
++++ configure
+@@ -71,7 +71,8 @@
+ 	e => ".ok",
+ );
+ my %Od = (
+-
++	'data' => 'data',
++	'site_url' => 'https://javadoc.rapidcow.org',
+ );
+ 
+ sub isnull
+@@ -90,6 +91,9 @@
+   -DR         Transformation rules (default: $Dd{R})
+   -DF         Manifest (default: $Dd{F})
+   -De         Directory marker (default: $Dd{e})
++  -Osite_url  Absolute base (default: $Od{site_url})
++  -Obase_url  Host-relative base (default: inherited from site_url)
++  -Odata      Data directory (default: $Od{data})
+ 
+ Anything else you may -D or -O goes into MY/config.mk or MY/option.mk
+ respectively, for the rulebook or for the files being transformed.

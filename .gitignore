@@ -12,3 +12,7 @@ Makefile
 /docs/ai/assets/site.js
 /docs/trivnote/index.html
 /docs/trivnote/libexpr/index.html
+
+# Since we're using patch(1), we'd expect to see these...
+*.orig
+*.rej
