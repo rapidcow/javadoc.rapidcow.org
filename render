@@ -53,7 +53,7 @@ sub LOG {
 }
 
 # D and O, each in a namespace of its own: [% D.b %], [% O.base_url %]
-my ($D, $O) = load_state($o{B});
+my ($D, $O) = load_state(defined $o{B} ? $o{B} : '.');
 if ($o{d}) {
 	local $Data::Dumper::Varname = "D";
 	LOG "YOUR defs!\n";
