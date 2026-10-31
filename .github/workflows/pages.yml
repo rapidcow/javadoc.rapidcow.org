@@ -3,6 +3,10 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [gh-pages]
+    paths-ignore:
+      - "configure.*"
+      - "README.md"
+      - "view"
   workflow_dispatch:
 
 permissions:
