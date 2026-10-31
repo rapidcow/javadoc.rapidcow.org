@@ -1,6 +1,6 @@
---- configure.orig	2026-10-31 15:15:56.881001331 -0500
-+++ configure	2026-10-31 15:16:50.676631514 -0500
-@@ -83,7 +83,7 @@
+--- configure.orig	2026-10-31 18:49:00.038669094 -0500
++++ configure	2026-10-31 18:49:00.043843403 -0500
+@@ -99,7 +99,7 @@
  	R => "Makefile.in",
  	a => "html",
  	b => "site",
@@ -9,9 +9,9 @@
  	e => ".ok",
  );
  my %Od = (
-@@ -107,7 +107,7 @@
-   -DR         Transformation rules (default: $Dd{R})
-   -DF         Manifest (default: $Dd{F})
+@@ -123,7 +123,7 @@
+   -DR         Transformation rules, from current directory (default: $Dd{R})
+   -DF         Manifest, from current directory (default: $Dd{F})
    -De         Directory marker (default: $Dd{e})
 -  -Ddata      (default: $Dd{data})
 +  -Ddata      Data directory (default: $Dd{data})

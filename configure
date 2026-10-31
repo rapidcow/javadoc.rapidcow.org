@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 #
-# configure -- written by `siteconf -i' version 0.01.
+# configure -- written by `siteconf -i' version 0.0101.
 #
 # Keep local changes as a patch on top of this file (it is generated
 # deterministically, so the same arguments give the same text and the
@@ -18,6 +18,7 @@ use File::Basename;
 use File::Path qw(make_path);
 use File::Spec;
 use FindBin;
+use Getopt::Long qw( GetOptions );
 
 # --- what we need: [ module, minimum version ], from `siteconf -i -M',
 # and the preset if any (which comes first, so it can add to the list)
@@ -70,6 +71,21 @@ BEGIN {
 
 use RdKw::WwW::GenGenLib qw(read_make write_make);
 
+#
+# How can ./configure work without siteconf -g afterwards
+# Anyways, let's just port this one function in the (very
+# weird) circumstance where SiteConf.pm is somehow missing.
+#
+sub shell_quote
+{
+	my ($s) = @_;
+	# Nothing in it for the shell to mangle?  Then leave it be.
+	return $s if $s =~ m!\A[A-Za-z0-9_./:@%+=,-]+\z!;
+	# otherwise: single quotes, and ' itself as '\''
+	$s =~ s!'!'\\''!g;
+	"'$s'";
+}
+
 my $prog = basename($0);
 
 # Baked in by `siteconf -i'.
@@ -97,15 +113,15 @@ sub isnull
 }
 
 my $usage = <<EOM;
-usage: $prog [-Dvar=val ...] [-Ovar=val ...] [--reset] [-h]
+usage: $prog [-Dvar=val ...] [-Ovar=val ...] [--reset] [-hq]
 
 The following variables may be defined:
 
   -DB         Build directory, seen from the source tree (default: $Dd{B})
   -Da         Source directory, seen from the source tree (default: $Dd{a})
   -Db         Target directory, seen from the build directory (default: $Dd{b})
-  -DR         Transformation rules (default: $Dd{R})
-  -DF         Manifest (default: $Dd{F})
+  -DR         Transformation rules, from current directory (default: $Dd{R})
+  -DF         Manifest, from current directory (default: $Dd{F})
   -De         Directory marker (default: $Dd{e})
   -Ddata      Data directory (default: $Dd{data})
 
@@ -117,8 +133,9 @@ Options with defaults:
 Anything else you may -D or -O goes into MY/config.mk or MY/option.mk
 respectively, for the rulebook or for the files being transformed.
 
-  -h          This help message
+  -h          This help message (alias: --help, -?)
   --reset     Clear all configuration at this point
+  -q          Disable tips (alias: --quiet)
 EOM
 
 # `use open' covers the standard handles and `use utf8' our source,
@@ -127,43 +144,42 @@ EOM
 # valid UTF-8 is left alone.)
 utf8::decode($_) for @ARGV;
 
-my (%D, %O, $reset);
-while (@ARGV) {
-	my $arg = shift;
-	if ($arg eq '--') {
-		last;
-	} elsif ($arg eq '-h' or $arg eq '-?' or $arg eq '--help') {
-		print $usage;
-		exit 0;
-	} elsif ($arg eq '--reset') {
-		%D = ();
-		%O = ();
-		$reset = 1;
-	} elsif ($arg =~ /^-([DO])(.*)$/s) {
-		my ($S, $s) = ($1, $2);
-		unless (length $s) {
-			@ARGV or die "$prog: -$S requires an argument.\n";
-			$s = shift;
-		}
-		my ($k, $v) = split(/=/, $s, 2);
+my (%D, %O, $reset, $shutup);
+
+# -Dname=val, -Oname=val (a lone -Dname is -Dname=)
+sub setter
+{
+	my ($S, $H) = @_;
+	sub {
+		my ($k, $v) = split(/=/, $_[1], 2);
 		length $k or die "$prog: -$S: empty name.\n";
-		($S eq 'D' ? \%D : \%O)->{$k} = defined $v ? $v : "";
-	} else {
-		print STDERR "$prog: invalid option: \`$arg'\n";
-		die +( split(/^/, $usage, 2) )[0];
-	}
+		$H->{$k} = defined $v ? $v : "";
+	};
 }
+
+Getopt::Long::Configure(qw( bundling no_ignore_case ));
+GetOptions(
+	'h|help|?' => sub { print $usage; exit 0 },
+	'reset'    => sub { %D = (); %O = (); $reset = 1 },
+	'q|quiet'  => \$shutup,
+	'D=s'      => setter(D => \%D),
+	'O=s'      => setter(O => \%O),
+) or die +( split(/^/, $usage, 2) )[0];
 @ARGV and die "$prog: too many arguments\n";
 
-# We are in the source tree, wherever we have been started from; that
-# is where $A says it is.
+# Store where we were started from: for telling the user what
+# to run after configuring.
+my $start = getcwd();
+
+# We are in the source tree, wherever we have been started from;
+# that is where $A says it is.
 my $srcdir = abs_path(File::Spec->rel2abs($A, $FindBin::RealBin));
 defined $srcdir or die "E: cannot find the project root ($A): $!\n";
 chdir $srcdir or die "E: cannot chdir to $srcdir: $!\n";
 
 exists $D{A} and die <<EUGH;
-E: `A' (the source tree, seen from the build directory) is derived
-E: from where we are standing, and cannot be set.
+E: `A' (the source tree, seen from the build directory) is
+E: derived from a hard-coded root, and thus cannot be set.
 EUGH
 
 # -DB is the build directory, seen from the source tree; like
@@ -179,12 +195,12 @@ my $Babs = getcwd();
 
 # Files first, command line over them -- unless --reset said otherwise.
 unless ($reset) {
-	my %Dcli = %D;
-	my %Ocli = %O;
+	my %Dc = %D;   # cool times
+	my %Oc = %O;   # trade anyone?
 	%D = -f "MY/config.mk" && -r _ ? read_make("MY/config.mk") : ();
 	%O = -f "MY/option.mk" && -r _ ? read_make("MY/option.mk") : ();
-	@D{keys %Dcli} = values %Dcli;
-	@O{keys %Ocli} = values %Ocli;
+	@D{keys %Dc} = values %Dc;
+	@O{keys %Oc} = values %Oc;
 }
 
 # Both are facts about where we are standing right now, so we clobber
@@ -223,9 +239,16 @@ for my $f ([ option => \%O ], [ config => \%D ]) {
 	my ($name, $H) = @$f;
 	my $what = write_make("MY/$name.mk", $H, $prog);
 	$what and print STDERR ($what > 1 ? "Writing" : "Updating"),
-		" MY/$name.mk\n";
+		" MY/$name.mk\n" unless $shutup;
 }
 
-my $where = $B eq '.' ? '' : " -B " . ($B =~ m!\A[\w./:@%+=,-]+\z! ? $B : "'$B'");
-print STDERR "Now run: siteconf -g$where\n";
+# Compute $B for siteconf -g, as seen from the current directory
+# (not from the source tree, which is where -DB is seen from)
+my $Bhere = File::Spec->abs2rel($Babs, $start);
+my $where = $Bhere eq '.' ? '' : " -B " . shell_quote($Bhere);
+unless ($shutup) {
+	print STDERR "Done!\n";
+	print STDERR "To generate build script, run: siteconf -g$where\n";
+}
+
 exit 0;
