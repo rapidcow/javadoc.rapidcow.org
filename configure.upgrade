@@ -7,7 +7,7 @@
 # of like a merge conflict, if that helps.)
 #
 set -e -x
-siteconf -i -o configure.new -Ddata=data -Obase_url=/ -Osite_url=https://javadoc.rapidcow.org/ -P web
+siteconf -i -f -o configure.new -o render:/dev/null -Ddata=data -Obase_url=/ -Osite_url=https://javadoc.rapidcow.org/ -P web
 cp configure.new configure
 #cp configure.new configure.orig
 patch < configure.patch

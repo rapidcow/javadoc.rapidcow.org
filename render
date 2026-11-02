@@ -15,8 +15,8 @@ use Template::Exception;
 
 use FindBin;
 use lib "$FindBin::RealBin/lib";   # Local::
-use RdKw::WwW::GenGenLib qw( load_state );
-use RdKw::WwW::GenLib qw( locate location );
+use RdKw::WwW::GenGenLib qw( read_deps load_state );
+use RdKw::WwW::GenLib qw( locate );
 
 my $prog = $0;
 
@@ -53,7 +53,10 @@ sub LOG {
 	}
 }
 
-# D and O, each in a namespace of its own: [% D.b %], [% O.base_url %]
+#
+# Load configuration parameters and build options, so
+# we can expose them to the template.
+#
 my ($D, $O) = @{+{ load_state(defined $o{B} ? $o{B} : '.') }}{qw( config option )};
 if ($o{d}) {
 	local $Data::Dumper::Varname = "D";
@@ -64,22 +67,31 @@ if ($o{d}) {
 	LOG Dumper $O;
 }
 
-my %O = (%$O, location => location($D, $bpath));
+#
+# Find ourselves from the dependency graph declarations.
+# This pattern is purely symbolic, though we also accept
+# literal spelling, since some people like to treat ${a}
+# as a predefined constant (like how ${A} is).
+#
+my %I = read_deps($apath);
+defined $I{HAVE} or die "E: $apath: HAVE declaration not found\n";
+(my $L = $I{HAVE}) =~ s{\A(?:\$(?:\{A\}|A)/)?(?:\$(?:\{a\}|a)|\Q$D->{a}\E)/}{}
+	or $D->{a} eq '.' or die "E: $apath: HAVE `$I{HAVE}' not under \${a} ($D->{a})\n";
 
 my %V = (
 	D => $D,
-	O => \%O,
+	O => $O,
 	# Specific to this site, and not to siteconf: where base_url is not
 	# http(s), a path naming a directory is spelled out as its index.html
 	# (so that the links also work from file://).
 	locate => sub {
 		@_ == 1 or die "usage: [% locate PATH %]\n";
 		my ($where) = @_;
-		if ($O{base_url} !~ m{^https?://}i) {
+		if ($O->{base_url} !~ m{^https?://}i) {
 			$where .= 'index.html' if !length($where)
 				|| $where =~ m{/$};
 		}
-		locate(\%O, $O{location}, $where);
+		locate($O, $L, $where);
 	},
 );
 

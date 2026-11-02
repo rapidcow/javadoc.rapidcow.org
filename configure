@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 #
-# configure -- written by `siteconf -i' version 0.0101.
+# configure -- written by `siteconf -i' version 0.02.
 #
 # Keep local changes as a patch on top of this file (it is generated
 # deterministically, so the same arguments give the same text and the
@@ -91,11 +91,10 @@ sub shell_quote
 my $prog = basename($0);
 
 # Baked in by `siteconf -i'.
-#   A   the project root, as seen from this script
 #   D   definitions, which are filesystem routing and nothing else
 #   O   options, which alter the state of the build
-my $A = ".";
 my %Dd = (
+	A => ".",
 	B => ".",
 	F => "MANIFEST",
 	R => "Makefile.in",
@@ -119,6 +118,7 @@ usage: $prog [-Dvar=val ...] [-Ovar=val ...] [--reset] [-hq]
 
 The following variables may be defined:
 
+  -DA         Project root, seen from current directory (default: $Dd{A})
   -DB         Build directory, seen from the source tree (default: $Dd{B})
   -Da         Source directory, seen from the source tree (default: $Dd{a})
   -Db         Target directory, seen from the build directory (default: $Dd{b})
@@ -138,6 +138,8 @@ respectively, for the rulebook or for the files being transformed.
   -h          This help message (alias: --help, -?)
   --reset     Clear all configuration at this point
   -q          Disable tips (alias: --quiet)
+
+See also `perldoc RdKw::WwW::SiteConf::Configure'.
 EOM
 
 # `use open' covers the standard handles and `use utf8' our source,
@@ -173,16 +175,12 @@ GetOptions(
 # to run after configuring.
 my $start = getcwd();
 
-# We are in the source tree, wherever we have been started from;
-# that is where $A says it is.
-my $srcdir = abs_path(File::Spec->rel2abs($A, $FindBin::RealBin));
+# We go to the source tree, which is where A says it is,
+# seen from where we have been started (not from this script).
+my $A = isnull($D{A}) ? $Dd{A} : $D{A};
+my $srcdir = abs_path(File::Spec->rel2abs($A, $start));
 defined $srcdir or die "E: cannot find the project root ($A): $!\n";
 chdir $srcdir or die "E: cannot chdir to $srcdir: $!\n";
-
-exists $D{A} and die <<EUGH;
-E: `A' (the source tree, seen from the build directory) is
-E: derived from a hard-coded root, and thus cannot be set.
-EUGH
 
 # -DB is the build directory, seen from the source tree; like
 # `cmake -B' we go there, and make it if it is not there.  Its
@@ -211,8 +209,10 @@ unless ($reset) {
 #
 #   A  the source tree, seen from the build dir (`.' in-tree)
 #   B  the build dir, seen from the source tree (`.' in-tree)
+# An absolute A or B is spelled as it was given.
 $D{B} = $B;
-$D{A} = File::Spec->abs2rel($srcdir, $Babs);
+$D{A} = File::Spec->file_name_is_absolute($A) ? $A
+	: File::Spec->abs2rel($srcdir, $Babs);
 
 # What was not said, is the default (even if it was said to be empty).
 for my $k (keys %Dd) {
