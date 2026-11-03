@@ -54,7 +54,7 @@ jobs:
               --branch "$ref" "$SITECONF_URL" "$RUNNER_TEMP/src/$part"
             (cd "$RUNNER_TEMP/src/$part/$part" &&
               perl Makefile.PL INSTALL_BASE="$prefix" &&
-              make && make install)
+              make && make test && make install)
           done
           echo "PERL5LIB=$PERL5LIB" >> "$GITHUB_ENV"
           echo "$prefix/bin" >> "$GITHUB_PATH"
