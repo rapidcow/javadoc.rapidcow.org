@@ -2,6 +2,8 @@ MY/
 site/
 tmp-*
 Makefile
+build.ninja
+.ninja_log
 .ok
 .*.sw[a-p]
 
