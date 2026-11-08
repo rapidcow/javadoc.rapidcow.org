@@ -15,7 +15,9 @@ use Template::Exception;
 
 use FindBin;
 use lib "$FindBin::RealBin/lib";   # Local::
-use RdKw::WwW::GenGenLib qw( read_deps load_state );
+use RdKw::WwW::GenGenLib 0.0002 qw(
+	read_deps load_state
+	norm_deps subs_deps uproot );
 use RdKw::WwW::GenLib qw( locate );
 
 my $prog = $0;
@@ -75,8 +77,28 @@ if ($o{d}) {
 #
 my %I = read_deps($apath);
 defined $I{HAVE} or die "E: $apath: HAVE declaration not found\n";
-(my $L = $I{HAVE}) =~ s{\A(?:\$(?:\{A\}|A)/)?(?:\$(?:\{a\}|a)|\Q$D->{a}\E)/}{}
-	or $D->{a} eq '.' or die "E: $apath: HAVE `$I{HAVE}' not under \${a} ($D->{a})\n";
+my $target = do {
+	my ($name, $norm, $real);
+	# Try symbolic prefix
+	if (defined ($name = uproot('${a}',
+		$norm = norm_deps($I{HAVE}))))
+	{
+		subs_deps($D, $name);
+	}
+	# Try literal prefix
+	elsif (defined ($name = uproot($D->{a},
+		$real = subs_deps($D, $norm))))
+	{
+		$name;
+	}
+	else {
+		my $aka = $real eq $I{HAVE} ? "" : " (which is `$real')";
+		die "E: $apath: HAVE `$I{HAVE}'$aka not "
+			. "under \${a} (which is `$D->{a}')\n";
+	}
+};
+# relapath doesn't do well with leading slashes.
+$target =~ s/\A\/+//;
 
 my %V = (
 	D => $D,
@@ -91,7 +113,7 @@ my %V = (
 			$where .= 'index.html' if !length($where)
 				|| $where =~ m{/$};
 		}
-		locate($O, $L, $where);
+		locate($O, $target, $where);
 	},
 );
 
