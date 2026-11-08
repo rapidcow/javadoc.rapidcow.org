@@ -25,8 +25,8 @@ env:
   # the directory to build.
   SITECONF_URL: https://github.com/rapidcow/siteconf.git
   GENGENLIB_REF: gengenlib/v0.00_02
-  GENLIB_REF: genlib/v0.02_01
-  ENGINE_REF: engine/v0.02_01
+  GENLIB_REF: genlib/v0.02_02
+  ENGINE_REF: engine/v0.02_02
 
 jobs:
   deploy:
