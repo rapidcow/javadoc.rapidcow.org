@@ -1,6 +1,6 @@
---- configure.orig	2026-11-06 15:59:22.627546000 -0600
-+++ configure	2026-11-06 16:00:20.626134000 -0600
-@@ -128,7 +128,7 @@
+--- configure.orig	2026-11-07 22:16:36.778105000 -0600
++++ configure	2026-11-07 22:16:36.779550000 -0600
+@@ -137,7 +137,7 @@
    -DF         Manifest, from current directory (default: $Dd{F})
    -De         Directory marker (default: $Dd{e})
    -Dclean     Clean rule template (default: $Dd{clean})
