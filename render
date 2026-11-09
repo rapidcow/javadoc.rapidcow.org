@@ -18,7 +18,7 @@ use lib "$FindBin::RealBin/lib";   # Local::
 use RdKw::WwW::GenGenLib 0.0002 qw(
 	read_deps load_state
 	norm_dep subs_dep uproot );
-use RdKw::WwW::GenLib qw( locate );
+use RdKw::WwW::GenLib 0.0203 qw( locate );
 
 my $prog = $0;
 
@@ -109,13 +109,12 @@ my %V = (
 	# http(s), a path naming a directory is spelled out as its index.html
 	# (so that the links also work from file://).
 	locate => sub {
-		@_ == 1 or die "usage: [% locate PATH %]\n";
-		my ($where) = @_;
+		my $where = locate($O, $target, @_);
 		if ($O->{base_url} !~ m{^https?://}i) {
 			$where .= 'index.html' if !length($where)
 				|| $where =~ m{/$};
 		}
-		locate($O, $target, $where);
+		$where;
 	},
 	location => $target,
 );
