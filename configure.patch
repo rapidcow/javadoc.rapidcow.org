@@ -1,5 +1,5 @@
---- configure.new	2026-11-09 15:38:15
-+++ configure	2026-11-09 15:38:25
+--- configure.new	2026-11-09 17:58:08.493303354 -0600
++++ configure	2026-11-09 17:58:08.502791166 -0600
 @@ -137,7 +137,7 @@
    -DF         Manifest, from current directory (default: $Dd{F})
    -De         Directory marker (default: $Dd{e})
