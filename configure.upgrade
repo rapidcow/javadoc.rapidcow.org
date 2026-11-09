@@ -11,4 +11,4 @@ siteconf -i -f -o configure.new -o render:/dev/null -Ddata=data -Obase_url=/ -Os
 cp configure.new configure
 #cp configure.new configure.orig
 patch < configure.patch
-diff -u configure.orig configure > configure.patch
+diff -u configure.new configure > configure.patch
