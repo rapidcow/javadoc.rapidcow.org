@@ -27,7 +27,7 @@ our @NEED;
 BEGIN {
 	@NEED = (
 		[ "RdKw::WwW::GenGenLib", "0.0002" ],
-		[ "RdKw::WwW::GenLib", 0 ],
+		[ "RdKw::WwW::GenLib", "0.0203" ],
 		[ "Template", 0 ],
 	);
 }
@@ -38,7 +38,7 @@ BEGIN {
 # At configure-time, parse_base from GenLib is required for
 # validating/initializing site_url and base_url.
 #
-# USE: RdKw::WwW::GenLib
+# USE: RdKw::WwW::GenLib=0.0203
 # USE: Template
 #
 # These dependencies are hints for `siteconf -i'.  You may
@@ -137,7 +137,7 @@ The following variables may be defined:
   -DF         Manifest, from current directory (default: $Dd{F})
   -De         Directory marker (default: $Dd{e})
   -Dclean     Clean rule template (default: $Dd{clean})
-  -Ddata      Data directory (default: $Dd{data})
+  -Ddata      (default: $Dd{data})
 
 Options with defaults:
 
