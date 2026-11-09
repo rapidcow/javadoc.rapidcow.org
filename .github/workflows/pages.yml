@@ -24,9 +24,9 @@ env:
   # the render script) needs genlib.  Each ref's first component names
   # the directory to build.
   SITECONF_URL: https://github.com/rapidcow/siteconf.git
-  GENGENLIB_REF: gengenlib/v0.00_02
-  GENLIB_REF: genlib/v0.02_02
-  ENGINE_REF: engine/v0.02_02
+  GENGENLIB_REF: gengenlib/v0.00_03
+  GENLIB_REF: genlib/v0.02_03
+  ENGINE_REF: engine/v0.02_03
 
 jobs:
   deploy:
