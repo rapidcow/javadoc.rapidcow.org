@@ -103,6 +103,8 @@ defined $I{HAVE} or die "E: $apath: HAVE declaration not found\n";
 my %V = (
 	D => $D,
 	O => $O,
+	# Where this page lives, relative to ${a} (as in `HAVE').
+	location => $L,
 	# Specific to this site, and not to siteconf: where base_url is not
 	# http(s), a path naming a directory is spelled out as its index.html
 	# (so that the links also work from file://).
