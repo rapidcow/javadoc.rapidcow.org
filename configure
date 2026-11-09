@@ -137,7 +137,7 @@ The following variables may be defined:
   -DF         Manifest, from current directory (default: $Dd{F})
   -De         Directory marker (default: $Dd{e})
   -Dclean     Clean rule template (default: $Dd{clean})
-  -Ddata      (default: $Dd{data})
+  -Ddata      Data directory (default: $Dd{data})
 
 Options with defaults:
 
