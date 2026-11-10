@@ -24,9 +24,10 @@ env:
   # the render script) needs genlib.  Each ref's first component names
   # the directory to build.
   SITECONF_URL: https://github.com/rapidcow/siteconf.git
-  GENGENLIB_REF: gengenlib/v0.00_03
+  GENGENLIB_REF: gengenlib/v0.01_00
   GENLIB_REF: genlib/v0.02_03
-  ENGINE_REF: engine/v0.02_03
+  ENGINE_REF: engine/v0.03_00
+  TEMPLATE_PROVIDER_REF: template-provider/v0.00_03
 
 jobs:
   deploy:
@@ -42,16 +43,17 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libtemplate-perl liburi-perl \
-            libfile-sharedir-perl libfile-sharedir-install-perl
+            libfile-sharedir-perl libfile-sharedir-install-perl \
+            libencode-locale-perl
 
       - name: Install siteconf
         run: |
           prefix="$RUNNER_TEMP/siteconf"
           export PERL5LIB="$prefix/lib/perl5"
-          for ref in "$GENGENLIB_REF" "$GENLIB_REF" "$ENGINE_REF"; do
+          for ref in "$GENGENLIB_REF" "$GENLIB_REF" "$TEMPLATE_PROVIDER_REF" "$ENGINE_REF"; do
             part=${ref%%/*}
             git -c advice.detachedHead=false clone --quiet --depth 1 \
-              --branch "$ref" "$SITECONF_URL" "$RUNNER_TEMP/src/$part"
+              --single-branch --branch "$ref" "$SITECONF_URL" "$RUNNER_TEMP/src/$part"
             (cd "$RUNNER_TEMP/src/$part/$part" &&
               perl Makefile.PL INSTALL_BASE="$prefix" &&
               make && make test && make install)
