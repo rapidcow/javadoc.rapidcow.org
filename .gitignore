@@ -18,3 +18,4 @@ build.ninja
 # Since we're using patch(1), we'd expect to see these...
 *.orig
 *.rej
+/render.new
