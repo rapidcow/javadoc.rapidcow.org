@@ -27,7 +27,7 @@ env:
   GENGENLIB_REF: gengenlib/v0.01_00
   GENLIB_REF: genlib/v0.02_03
   ENGINE_REF: engine/v0.03_00
-  TEMPLATE_PROVIDER_REF: template-provider/v0.00_03
+  TEMPLATE_PROVIDER_REF: template-provider/v0.00_00
 
 jobs:
   deploy:
