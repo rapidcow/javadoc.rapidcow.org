@@ -1,3 +1,139 @@
 #!/bin/sh
-# TODO
-exit 0
+#
+# checksum -- fingerprint what the `docs' goal made.
+#
+#   ./checksum       write archive/sha256sum.txt
+#   ./checksum -c    compare against it instead (as the CI does)
+#
+# The first line of archive/sha256sum.txt is the SHA-256 of a tarball
+# (which is never kept: it goes straight into the hash) of the files
+# listed by MY/MANIFEST.docs, in that order, as docs/..., with
+# everything that depends on who built it and when taken out: root:0
+# and wheel:0 own it all, at the epoch.  File modes are kept, so the
+# umask had better be 022.
+#
+# The other lines are the files themselves, sorted (in the C locale),
+# for finding out which one went wrong.  Only the tarball is compared;
+# these are then shown as a diff.
+#
+# Nothing is built here: run make (or whatever) yourself first.
+#
+manifest=MY/MANIFEST.site
+goal=site
+dir=site
+tarball=site.gnu.tar
+sums=archive/sha256sum.txt
+
+check=
+cd "$(dirname "$0")" || exit
+while getopts ch o
+do
+	case ${o} in
+	c)
+		check=1
+		;;
+	h)
+		echo "usage: $0 [-c]"
+		exit 0
+		;;
+	?)
+		exit 2
+		;;
+	esac
+done
+shift $(( OPTIND - 1 ))
+
+die()
+{
+	echo "$0: $*" >&2
+	exit 2
+}
+
+[ -f "${manifest}" ] || die "${manifest}: not there; build it first"
+
+# It is GNU tar we want, whatever it is called here.
+tar=
+for t in gtar gnutar tar
+do
+	if "${t}" --version 2>/dev/null | grep -q 'GNU tar'
+	then
+		tar=${t}
+		break
+	fi
+done
+[ -n "${tar}" ] || die "GNU tar is needed"
+
+if command -v sha256sum >/dev/null 2>&1
+then
+	sha256() { sha256sum "$@"; }
+elif command -v shasum >/dev/null 2>&1
+then
+	sha256() { shasum -a 256 "$@"; }
+else
+	die "sha256sum (or shasum) is needed"
+fi
+
+tmp=$(mktemp -d) || exit
+trap 'rm -rf "${tmp}"' EXIT
+trap 'exit 2' HUP INT TERM
+
+# The names, NUL-terminated, as docs/...
+siteconf -l -t "${goal}" -0 -F "${manifest}" > "${tmp}/bare" || exit 2
+DIR=${dir} perl -0 -pe 's!^!$ENV{DIR}/!' "${tmp}/bare" > "${tmp}/list" || exit 2
+[ -s "${tmp}/list" ] || die "${manifest}: nothing listed"
+
+# Each one must be there, and be a plain file.
+xargs -0 sh -c '
+	bad=0
+	for f
+	do
+		if [ ! -f "${f}" ] || [ -h "${f}" ]
+		then
+			echo "$0: ${f}: not there (or not a regular file)" >&2
+			bad=1
+		fi
+	done
+	[ ${bad} -eq 0 ] || exit 255
+' "$0" < "${tmp}/list" || die "${dir} is not complete (build it first)"
+
+{
+	"${tar}" -cf - --format=gnu --no-recursion \
+		--owner=root:0 --group=wheel:0 --mtime=@0 \
+		--null -T "${tmp}/list" > "${tmp}/tar" || exit 2
+	sha256 < "${tmp}/tar" | sed "s!-\$!${tarball}!"
+	rm -f "${tmp}/tar"
+	LC_ALL=C sort -z "${tmp}/list" | xargs -0 sh -c '
+		if command -v sha256sum >/dev/null 2>&1
+		then
+			sha256sum -- "$@"
+		else
+			shasum -a 256 -- "$@"
+		fi || exit 255
+	' sh || exit 2
+} > "${tmp}/sums" || die "cannot make the checksums"
+
+if [ -z "${check}" ]
+then
+	mkdir -p "$(dirname "${sums}")" &&
+	cp "${tmp}/sums" "${sums}" || exit 2
+	echo "Wrote ${sums}"
+	exit 0
+fi
+
+[ -f "${sums}" ] || die "${sums}: not there (run $0 and commit it)"
+want=$(sed -n '1s/ .*//p' "${sums}")
+have=$(sed -n '1s/ .*//p' "${tmp}/sums")
+if [ -n "${want}" ] && [ "${want}" = "${have}" ]
+then
+	echo "${tarball}: OK"
+	exit 0
+fi
+
+echo "$0: ${tarball}: FAILED" >&2
+echo "  recorded: ${want}" >&2
+echo "  built:    ${have}" >&2
+if diff "${sums}" "${tmp}/sums" >&2
+then
+	echo "(the recorded files all match)" >&2
+fi
+exit 1
