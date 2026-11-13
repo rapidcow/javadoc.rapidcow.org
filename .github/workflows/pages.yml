@@ -20,14 +20,17 @@ concurrency:
 
 env:
   # The build script, www-siteconf, comes from one repository in three
-  # parts: engine needs gengenlib, and the web preset (configure, and
-  # the render script) needs genlib.  Each ref's first component names
-  # the directory to build.
+  # parts: engine needs gengenlib (which now depends on codesets and
+  # textdomain, and the web preset (configure, and the render script)
+  # needs genlib.  Each ref's first component names the directory to
+  # build.  Listed in (rough) topological order.
   SITECONF_URL: https://github.com/rapidcow/siteconf.git
+  CODESETS_REF: codesets/v0.00_00
+  TEXTDOMAIN_REF: textdomain/v0.00_00
   GENGENLIB_REF: gengenlib/v0.01_00
-  GENLIB_REF: genlib/v0.02_03
-  ENGINE_REF: engine/v0.03_00
+  GENLIB_REF: genlib/v0.03_00
   TEMPLATE_PROVIDER_REF: template-provider/v0.00_00
+  SITECONF_REF: siteconf/v0.03_00
 
 jobs:
   deploy:
@@ -50,7 +53,7 @@ jobs:
         run: |
           prefix="$RUNNER_TEMP/siteconf"
           export PERL5LIB="$prefix/lib/perl5"
-          for ref in "$GENGENLIB_REF" "$GENLIB_REF" "$TEMPLATE_PROVIDER_REF" "$ENGINE_REF"; do
+          for ref in "$CODESETS_REF" "$TEXTDOMAIN_REF" "$GENGENLIB_REF" "$GENLIB_REF" "$TEMPLATE_PROVIDER_REF" "$SITECONF_REF"; do
             part=${ref%%/*}
             git -c advice.detachedHead=false clone --quiet --depth 1 \
               --single-branch --branch "$ref" "$SITECONF_URL" "$RUNNER_TEMP/src/$part"
@@ -66,8 +69,13 @@ jobs:
         run: |
           ./configure -Db=docs
           siteconf -g
-          make
+          make docs
           find docs -name .ok -delete
+
+      # Refuse to deploy anything other than what was built (and
+      # recorded with ./checksum) before pushing.
+      - name: Verify checksum
+        run: ./checksum -c
 
       - uses: actions/upload-pages-artifact@v3
         with:

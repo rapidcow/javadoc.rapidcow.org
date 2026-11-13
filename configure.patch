@@ -1,11 +1,11 @@
---- configure.new	2026-11-10 05:06:15
-+++ configure	2026-11-10 05:06:15
-@@ -183,7 +183,7 @@
-   -DF         Manifest, from current directory (default: $Dd{F})
-   -De         Directory marker (default: $Dd{e})
-   -Dclean     Clean rule template (default: $Dd{clean})
--  -Ddata      (default: $Dd{data})
-+  -Ddata      Data directory (default: $Dd{data})
- 
- Options with defaults:
- 
+--- configure.new	2026-11-13 14:53:10.604703000 -0600
++++ configure	2026-11-13 14:53:32.736328000 -0600
+@@ -180,7 +180,7 @@
+ 	[ '-DF', N__('Manifest, from current directory'), sub { $Dd{F} } ],
+ 	[ '-De', N__('Directory marker'), sub { $Dd{e} } ],
+ 	[ '-Dclean', N__('Clean rule template'), sub { $Dd{clean} } ],
+-	[ "-Ddata", "", sub { $Dd{data} } ],
++	[ "-Ddata", "Data directory", sub { $Dd{data} } ],
+ );
+ our @OPTHELP = (
+ 	[ "-Obase_url", N__("Host-relative base URL"), sub { $Od{base_url} } ],
