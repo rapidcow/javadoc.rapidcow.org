@@ -120,7 +120,17 @@ my %V = (
 	location => $target,
 );
 
+my $provider = RdKw::WwW::GenGenLib::Template::Provider->new({
+	SOURCE => $apath,
+	DEFINITION => $D,
+	ENCODING => 'UTF-8',
+	INCLUDE_PATH => [ '.', $D->{a}, 'skel' ],
+	CHECK_DEPS => 1,
+})
+	or die "[TT] ", RdKw::WwW::GenGenLib::Template::Provider->error(), "\n";
+
 my $tt = Template->new({
+	LOAD_TEMPLATES => [ $provider ],
 	INCLUDE_PATH => [ 'skel', '.' ],
 	PLUGIN_BASE => 'Local::Plugin',
 	# TT's own DataFile.pm shadows ours :,(
