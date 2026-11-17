@@ -1,6 +1,6 @@
---- configure.new	2026-11-13 14:53:10.604703000 -0600
-+++ configure	2026-11-13 14:53:32.736328000 -0600
-@@ -180,7 +180,7 @@
+--- configure.new	2026-11-16 21:08:41.508940000 -0600
++++ configure	2026-11-16 21:08:41.530430000 -0600
+@@ -204,7 +204,7 @@
  	[ '-DF', N__('Manifest, from current directory'), sub { $Dd{F} } ],
  	[ '-De', N__('Directory marker'), sub { $Dd{e} } ],
  	[ '-Dclean', N__('Clean rule template'), sub { $Dd{clean} } ],
