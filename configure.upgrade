@@ -8,7 +8,7 @@
 #
 set -e -x
 siteconf -i -f -o configure.new -o render:render.new -Ddata=data -Obase_url=/ -Osite_url=https://javadoc.rapidcow.org/ -P web \
-	-MRdKw::WwW::GenGenLib::Template::Provider
+	-MRdKw::WwW::GenLib=0.03 -MRdKw::WwW::GenGenLib::Template::Provider
 cp configure.new configure
 #cp configure.new configure.orig
 patch < configure.patch
