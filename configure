@@ -98,6 +98,12 @@ BEGIN {
 	}
 }
 
+sub _perlqq
+{
+	require Data::Dumper;
+	Data::Dumper->new(\@_)->Terse(1)->Indent(0)->Useqq(1)->Dump();
+}
+
 # How can ./configure work without siteconf -g afterwards?
 # Anyways, let's just port this one function in the (very
 # weird) circumstance where SiteConf.pm is somehow missing.
