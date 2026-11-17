@@ -2,7 +2,7 @@
 #
 # configure -- written by `siteconf -i' version 0.03_00.
 #
-# options: -Ddata=data -Obase_url=/ -Osite_url=https://javadoc.rapidcow.org/ -P web -MRdKw::WwW::GenLib=0.03 -MRdKw::WwW::GenGenLib::Template::Provider
+# options: -Ddata=data -Obase_url=/ -Osite_url=https://javadoc.rapidcow.org/ -P web -MRdKw::WwW::GenLib=0.03 -MRdKw::WwW::GenGenLib::Template::Provider -MTemplate::Toolkit=3.102
 #
 
 use utf8;
@@ -43,6 +43,7 @@ BEGIN {
 		[ "RdKw::WwW::GenGenLib::Template::Provider", 0 ],
 		[ "RdKw::WwW::GenLib", "0.03" ],
 		[ "Template", 0 ],
+		[ "Template::Toolkit", "3.102" ],
 	);
 }
 
