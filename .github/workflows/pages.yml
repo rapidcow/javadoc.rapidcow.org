@@ -45,9 +45,15 @@ jobs:
       - name: Install build dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libtemplate-perl liburi-perl \
+          sudo apt-get install -y cpanminus make gcc liburi-perl \
             libfile-sharedir-perl libfile-sharedir-install-perl \
             libencode-locale-perl
+
+      # The distro's libtemplate-perl is older than the 3.102 we need,
+      # so install Template Toolkit explicitly from CPAN.
+      - name: Install Template Toolkit 3.102 from CPAN
+        run: |
+          sudo cpanm --notest Template::Toolkit~3.102
 
       - name: Install siteconf
         run: |
@@ -68,8 +74,8 @@ jobs:
       - name: Build
         run: |
           ./configure -Db=docs
-          siteconf -g
-          make docs
+          siteconf -gAt site
+          make site
           find docs -name .ok -delete
 
       # Refuse to deploy anything other than what was built (and
