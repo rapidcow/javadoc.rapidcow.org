@@ -20,7 +20,7 @@
 #
 manifest=MY/MANIFEST.site
 goal=site
-dir=site
+dir=docs
 tarball=site.gnu.tar
 sums=archive/sha256sum.txt
 
